@@ -1,0 +1,46 @@
+figure	panel	content	main_script	upstream_or_data	status	note
+Fig1	A	experimental design schematic	(none)	-	no_code	schematic only
+Fig1	B	read composition PEDV/Host/Other by hpi	P:Fig1_MOI_regrouped/scripts/plot_Fig1_MOI.py	GIb_rnaseq_reanalysis/scripts/count_read_composition.py; fig1_moi_data.py	confirmed	probably MOI=1 subset; denominator = QC read pairs
+Fig1	C	genome-wide RNA-seq coverage (RPM, 101-nt smoothing) per MOI	P:Fig1_MOI_regrouped/scripts/plot_Fig1_MOI.py	GIb_rnaseq_reanalysis/scripts/plot_figures_GIb.py (depth/total*1e6)	confirmed	coverage from dedup BAM depth tables
+Fig1	D	total viral RNA kinetics	P:Fig1_MOI_regrouped/scripts/plot_Fig1_MOI.py	plot_Fig1DEF.py (MAPQ=255 unique fragments, raw)	confirmed	no error bars
+Fig1	E	3'/5' coverage ratio	P:Fig1_MOI_regrouped/scripts/plot_Fig1E_MOI.py	data/FigE_ratio_per_sample_MOI.csv	confirmed	
+Fig1	F	regional RNA accumulation heatmap	P:Fig1_MOI_regrouped/scripts/plot_Fig1_MOI.py	fig1_moi_data.py	confirmed	colorbar +-4
+Fig2	A-G	junction landscape / classes / arcs	P:GIb_rnaseq_reanalysis/scripts/fig2_plot.py	fig2_classify.py <- extract_junctions_GIb.py <- minimap2 splice BAM	confirmed	43,753 events; 2,674,258 fragments; leader 55-72; canonical +-5; local/distant 1 kb
+Fig3	A-H	TRS similarity / microhomology / pairing	P:GIb_rnaseq_reanalysis/figures/Fig3_work/ (s3_panels.py s4_panels.py s5_panels.py metrics_*.py)	Fig3_statistics_methods.md	check	8-panel composite script not found; D deltas differ slightly from methods doc
+Fig4	A	host P-site region composition (CDS/UTR/other)	P:fig4_v2_host_criteria/scripts/make_fig4_v2.py (draw_D)	RGP_v1.3 host stats	confirmed	script letter D -> final A
+Fig4	B	aligned footprint length distribution host vs PEDV	make_fig4_v2.py (draw_A)	RGP_v1.3	confirmed	script letter A -> final B
+Fig4	C	host CDS-body frame fractions + RNA pseudo-P-site	make_fig4_v2.py (draw_B)	riboseq_GIb_mapping_psite/scripts/server/rna_pseudo_psite.py	confirmed	script letter B -> final C
+Fig4	D	start/stop metagene	make_fig4_v2.py (draw_C)	host_psite_pass.py	confirmed	script letter C -> final D
+Fig4	E	PEDV genome-wide P-site tracks (6 libs)	make_fig4_v2.py (draw_E)	psite_counts_PEDV_GIb.tsv.gz	confirmed	all-lengths version; CHX16 = XN26040813
+Fig5	A-D	gRNA 5'/3' translation landscape	P:Fig5_recolor_Fig4palette/plot_Fig5_recolored.py	fig5_terminal_ORF/scripts/step0-step5; fig5_gRNA5prime_figure_package/scripts/g1,g2	confirmed	GPT-origin plotting script recoloured
+Fig6	A	stop/AUG codons per kb by frame	K:Result6_genomics_figures/scripts/figs_abc.py	stats_abc.py; g1_null.py (composition null, 10,000 draws, seed 20261019)	check	final vs script differ
+Fig6	B	ORF length histogram +1 vs +2	K:Result6_genomics_figures/scripts/figs_abc.py	g2_length.py; Supplementary_Figure_L/scripts/p3a_reference_pool.py	check	final label 'max :' has no number
+Fig6	C	long alt-frame families per kb	K:Result6_genomics_figures/scripts/figs_abc.py	g3_g4_tables.py	check	script excludes ORF3/E; final includes ORF3; final values = (+1 and +2 families)/kb
+Fig6	D	+1-frame family map (AUG vs near-cognate, featured outlined)	K:Result6_genomics_figures/scripts/figs.py	r6lib.py; panelC_family_name_mapping.tsv	check	
+Fig6	E	HAR TIS (W1) and PRICE(CHX 29 nt) -log10P along genome	P:HARTIS_v3/G4_Figure6_integration/scripts/fig6AB_genome_combined.py	fig6_build_tables.py; orf_calling_GIb/_price_final/_29nt_work/scripts/p29all_run.sh; HARTIS_v3/scripts/v3_01-v3_06	confirmed	min nominal P, uncalibrated, not a joint P
+Fig6	F	HAR x PRICE joint scatter per family	P:HARTIS_v3/G4_Figure6_integration/scripts/fig6C_HAR_PRICE_joint_v2.py	same	confirmed	
+Fig6	G	peptide MS intensity per ORF	final figure/final/fig6.pzfx	vendor proteomics	no_code	GraphPad Prism
+SupFig1	A-B	Western N / beta-actin	(none)	-	no_code	wet lab image
+SupFig1	C-F	RT-qPCR relative PEDV mRNA	final figure/final/Sup Figure 1.pzfx	-	no_code	GraphPad Prism
+SupFig2	A-E	RNA-seq mapping stats / correlation / PCA / composition	P:Fig1_MOI_regrouped/scripts/plot_SuppFig1_QC_MOI.py	GIb_rnaseq_reanalysis/scripts/plot_SuppFig1C.py plot_SuppFig1D.py plot_SuppFig1E.py compute_alignment_summary.py	confirmed	MOI-annotated redraw
+SupFig3	A-B	donor/acceptor breakpoint distributions by MOI x hpi	P:Fig2_Supp_junction_dynamics/scripts/s9_panelE_standalone.py	s1_core_counts.py s3_panel_stats.py	confirmed	100-nt bins; CHX+HAR summed
+SupFig4	A-B	four junction classes and nc composition: Vero / in vivo / LLC-PK1	P:public_data_replication/ESV/biological_validation_v1/scripts/s06_figs.py	gII_cross_strain_validation_v1/scripts/gx_junction.py	check	labels edited in Illustrator
+SupFig4	C-D	Vero vs in vivo / LLC-PK nc abundance Spearman	P:public_data_replication/ESV/biological_validation_v1/scripts/s17_nc_corr_figs.py	s16_nc_correlation.py	check	
+SupFig5	A-B	canonical sgRNA exact-breakpoint variants	FR:Sup_/plot_canonical_variants.py	Fig2D-G_arcs_source_data.csv	check	script only in reproducibility package
+SupFig6	A	junction class composition by MOI x hpi	P:Fig2_Supp_junction_dynamics/scripts/s4_plot_supp_figure.py	s1_core_counts.py s3_panel_stats.py	confirmed	two denominators
+SupFig6	B-C	relative burden / normalized abundance	P:Fig2_Supp_junction_dynamics/scripts/s8_panelC_standalone.py	same	confirmed	
+SupFig7	-	row z-score heatmap of 30 nc clusters	P:Fig2_Supp_junction_dynamics/scripts/s4_plot_supp_figure.py (+_patch_layout*.py)	s5_hotspots.py	confirmed	z-score limit +-2.5; hatched = uninformative
+SupFig8	A-B	nc sgRNA ORF classes + top-20	P:Noncanonical_ORF_classes/figures/make_noncanonical_figures_v2.py; make_top20_single_panel.py	Noncanonical_reclass/reclassify.py build_new_tables.py	check	names N-x4 etc. collide with Fig6 families
+SupFig9	A-C	top-20 junctions Vero(20) / in vivo(3) / LLC-PK1(1)	P:public_data_replication/ESV/biological_validation_v1/scripts/s03_highfreq.py; s06_figs.py	-	check	labels edited in Illustrator
+SupFig10	A,D,E	read fate; median length; 29-31 nt fraction	P:supfig12_v2_ABC/scripts/make_supfig12_v2_ABC.py	shared_riboseq_metrics/scripts/build_shared_metrics.py	confirmed	Nmax=1 so multi-locus = too-many-loci
+SupFig10	B,C	PEDV strand fraction; PEDV(-) vs host antisense	P:Supplementary_Figure_13/code/plot_supplementary_figure_13.py (panel A)	prepare_panels.py	check	strand specificity not documented
+SupFig11	A-F	host CDS-body frame fraction by read length (6 libs)	P:fig4_v2_host_criteria/scripts/make_grouped_frame_bars_v2.py	read_length_frame_periodicity/scripts/01-05	confirmed	red dot = passes host criteria
+SupFig12	A-C	viral frame-0 fraction vs host; stacks; ORF x library f heatmap	P:Supplementary_Figure_13/code/plot_supplementary_figure_13.py	prepare_panels.py	confirmed	f upper bound 0.80 exceeded in some libs
+SupFig13	A-B	gRNA 5'/3' candidate windows coloured by frame	P:Fig5_3UTR_translation_audit/scripts/landscape_5p_style.py; landscape_3p_style.py	candidate_profiles.py	check	
+SupFig14	A-G	per-sequence three-frame codon heatmaps (alignments)	<PEDV_project>/PEDV_ribo/ORF1a/synplot2_vis.R (and per-gene dirs)	流程.txt: MAFFT -> cd-hit-est 0.99 -> ATG ORF extraction -> synplot2	no_code	external FRASynPlot workflow; 'Mnvelope' typo
+SupFig15	A-B	TE vs long ORF capacity	K:Result6_genomics_figures/scripts/fig_E_onesided.py	g4_activity.py; Fig6_canonical_background_audit.tsv	confirmed	n=6; one-sided exact permutation (720)
+SupFig16	A-B	start-codon state and family architecture by lineage	K:Supplementary_Figure_L/scripts/f3_panelC.py; f4_make_figure_v3.py	p1_map_all p2_typing_dedup p3a p3b p5a p6 p7 r2	confirmed	.ai embeds Supplementary_Figure_L_REVISED_v3_p2.pdf
+SupFig17	A-D	N-x1 / N-x2 / ORF1b-x13 / S-x1 locus P-site tracks	P:Supplementary_Figure_N/PRICE29_locus/code/price29_locus_2x2_by_sample.py	price29_locus_figs.py	confirmed	29 nt raw + 30 nt K-corrected
+SupFig18	A	PK1 vs Vero genome-wide P-site profile	P:PK1_VERO_ORF_VALIDATION/scripts/corr_figs_editable.py	correlation_main.py; PK1_psite/scripts/	check	block bootstrap 300 nt x 500
+SupFig18	B	PK1 16 h loci	P:PK1_VERO_ORF_VALIDATION/scripts/nx_local_16h_v11_editable.py	orf_validation_main.py	check	
+SupFig19	A-C	N-x1 PRM chromatograms and peptide position	P:PRM_Nx1_redraw/scripts/05_redraw.py	01_calibrate 03_digitize 04_seq_checks	check	curves digitized, approximate
