@@ -1,6 +1,6 @@
 # Integrated Transcriptomic and Translatomic Profiling Reveals Noncanonical RNA Junctions and Hidden Coding Potential in Porcine Epidemic Diarrhea Virus
 
-> **Status:** first public code archive (v0.1). The analysis code, configuration, sample registry and test records are uploaded; see [README_CODE_PACKAGE.md](README_CODE_PACKAGE.md) for the full guide. Raw sequencing data are registered under NCBI BioProject PRJNA1554149 but **not yet public**, so data-driven re-runs are currently limited. Reproduction level reached: recomputation from stored analysis source tables and replotting from archived intermediate results; **full reproduction from raw reads (FASTQ) has not been done**.
+> **Status:** first public code archive (v0.1). The analysis code, configuration, sample registry and test records are uploaded; see [README_CODE_PACKAGE.md](README_CODE_PACKAGE.md) for the full guide. Raw sequencing data are registered under NCBI BioProject PRJNA1554149 but **not yet public**. Reproduction level reached: recomputation from stored analysis source tables and replotting from archived intermediate results; **full reproduction from raw reads (FASTQ) has not been done**.
 
 ## Overview
 
