@@ -1,0 +1,23 @@
+software	version	used_for	where_run	evidence	confidence	parameters_or_notes
+Python	3.11.9	all local analysis, plotting and the reproduction tests	workstation (Windows 11)	python --version in the test session	confirmed	-
+numpy	2.4.4	local scripts	workstation	import numpy; __version__	confirmed	tests only; versions used for the original runs were not recorded
+pandas	2.3.3	local scripts	workstation	same	confirmed	same
+scipy	1.17.1	statistics (Spearman, permutation, chi-square)	workstation	same	confirmed	same
+matplotlib	3.10.8	all figures	workstation	same	confirmed	svg.fonttype=none, pdf.fonttype=42 set inside scripts
+biopython	1.87	sequence handling (comparative genomics)	workstation	same	confirmed	-
+scikit-learn	1.8.0	PCA helpers (if imported)	workstation	same	confirmed	-
+pyyaml	6.0.3	config loading (optional)	workstation	same	confirmed	-
+STAR	2.7.11b	RNA-seq and Ribo-seq alignment (RNA index oh149; Ribo index oh40; STAR-avx2 build for Ribo)	server (Linux)	DELIVERY_orf_calling_infrastructure / run scripts	confirmed	RNA: --alignIntronMax 30000 --alignMatesGapMax 30000 --scoreGapNoncan 0 --scoreGapGCAG 0 --scoreGapATAC 0 --outFilterMismatchNmax 6 --outFilterMismatchNoverLmax 0.08 --outFilterMultimapNmax 10 --alignSJoverhangMin 8 --alignSJDBoverhangMin 1 ; Ribo: --outFilterMultimapNmax 1 --outFilterMismatchNmax 2 --quantMode GeneCounts
+minimap2	2.30	leader-body junction calling (all junction numbers)	server	delivery docs	confirmed	-ax splice -un -G 30000 -k 13 -w 5 --secondary=no ; virus-only index PEDV_GIb.splice.mmi
+samtools	1.22.1	sort/index/markdup/depth	server	delivery docs	confirmed	markdup (coordinate based, no UMI); depth -a
+bowtie2	2.5.4 (one delivery doc) / 2.2.1 (earlier flow summary)	rRNA/ncRNA removal of Ribo reads	server	two documents disagree	TO_CONFIRM	check on the server before release
+cutadapt	2.6	Ribo adapter trimming (adapter RA3, --discard-untrimmed)	server	project flow summary	TO_CONFIRM	exact command is in server script run_one.sh (not available locally)
+ViennaRNA	2.7.2 (RNAduplex, RNAcofold)	Fig. 3 pairing energies	workstation or server	Fig. 3 methods	TO_CONFIRM (which machine)	30-nt windows; RNAcofold cross-check rho = 0.88
+PRICE	1.0.5 (Gedi 1.0.6f, OpenJDK 11, built from source)	ORF calling used for Fig. 6E/F, Sup. 17	server	caller_run_parameters.tsv	confirmed	host training without -filter; virus -filter 29:29; host-trained models reused for + and - strand; -fdr 1
+Ribo-TISH	0.2.8	ORF calling (not used by the final figures, kept in docs only)	server	delivery docs	confirmed	not part of this repository
+ribotricer	1.5.0	ORF calling (not used by the final figures)	server	delivery docs	confirmed	not part of this repository
+MAFFT	7.525	multiple alignments (comparative genomics, Sup. 14)	server	delivery docs	confirmed	-
+CD-HIT (cd-hit-est)	version not recorded	0.99 redundancy removal (Sup. 14 workflow)	server	PEDV_ribo/流程.txt	TO_CONFIRM	-c 0.99
+BLAST+	2.14.0	tBLASTn CDS extraction (Sup. 14 workflow)	server/workstation	shell history of the PEDV_ribo directory	confirmed	e-value 1e-5
+SynPlot2 / FRASynPlot	not recorded	synonymous-site conservation tables for Sup. 14	external tool	-	TO_CONFIRM	the executable and make_pairs.py are not in the project directories searched
+R + ggplot2 + patchwork	versions not recorded	Sup. 14 visualisation (synplot2_vis.R)	workstation	script header	TO_CONFIRM	-

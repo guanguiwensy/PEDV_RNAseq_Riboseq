@@ -1,0 +1,10 @@
+# Versions used for the reproduction tests (workstation). Earlier runs of the original analyses may have used other versions.
+numpy==2.4.4
+pandas==2.3.3
+scipy==1.17.1
+matplotlib==3.10.8
+biopython==1.87
+scikit-learn==1.8.0
+PyYAML==6.0.3
+openpyxl==3.1.5
+# statsmodels is not required by the scripts tested here

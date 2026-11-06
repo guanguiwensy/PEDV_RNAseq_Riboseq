@@ -1,0 +1,3 @@
+T31 (implicit dependency check): fig6C_reproduction_from_source_data.py started with PEDV_P/K/R/COV/SERVER_ROOT unset, under the file-open audit hook.
+Result: FileNotFoundError for <repo>/data_root/K/Result6_genomics_figures/source_data/R6-E_panel_data_ORF3_included.csv; files opened below the original project tree: 0.
+=> without configuration a script never falls back to the historical project directories.

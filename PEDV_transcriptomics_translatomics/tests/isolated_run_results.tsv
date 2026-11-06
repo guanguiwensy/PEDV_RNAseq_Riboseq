@@ -1,0 +1,20 @@
+test_id	figure	scripts_failed	regenerated_files_identical	regenerated_files_different	reads_of_original_tree	seconds
+T01	Fig2	0	2	0	0	16
+T02	Fig2	0	8	1	0	27
+T04	Sup3,6,7	0	30	0	0	37
+T05	Sup3,6,7 plots	0	11	0	0	10
+T06	Fig6A-C	0	20	0	0	19
+T07	Fig6C/Sup15	0	7	0	0	9
+T08	Fig6A,B	0	0	0	0	8
+T10	Fig6E,F tables	0	4	0	0	7
+T11	Fig6F	0	4	0	0	7
+T12	Fig6E	0	1	0	0	4
+T13	Fig4	0	8	0	0	114
+T15	Sup10-12	0	17	0	0	17
+T17	Fig1,Sup2	0	26	0	0	33
+T22	Sup5	0	0	0	0	5
+T23	Fig6C post-hoc	0	0	0	0	2
+T24	Fig6D post-hoc	0	0	0	0	2
+T26	Sup16	0	28	2	0	21
+T29	Sup13	0	0	0	0	7
+T27	Fig3 full	0	8	0	0	752

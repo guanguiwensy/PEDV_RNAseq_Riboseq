@@ -1,0 +1,99 @@
+{
+ "_comment": "FIXED input for Supplementary Figure 16 (final submitted version). The 9 featured families, in genomic order. Do not regenerate: scripts assert against this file and never overwrite it.",
+ "figure": "Sup 16 (internal name Supplementary_Figure_L_REVISED_v3_p2)",
+ "featured_family_ids": [
+  "SDF_f2_stop1335",
+  "SDF_f2_stop3699",
+  "SDF_f2_stop8748",
+  "SDF_f0_stop21094",
+  "SDF_f0_stop21475",
+  "SDF_f0_stop22075",
+  "SDF_f2_stop26691",
+  "SDF_f2_stop26946",
+  "SDF_f2_stop27687"
+ ],
+ "families": [
+  {
+   "family_id": "SDF_f2_stop1335",
+   "name": "ORF1a-x3",
+   "parent": "ORF1a",
+   "stop_position": 1335,
+   "start_min": 879,
+   "max_aa": 152,
+   "reason": "evidence architecture 'Complementary CHX/HAR evidence' (Fig6 checkpoint 3 v2); Figure 6D case"
+  },
+  {
+   "family_id": "SDF_f2_stop3699",
+   "name": "ORF1a-x9",
+   "parent": "ORF1a",
+   "stop_position": 3699,
+   "start_min": 3531,
+   "max_aa": 56,
+   "reason": "evidence architecture 'HAR differential-response informative' (Fig6 checkpoint 3 v2)"
+  },
+  {
+   "family_id": "SDF_f2_stop8748",
+   "name": "ORF1a-x23",
+   "parent": "ORF1a",
+   "stop_position": 8748,
+   "start_min": 8610,
+   "max_aa": 46,
+   "reason": "evidence architecture 'HAR differential-response informative' (Fig6 checkpoint 3 v2)"
+  },
+  {
+   "family_id": "SDF_f0_stop21094",
+   "name": "S-x1",
+   "parent": "S",
+   "stop_position": 21094,
+   "start_min": 20797,
+   "max_aa": 99,
+   "reason": "evidence architecture 'HAR differential-response informative' (Fig6 checkpoint 3 v2)"
+  },
+  {
+   "family_id": "SDF_f0_stop21475",
+   "name": "S-x2",
+   "parent": "S",
+   "stop_position": 21475,
+   "start_min": 21103,
+   "max_aa": 124,
+   "reason": "evidence architecture 'HAR differential-response informative' (Fig6 checkpoint 3 v2)"
+  },
+  {
+   "family_id": "SDF_f0_stop22075",
+   "name": "S-x4",
+   "parent": "S",
+   "stop_position": 22075,
+   "start_min": 21931,
+   "max_aa": 48,
+   "reason": "alternative Figure 6D case proposed in checkpoint 3 notes (partial CHX evidence); provisional"
+  },
+  {
+   "family_id": "SDF_f2_stop26691",
+   "name": "N-x1",
+   "parent": "N",
+   "stop_position": 26691,
+   "start_min": 26307,
+   "max_aa": 128,
+   "reason": "evidence architecture 'CHX candidate-frame signal elevated above matched background' (Fig6 checkpoint 3 v2)"
+  },
+  {
+   "family_id": "SDF_f2_stop26946",
+   "name": "N-x2",
+   "parent": "N",
+   "stop_position": 26946,
+   "start_min": 26694,
+   "max_aa": 84,
+   "reason": "evidence architecture 'HAR differential-response informative' (Fig6 checkpoint 3 v2)"
+  },
+  {
+   "family_id": "SDF_f2_stop27687",
+   "name": "N-x5",
+   "parent": "N",
+   "stop_position": 27687,
+   "start_min": 27540,
+   "max_aa": 49,
+   "reason": "evidence architecture 'HAR differential-response informative' (Fig6 checkpoint 3 v2)"
+  }
+ ],
+ "source": "work/featured.json of the submitted run (field 'featured' == 'C12_list'), cross-checked with SourceData_PanelA_families_gt40.csv column featured=yes (9)"
+}

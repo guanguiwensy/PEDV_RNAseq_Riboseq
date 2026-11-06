@@ -1,0 +1,14 @@
+config/paths.local.yaml
+data_root/
+*.bam
+*.bai
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.sam
+*.cram
+__pycache__/
+*.pyc
+*.npz
+*.pkl

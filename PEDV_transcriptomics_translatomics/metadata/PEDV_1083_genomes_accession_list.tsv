@@ -1,0 +1,1084 @@
+accession_version	strain	country	collection_date	genome_length_nt	in_original_PEDV_fasta_1041	sequence_source_in_manifest	ncbi_status_at_access_2026-09-24	ncbi_current_version_at_access	qc_status	non_ACGT_bases	end_completeness	S_gene_lineage_this_study	near_duplicate_cluster_le0p1pct_size	cluster_representative	decision
+AF353511.1	CV777			28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	32	yes	included_main_analysis
+EF185992.1	LZC			28042	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	27	yes	included_main_analysis
+GU937797.1				27994	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	491	yes	included_main_analysis
+JN547228.1	CH/S		1986	28026	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	69	yes	included_main_analysis
+JN825712.1			25-Apr-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	190	yes	included_main_analysis
+JQ023161.1	virulent DR13		2009	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	42	yes	included_main_analysis
+JQ023162.1	attenuated DR13			27931	yes	cov_existing	also_in_ncbi_download	1.0	pass	2	complete_ends	GI-b	0	no	included_main_analysis
+JQ282909.1	CH/FJND-3/2011		03-May-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	218	yes	included_main_analysis
+JX088695.1	GD-B		2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	185	yes	included_main_analysis
+JX112709.1	GD-A		11-Feb-2012	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	276	no	included_main_analysis
+JX188454.1	AJ1102		May-2011	28044	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	251	no	included_main_analysis
+JX261936.1	CHGD-01		10-Feb-2011	28047	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	253	yes	included_main_analysis
+JX489155.1	LC		Feb-2011	28047	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	251	yes	included_main_analysis
+JX524137.1	ZJCZ4		10-Apr-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	88	yes	included_main_analysis
+JX560761.1	SD-M		Feb-2012	27953	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	0	no	included_main_analysis
+JX647847.1	GD-1		Dec-2011	28047	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	276	yes	included_main_analysis
+KC109141.1				27953	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	1	no	included_main_analysis
+KC140102.1	CH/FJZZ-9/2012		20-Aug-2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	unresolved	221	yes	included_main_analysis
+KC189944.1				27953	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	6	yes	included_main_analysis
+KC196276.1	CH/ZMDZY/11		May-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	51	yes	included_main_analysis
+KC210145.1	AH2012		15-Mar-2012	28039	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	193	yes	included_main_analysis
+KC210146.1	JS2008		2008	27954	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	1	yes	included_main_analysis
+KC210147.1	JS-HZ2012		2012	28037	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	161	no	included_main_analysis
+KF267450.1			29-May-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	91	no	included_main_analysis
+KF272920.1	USA/Colorado/2013		10-May-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-a	91	no	included_main_analysis
+KF384500.1	CH/GDGZ/2012		Mar-2012	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	275	yes	included_main_analysis
+KF452322.1	USA/Iowa/16465/2013		29-Apr-2013	28039	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KF452323.1	USA/Indiana/17846/2013		07-May-2013	28039	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KF468752.1			19-Jun-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KF468753.1			2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	91	yes	included_main_analysis
+KF468754.1			2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KF650370.1			16-May-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KF650371.1				28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KF650372.1				28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-a	89	no	included_main_analysis
+KF650373.1			06-Jun-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KF650374.1				28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	yes	included_main_analysis
+KF650375.1				28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KF760557.2	CH/JX-1/2013		Mar-2013	28052	yes	cov_existing	also_in_ncbi_download	2.0	pass	1	complete_ends	GII-a	194	yes	included_main_analysis
+KF761675.1	CH/YNKM-8/2013		20-Sep-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	188	yes	included_main_analysis
+KF804028.1			16-May-2013	28039	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KF840537.1			04-Mar-2012	27992	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	161	no	included_main_analysis
+KJ020932.1			Mar-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	187	yes	included_main_analysis
+KJ158152.1	AH-M		20-Oct-2011	27953	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	7	yes	included_main_analysis
+KJ184549.1	USA/KS/2013		2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-a	89	no	included_main_analysis
+KJ196348.1	SHQP/YM/2013		05-Feb-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	197	yes	included_main_analysis
+KJ399978.1	OH851		15-Jan-2014	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	26	yes	included_main_analysis
+KJ408801.1	OH1414		23-Jan-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KJ526096.1			Apr-2013	28050	yes	cov_existing	also_in_ncbi_download	1.0	pass	3	complete_ends	GII-a	248	yes	included_main_analysis
+KJ584361.1	OH15962		14-Jun-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	105	no	included_main_analysis
+KJ588062.1			Feb-2014	27759	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ588063.1			Feb-2014	27759	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ623926.1	K14JB01		2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	192	yes	included_main_analysis
+KJ645635.1	USA/Indiana12.83/2013		08-Jun-2013	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	20	no	included_main_analysis
+KJ645636.1	USA/Iowa28/2013		14-Jul-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645637.1	USA/Kansas29/2013		15-Jul-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645638.1	USA/Colorado30/2013		22-Jul-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645639.1	USA/Texas31/2013		22-Jul-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645640.1	USA/Oklahoma32/2013		24-Jul-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645641.1	USA/Indiana34/2013		21-Aug-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	4	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645642.1	USA/Oklahoma35/2013		26-Aug-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	386	no	included_main_analysis
+KJ645643.1	USA/Kansas36/2013		01-Sep-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	386	no	included_main_analysis
+KJ645644.1	USA/Oklahoma38/2013		07-Sep-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	466	yes	included_main_analysis
+KJ645645.1	USA/Texas39/2013		28-Sep-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645646.1	USA/NorthCarolina40/2013		05-Oct-2013	27988	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645647.1	USA/Minnesota41/2013		14-Oct-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645648.1	USA/Minnesota42/2013		20-Oct-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645649.1	USA/Iowa23.57/2013		20-Oct-2013	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-c	441	yes	included_main_analysis
+KJ645650.1	USA/Kansas46/2013		23-Oct-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645651.1	USA/Colorado47/2013		23-Oct-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645652.1	USA/Minnesota54/2013		02-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645653.1	USA/Wisconsin55/2013		03-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645654.1	USA/Tennesse56/2013		04-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	497	yes	included_main_analysis
+KJ645655.1	USA/Minnesota58/2013		05-Nov-2013	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	435	yes	included_main_analysis
+KJ645656.1	USA/Minnesota59/2013		11-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645657.1	USA/Ohio60/2013		12-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645658.1	USA/Minnesota62/2013		18-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645659.1	USA/Illinois63/2013		19-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645660.1	USA/Minnesota64/2013		19-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645661.1	USA/Minnesota65/2013		20-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645663.1	USA/Minnesota67/2013		23-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645664.1	USA/Ohio68/2013		24-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645665.1	USA/Ohio69/2013		24-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645666.1	USA/Iowa70/2013		24-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645667.1	USA/Minnesota72/2013		28-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645668.1	USA/Minnesota73/2013		25-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645669.1	USA/Wisconsin74/2013		27-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645670.1	USA/Ohio75/2013		27-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645671.1	USA/Minnesota76/2013		30-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645672.1	USA/Minnesota77/2013		28-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645673.1	USA/Minnesota78/2013		28-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645674.1	USA/Minnesota79/2013		30-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645677.1	USA/Minnesota83/2013		02-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645678.1	USA/Minnesota85/2013		04-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645679.1	USA/Minnesota86/2013		07-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645680.1	USA/Illinois87/2013		04-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645681.1	USA/Minnesota89/2013		04-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645682.1	USA/Minnesota90/2013		04-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645683.1	USA/NorthCarolina91/2013		08-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	140	no	included_main_analysis
+KJ645684.1	USA/Missouri92/2013		11-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645685.1	USA/Missouri93/2013		11-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645686.1	USA/Minnesota94/2013		10-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645687.1	USA/Minnesota95/2013		10-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645688.1	USA/Iowa96/2013		11-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645689.1	USA/Illinois97/2013		11-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	3	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645690.1	USA/Illinois98/2013		11-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645691.1	USA/Minnesota100/2013		14-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645692.1	USA/Missouri101/2013		15-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645693.1	USA/Missouri102/2013		15-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645694.1	USA/Iowa103/2013		15-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	4	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645695.1	USA/Iowa106/2013		29-Dec-2013	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-c	80	no	included_main_analysis
+KJ645696.1	USA/Iowa107/2013		29-Dec-2013	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	80	no	included_main_analysis
+KJ645697.1	USA/Texas128/2013		12-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	457	yes	included_main_analysis
+KJ645698.1	USA/Ohio120/2014		01-Jan-2014	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645699.1	USA/Ohio123/2014		15-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645700.1	MEX/124/2014		22-Jan-2014	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645701.1	USA/Kansas125/2014		27-Jan-2014	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ645702.1	USA/Ohio126/2014		29-Jan-2014	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	3	end_incomplete(>=30 ref nt not covered)	GII-c	21	no	included_main_analysis
+KJ645703.1	USA/Minnesota127/2014		02-Feb-2014	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645704.1	USA/Minnesota52/2013		26-Jun-2013	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	436	yes	included_main_analysis
+KJ645705.1	USA/Minnesota61/2013		18-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645706.1	USA/Minnesota71/2013		25-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645707.1	USA/Minnesota84/2013		03-Dec-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KJ645708.1	MEX/104/2013		03-Nov-2013	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	5	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KJ662670.1			Dec-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KJ777677.1	LZW		Feb-2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	151	no	included_main_analysis
+KJ777678.1	LZW		Feb-2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	183	yes	included_main_analysis
+KJ778615.1			20-May-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	91	no	included_main_analysis
+KJ778616.1			20-May-2013	28025	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	91	no	included_main_analysis
+KJ960178.1				28035	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-b	304	yes	included_main_analysis
+KJ960179.1				28035	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-b	426	yes	included_main_analysis
+KJ960180.1				28035	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-b	453	yes	included_main_analysis
+KM052365.1	NPL-PEDv/2013/p10.1		15-May-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	91	no	included_main_analysis
+KM077139.1	PEDV/USA/Minnesota188/2014		22-Jan-2014	28020	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	306	yes	included_main_analysis
+KM089829.1	GDS01		10-Nov-2012	28047	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	303	yes	included_main_analysis
+KM189367.2			04-Feb-2014	28061	yes	cov_existing	also_in_ncbi_download	2.0	pass	1	complete_ends	GII-a	89	no	included_main_analysis
+KM242131.1	CH/GDZQ/2014		Mar-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	182	yes	included_main_analysis
+KM392224.1	TC PC22A-P10		Jun-2013	28032	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	105	no	included_main_analysis
+KM392225.1	TC PE103(PC21A)-P4		Jun-2013	28026	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-a	105	no	included_main_analysis
+KM392226.1	TC PC168-P2		Nov-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KM392227.1	TC PC170-P2		Nov-2013	28048	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-a	89	no	included_main_analysis
+KM392228.1	TC-PC173-P2		Dec-2013	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-a	89	no	included_main_analysis
+KM392229.1	TC PC177-P2		Dec-2013	27437	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	89	no	included_main_analysis
+KM392230.1	TC PC180-P2		Dec-2013	28025	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KM392231.1	TC PC182-P2		Dec-2013	28023	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KM392232.1	TC Iowa106 (PV39)-P1		Dec-2013	28017	yes	cov_existing	also_in_ncbi_download	1.0	pass	3	complete_ends	GII-c	80	no	included_main_analysis
+KM403155.1			Mar-2014	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	22	yes	included_main_analysis
+KM609203.1	PEDV-1C		Mar-2012	28047	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	170	yes	included_main_analysis
+KM609204.1	PEDV-7C		Jun-2011	28050	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	305	yes	included_main_analysis
+KM609205.1	PEDV-8C			28047	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	64	yes	included_main_analysis
+KM609206.1	PEDV-10F		Jan-2012	28050	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	169	yes	included_main_analysis
+KM609207.1	PEDV-14		Apr-2011	28050	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	168	yes	included_main_analysis
+KM609208.1	PEDV-15F		Mar-2012	28050	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	309	yes	included_main_analysis
+KM609209.1	PEDV-CHZ		Mar-2013	28050	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	167	yes	included_main_analysis
+KM609210.1	PEDV-LY		Jan-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	390	yes	included_main_analysis
+KM609211.1	PEDV-LS		Jan-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	66	yes	included_main_analysis
+KM609212.1	PEDV-LYG		Mar-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	142	yes	included_main_analysis
+KM609213.1	PEDV-WS		Mar-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	141	yes	included_main_analysis
+KM887144.1			2013	27994	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	490	no	included_main_analysis
+KM975735.1	USA/NC/2013/35140		12-Sep-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	91	no	included_main_analysis
+KM975736.1	USA/IA/2013/49379		09-Dec-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KM975737.1	USA/NC/2013/49469		10-Dec-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	140	yes	included_main_analysis
+KM975738.1	USA/IA/2013/19321		16-May-2013	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	20	yes	included_main_analysis
+KM975739.1	USA/IA/2013/20849		29-May-2013	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	20	no	included_main_analysis
+KM975740.1	USA/IL/2013/59573-5		31-Dec-2013	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	25	yes	included_main_analysis
+KM975741.1	USA/MO/2014/03293		20-Jan-2014	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	24	yes	included_main_analysis
+KP162057.1				27959	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GI-b	0	yes	included_main_analysis
+KP403802.1				27953	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	0	no	included_main_analysis
+KP403954.1	Ukraine/Poltava01/2014		22-Nov-2014	27823	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	556	yes	included_main_analysis
+KP641661.1	OH10123-14		22-Apr-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	139	yes	included_main_analysis
+KP641662.1	OH8593-14		14-Oct-2014	28008	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	476	yes	included_main_analysis
+KP641663.1	OH9097-14		19-Oct-2014	28002	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	476	no	included_main_analysis
+KP688354.1	Hawaii/39249/2014		13-Nov-2014	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	438	yes	included_main_analysis
+KP728470.1	SQ2014		05-Mar-2014	27953	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	0	no	included_main_analysis
+KP765609.1	FL2013		Jul-2013	28056	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	308	yes	included_main_analysis
+KP890336.1	CH/HNYF/14		Dec-2014	27996	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	384	yes	included_main_analysis
+KR003452.1			Jan-2015	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	15	complete_ends	GII-c	84	yes	included_main_analysis
+KR011756.1	FR/001/2014		01-Dec-2014	28024	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+KR061458.1	Italy/7239/2009		14-Jan-2009	27986	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GI-a	470	yes	included_main_analysis
+KR078299.1	PC21A		Jun-2013	28007	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	105	no	included_main_analysis
+KR078300.1	PC177		Dec-2013	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	3	complete_ends	GII-a	89	no	included_main_analysis
+KR095279.1	CH/HNQX-3/14		27-Jan-2015	27997	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	83	yes	included_main_analysis
+KR153325.1	CH/GDZH02/1401		01-Jan-2014	27995	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	502	yes	included_main_analysis
+KR153326.1	CH/GDZHDM/1401		04-Jan-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	502	no	included_main_analysis
+KR265759.1	USA/Minnesota187/2014		14-Jan-2014	27984	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	80	no	included_main_analysis
+KR265760.1	USA/Minnesota211/2014		12-Feb-2014	27986	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-c	461	yes	included_main_analysis
+KR265761.1	USA/Hawaii/2014		13-Nov-2014	27979	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	438	no	included_main_analysis
+KR265762.1	USA/Oklahoma1/2015		12-Dec-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	505	yes	included_main_analysis
+KR265763.1	USA/Illinois176/2014		03-Jan-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265764.1	USA/Minnesota163/2014		18-Feb-2014	27992	yes	cov_existing	also_in_ncbi_download	1.0	pass	48	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265765.1	USA/Nebraska287/2014		02-Apr-2014	27996	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	501	no	included_main_analysis
+KR265766.1	MEX/Mexico329/2014		24-Apr-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	3	end_incomplete(>=30 ref nt not covered)	GII-a	489	yes	included_main_analysis
+KR265767.1	USA/Kansas432/2014		31-Oct-2014	27990	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KR265768.1	USA/Minnesota179/2014		11-Feb-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	5	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265769.1	USA/Illinois197/2014		04-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	2	end_incomplete(>=30 ref nt not covered)	GII-a	513	yes	included_main_analysis
+KR265770.1	USA/Illinois255/2014		11-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265771.1	USA/Minnesota402/2014		18-Aug-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KR265772.1	USA/Kentucky248/2014		07-Jan-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KR265773.1	USA/Minnesota281/2014		27-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KR265774.1	USA/SouthDakota371/2014		16-May-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265775.1	USA/Minnesota338/2014		09-Jan-2014	27991	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265776.1	USA/Minnesota250/2014		03-Feb-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265777.1	USA/Kansas275/2014		13-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265778.1	USA/Minnesota276/2014		14-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265779.1	USA/Missouri177/2014		14-Jan-2014	27990	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	159	no	included_main_analysis
+KR265780.1	USA/Ohio343/2014		17-Jan-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265781.1	USA/Ohio295/2014		25-Feb-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265782.1	USA/Illinois308/2014		16-Apr-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	159	no	included_main_analysis
+KR265783.1	USA/Minnesota269/2014		14-Feb-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KR265784.1	USA/Nebraska348/2014		25-Feb-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	501	no	included_main_analysis
+KR265785.1	USA/Illinois259/2014		13-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265786.1	USA/Illinois261/2014		14-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	3	end_incomplete(>=30 ref nt not covered)	GII-a	516	yes	included_main_analysis
+KR265787.1	USA/SouthDakota285/2014		02-Apr-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KR265788.1	USA/Minnesota306/2014		08-Apr-2014	27992	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265789.1	USA/Illinois307/2014		16-Apr-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	159	no	included_main_analysis
+KR265790.1	USA/Texas424/2014		14-Oct-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	159	no	included_main_analysis
+KR265791.1	USA/Kentucky291/2014		29-Jan-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	26	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KR265792.1	USA/Oklahoma418/2014		26-Sep-2014	27990	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	386	no	included_main_analysis
+KR265793.1	USA/Minnesota212/2014		13-Feb-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	510	yes	included_main_analysis
+KR265794.1	USA/Minnesota236/2014		04-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KR265795.1	USA/Illinois201/2014		07-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265796.1	USA/Illinois262/2014		19-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265797.1	USA/Kansas280/2014		27-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	514	yes	included_main_analysis
+KR265798.1	USA/Minnesota289/2014		02-Apr-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	306	no	included_main_analysis
+KR265799.1	USA/Minnesota159/2014		12-Feb-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	14	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265800.1	USA/Indiana195/2014		04-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	506	yes	included_main_analysis
+KR265801.1	USA/Indiana254/2014		12-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265802.1	USA/Illinois260/2014		14-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265803.1	USA/Nebraska288/2014		02-Apr-2014	27996	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	501	yes	included_main_analysis
+KR265804.1	USA/Illinois333/2014		14-May-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KR265805.1	USA/Iowa161/2014		17-Feb-2014	27988	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265806.1	USA/Minnesota312/2014		07-Apr-2014	27988	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265807.1	USA/Michigan189/2014		17-Feb-2014	27988	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265808.1	USA/Iowa162/2014		17-Feb-2014	27988	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265809.1	USA/Nebraska266/2014		25-Mar-2014	27988	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	501	no	included_main_analysis
+KR265810.1	USA/Oklahoma320/2014		24-Apr-2014	27988	yes	cov_existing	also_in_ncbi_download	1.0	pass	4	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265811.1	USA/SouthDakota336/2014		30-Apr-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	9	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KR265812.1	USA/Colorado420/2014		30-Sep-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	19	end_incomplete(>=30 ref nt not covered)	GII-a	386	no	included_main_analysis
+KR265813.1	USA/Minnesota271/2014		20-Feb-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KR265814.1	USA/Kansas166/2014		28-Feb-2014	27991	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KR265815.1	USA/Illinois194/2014		03-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265816.1	USA/Minnesota202/2014		10-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KR265817.1	USA/Illinois256/2014		11-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	38	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265819.1	USA/Kansas431/2014		30-Oct-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+KR265820.1	USA/Missouri337/2014		07-May-2014	27986	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	159	no	included_main_analysis
+KR265821.1	USA/Missouri164/2014		26-Feb-2014	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265822.1	USA/Michigan252/2014		04-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265823.1	USA/Colorado203/2014		11-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265824.1	USA/Oklahoma471/2014		04-Dec-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	47	end_incomplete(>=30 ref nt not covered)	GII-a	466	no	included_main_analysis
+KR265825.1	USA/Minnesota200/2014		05-Mar-2014	27988	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265826.1	USA/Illinois258/2014		13-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	504	yes	included_main_analysis
+KR265827.1	USA/Iowa303/2014		07-Apr-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265828.1	USA/Minnesota265/2014		24-Mar-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	512	yes	included_main_analysis
+KR265829.1	USA/Minnesota309/2014		17-Apr-2014	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	509	no	included_main_analysis
+KR265830.1	USA/Ohio300/2014		03-Apr-2014	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265831.1	CAN/Quebec334/2014		14-May-2014	27988	yes	cov_existing	also_in_ncbi_download	1.0	pass	10	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265832.1	USA/Minnesota379/2014		10-Jun-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	509	yes	included_main_analysis
+KR265834.1	USA/Texas435/2014		18-Nov-2014	27982	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	522	yes	included_main_analysis
+KR265840.1	USA/Ohio249/2014		22-Jan-2014	27994	yes	cov_existing	also_in_ncbi_download	1.0	pass	19	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265841.1	USA/Minnesota408/2014		28-Aug-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	105	no	included_main_analysis
+KR265842.1	USA/Minnesota409/2014		28-Aug-2014	27988	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	105	no	included_main_analysis
+KR265843.1	USA/Minnesota372/2014		23-May-2014	27990	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	510	no	included_main_analysis
+KR265844.1	USA/Missouri373/2014		30-May-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	3	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KR265845.1	USA/Oklahoma466/2014		04-Dec-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	477	yes	included_main_analysis
+KR265846.1	USA/Missouri270/2014		18-Feb-2014	27993	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	508	yes	included_main_analysis
+KR610991.1				28033	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GI-a	30	yes	included_main_analysis
+KR610993.1				27409	no	cov_existing	not_in_current_ncbi_query		pass	0	end_incomplete(>=30 ref nt not covered)	GII-b	304	no	included_main_analysis
+KR610994.1				27409	no	cov_existing	not_in_current_ncbi_query		pass	0	end_incomplete(>=30 ref nt not covered)	GII-b	426	no	included_main_analysis
+KR809885.1			18-Mar-2015	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	237	yes	included_main_analysis
+KR818832.1	XY2013		Feb-2013	28047	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	166	yes	included_main_analysis
+KR818833.1	JSHA2013			28047	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	165	yes	included_main_analysis
+KR873431.1			Nov-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KR873434.1			Nov-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KR873435.1			Nov-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KT021228.1	YN15		05-Oct-2013	28034	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	281	no	included_main_analysis
+KT021229.1	YN30		08-Nov-2013	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	281	no	included_main_analysis
+KT021230.1	YN60		05-Feb-2014	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	281	no	included_main_analysis
+KT021231.1	YN90		10-May-2014	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	281	no	included_main_analysis
+KT021232.1	YN144		08-Aug-2014	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	379	yes	included_main_analysis
+KT021233.1	YN200		11-Nov-2014	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	379	no	included_main_analysis
+KT199103.1			01-Jun-2015	28038	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	233	yes	included_main_analysis
+KT323979.1	CV777		1998	27953	yes	ncbi_download		1.0	pass	0	complete_ends	GI-b	3	yes	included_main_analysis
+KT323980.1	LNCT2		11-Sep-2014	28038	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	106	yes	included_main_analysis
+KT591944.1	USA/2014/IL/20697 P7		31-Dec-2013	28025	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	21	no	included_main_analysis
+KT860508.1	USA/IL20697/2014 P5		31-Dec-2013	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	21	yes	included_main_analysis
+KT941120.1	HUA-14PED96		15-Oct-2014	27966	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	525	yes	included_main_analysis
+KU252649.1	YC2014		08-May-2014	28077	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	153	yes	included_main_analysis
+KU297956.1	SLO/JH-11/2015		03-Sep-2015	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	31	yes	included_main_analysis
+KU380331.1			01-May-2015	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	3	complete_ends	GII-b	381	yes	included_main_analysis
+KU558701.1			14-Nov-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	152	yes	included_main_analysis
+KU558702.1			29-May-2013	27973	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	469	yes	included_main_analysis
+KU569509.1	COL/Cundinamarca/2014		02-May-2014	28012	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	386	yes	included_main_analysis
+KU646831.1			2012	28036	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	352	yes	included_main_analysis
+KU664503.1			14-Nov-2013	27994	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	490	yes	included_main_analysis
+KU847996.1	ZL29		26-Jul-2015	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	431	yes	included_main_analysis
+KU893861.1	PC22A-P3		01-Jun-2013	28033	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	105	no	included_main_analysis
+KU893862.1	PC22A-P20		01-Oct-2013	28029	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	105	no	included_main_analysis
+KU893863.1	PC22A-P30		01-Jan-2014	28025	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	105	no	included_main_analysis
+KU893864.1	PC22A-P40		01-Mar-2014	28032	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	105	no	included_main_analysis
+KU893865.1	PC22A-P43		01-Mar-2014	28026	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	105	no	included_main_analysis
+KU893866.1	PC22A-P50		01-Jun-2014	28043	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	105	yes	included_main_analysis
+KU893867.1	PC22A-P70		01-Aug-2014	28027	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	105	no	included_main_analysis
+KU893868.1	PC22A-P70		01-Aug-2014	28029	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	105	no	included_main_analysis
+KU893869.1	PC22A-P95-13		01-Jun-2015	28010	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	105	no	included_main_analysis
+KU893870.1	PC22A-P100-C4		01-Jun-2015	28013	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	105	no	included_main_analysis
+KU893871.1	PC22A-P100-C6		01-Jun-2015	28006	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	105	no	included_main_analysis
+KU893872.1	PC22A-P120		01-Oct-2015	28020	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	105	no	included_main_analysis
+KU893873.1	PC22A-P160		01-Oct-2015	28024	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	105	no	included_main_analysis
+KU975389.1	CH/SCCD/2014		Nov-2014	28044	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	151	yes	included_main_analysis
+KU982966.1	PEDV/USA/Texas134/2015		22-Oct-2015	27994	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	386	no	included_main_analysis
+KU982967.1	PEDV/USA/Kansas126/2015		21-Oct-2015	28000	yes	cov_existing	also_in_ncbi_download	1.0	pass	2	end_incomplete(>=30 ref nt not covered)	GII-a	500	yes	included_main_analysis
+KU982968.1	PEDV/USA/Oklahoma133/2015		06-Nov-2015	27995	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	500	no	included_main_analysis
+KU982969.1	PEDV/USA/Iowa127/2015		21-Oct-2015	28004	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	479	no	included_main_analysis
+KU982970.1	PEDV/USA/NorthDakota93/2015		06-Nov-2015	28004	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	479	yes	included_main_analysis
+KU982971.1	PEDV/USA/Minnesota4/2015		09-Jan-2015	28004	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	486	yes	included_main_analysis
+KU982972.1	PEDV/USA/Minnesota129/2015		22-Oct-2015	28004	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KU982973.1	PEDV/USA/Minnesota135/2015		12-Nov-2015	28000	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+KU982974.1	PEDV/USA/Minnesota123/2015		06-Oct-2015	27994	yes	cov_existing	also_in_ncbi_download	1.0	pass	4	end_incomplete(>=30 ref nt not covered)	GII-a	492	yes	included_main_analysis
+KU982975.1	PEDV/USA/Missouri130/2015		26-Oct-2015	28004	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	480	yes	included_main_analysis
+KU982976.1	PEDV/USA/Texas128/2015		22-Oct-2015	27995	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	485	no	included_main_analysis
+KU982977.1	PEDV/USA/Texas132/2015		05-Nov-2015	28003	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	485	yes	included_main_analysis
+KU982978.1	PEDV/USA/Nebraska108/2015		04-Dec-2015	28003	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	455	yes	included_main_analysis
+KU982979.1	PEDV/USA/Minnesota131/2015		04-Nov-2015	28003	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	484	yes	included_main_analysis
+KU982980.1	PEDV/USA/Minnesota125/2015		20-Oct-2015	28000	yes	cov_existing	also_in_ncbi_download	1.0	pass	2	end_incomplete(>=30 ref nt not covered)	GII-a	472	yes	included_main_analysis
+KU982981.1	PEDV/USA/Minnesota124/2015		19-Oct-2015	28004	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	482	yes	included_main_analysis
+KX058031.1				28054	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	180	no	included_main_analysis
+KX058032.1				28054	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	180	no	included_main_analysis
+KX058033.1				28054	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	180	yes	included_main_analysis
+KX064280.1			20-Oct-2014	28036	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	244	yes	included_main_analysis
+KX066126.1	BJ-2011-C		Nov-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	179	yes	included_main_analysis
+KX289955.1			01-Mar-2016	28009	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	14	no	included_main_analysis
+KX534205.1			25-Jan-2015	27861	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	526	yes	included_main_analysis
+KX534206.1			05-Jan-2015	27930	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	255	yes	included_main_analysis
+KX550281.1	ZJ15XS0101 P1		16-Jan-2015	28067	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	52	no	included_main_analysis
+KX580953.1	KB2013-4		2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	547	yes	included_main_analysis
+KX580958.1	PC22A-P140.BI		07-Jul-2016	27980	yes	cov_existing	also_in_ncbi_download	1.0	pass	2	end_incomplete(>=30 ref nt not covered)	GII-a	105	no	included_main_analysis
+KX683006.1	PC22A		01-Jun-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	105	no	included_main_analysis
+KX791060.1			12-May-2014	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	3	complete_ends	GII-b	357	yes	included_main_analysis
+KX812523.1			30-Mar-2016	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	57	yes	included_main_analysis
+KX812524.1			01-Aug-2016	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	178	yes	included_main_analysis
+KX839246.1	85-7		May-2013	28015	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	490	no	included_main_analysis
+KX839247.1	85-7-mutant1		Sep-2015	27988	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	507	yes	included_main_analysis
+KX839248.1	85-7-mutant2		Sep-2015	27533	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	573	yes	included_main_analysis
+KX839249.1	85-7-mutant3		Sep-2015	28000	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	490	no	included_main_analysis
+KX839250.1	85-7-mutant4		Sep-2015	27860	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	554	yes	included_main_analysis
+KX839251.1	85-7-mutant5		Sep-2015	27990	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	490	no	included_main_analysis
+KX981440.1			May-2016	28124	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	85	yes	included_main_analysis
+KY007139.1			11-May-2015	28017	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	456	yes	included_main_analysis
+KY007140.1			02-Mar-2015	28050	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-a	65	yes	included_main_analysis
+KY019623.1			03-Nov-2015	28021	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	14	no	included_main_analysis
+KY019624.1			03-Nov-2015	28021	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	62	yes	included_main_analysis
+KY070587.1			2016	28045	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	53	yes	included_main_analysis
+KY111278.1	PEDV 1842/2016 ITA		28-Jan-2016	28041	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	18	yes	included_main_analysis
+KY420075.1	PEDV-SX		14-Mar-2015	27967	yes	ncbi_download		1.0	pass	0	complete_ends	GI-b	0	no	included_main_analysis
+KY486713.1	85-7-A40		Sep-2015	27988	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	507	no	included_main_analysis
+KY486714.1	85-7-C40		Sep-2015	28000	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	523	yes	included_main_analysis
+KY499261.1	TC-PC177			27430	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	89	no	included_main_analysis
+KY499262.1	PC22A			28041	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	105	no	included_main_analysis
+KY649107.1	CH-HNKF-16		01-May-2016	28032	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	392	yes	included_main_analysis
+KY793536.1	CH/GX/2015/750A		14-Feb-2015	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	144	yes	included_main_analysis
+KY825240.1			Jan-2016	28032	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+KY825241.1			Jan-2016	27985	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	339	no	included_main_analysis
+KY825242.1			Jan-2016	28020	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	339	yes	included_main_analysis
+KY825243.1			Jan-2016	27974	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	339	no	included_main_analysis
+KY928065.1			Mar-2016	28063	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	326	yes	included_main_analysis
+KY929405.1	PT-P5		04-May-2015	28038	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	186	yes	included_main_analysis
+KY929406.1	PT-P96		02-Jan-2016	28038	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	34	yes	included_main_analysis
+KY963963.1			Mar-2016	28053	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	164	yes	included_main_analysis
+LC022792.1	Tottori2/JPN/2014		2014-10	27342	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	577	yes	included_main_analysis
+LC053455.1			2010-01	27991	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	490	no	included_main_analysis
+LC063810.1	AOM-1/JPN/2014		2014-02	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063811.1	FKO-1/JPN/2014		2014-03	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063812.1	EHM-1/JPN/2014		2014-04	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063813.1	IWT-4/JPN/2014		2014-04	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	544	yes	included_main_analysis
+LC063814.1	KGS-1/JPN/2013		2013-12	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063815.1	KGS-2/JPN/2013		2013-12	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063816.1	OKN-2/JPN/2014		2014-02	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063817.1	KMM-1/JPN/2014		2014-01	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063818.1	KMM-2/JPN/2014		2014-01	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063819.1	IBR-5/JPN/2014		2014-04	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063820.1	IBR-1/JPN/2013		2013-11	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063821.1	IBR-2/JPN/2013		2013-11	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063822.1	TTR-1/JPN/2014		2014-03	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	541	yes	included_main_analysis
+LC063823.1	GNM-1/JPN/2014		2014-04	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063824.1	KGW-1/JPN/2014		2014-04	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063825.1	HRS-1/JPN/2014		2014-05	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063826.1	KGS-4/JPN/2014		2014-04	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063827.1	MIE-1/JPN/2014		2014-03	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063828.1	TTR-2/JPN/2014		2014-10	27322	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	577	no	included_main_analysis
+LC063829.1	GNM-2/JPN/2014		2014-04	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063830.1	NIG-1/JPN/2014		2014-04	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063831.1	IBR-6/JPN/2014		2014-05	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063832.1	IBR-7/JPN/2014		2014-05	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+LC063833.1	AOM-3/JPN/2014		2014-04	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	542	yes	included_main_analysis
+LC063834.1	IWT-1/JPN/2014		2014-04	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	542	no	included_main_analysis
+LC063835.1	IWT-3/JPN/2014		2014-04	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	542	no	included_main_analysis
+LC063836.1	OKN-1/JPN/2013		2013-10	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+LC063837.1	AOM-2/JPN/2014		2014-04	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+LC063838.1	MYG-1/JPN/2014		2014-07	27481	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	574	yes	included_main_analysis
+LC063839.1	IWT-2/JPN/2014		2014-04	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	545	yes	included_main_analysis
+LC063840.1	NIG-2/JPN/2014		2014-04	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+LC063841.1	IBR-3/JPN/2014		2014-04	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+LC063842.1	IBR-4/JPN/2014		2014-04	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+LC063843.1	IBR-8/JPN/2014		2014-05	27904	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	543	yes	included_main_analysis
+LC063844.1	KCH-1/JPN/2014		2014-03	27895	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	538	no	included_main_analysis
+LC063845.1	KCH-2/JPN/2014		2014-03	27895	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	538	no	included_main_analysis
+LC063846.1	MYZ-1/JPN/2013		2013-12	27895	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	538	yes	included_main_analysis
+LC063847.1	OKY-1/JPN/2014		2014-03	27895	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	441	no	included_main_analysis
+LM645057.1	GER/L00721/2014			28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LM645058.1	GER/L00719/2014			28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LR812926.1				28087	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	11	yes	included_main_analysis
+LR812927.1				28083	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	11	no	included_main_analysis
+LR812928.1				28014	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	11	no	included_main_analysis
+LR812929.1				28074	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	11	no	included_main_analysis
+LR812930.1				28198	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	11	no	included_main_analysis
+LR812931.1				28076	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	11	no	included_main_analysis
+LR812932.1				28085	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	11	no	included_main_analysis
+LT897799.1				27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	32	no	included_main_analysis
+LT898408.1				28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898409.1				28006	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898410.1				28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898411.1				28030	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	yes	included_main_analysis
+LT898413.1				28030	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898414.1				28026	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898415.1				28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898416.1				28013	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898417.1				28023	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898418.1				28030	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898420.1				28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898421.1				27975	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	9	no	included_main_analysis
+LT898423.1				28030	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898425.1				28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898426.1				28009	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898427.1				28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898431.1				27977	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	9	no	included_main_analysis
+LT898432.1				28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898433.1				28030	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898435.1				28030	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	13	yes	included_main_analysis
+LT898436.1				27981	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	13	no	included_main_analysis
+LT898438.1				28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898439.1				28030	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	15	yes	included_main_analysis
+LT898440.1				28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898443.1				28030	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898444.1				28030	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898445.1				28030	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	10	yes	included_main_analysis
+LT898446.1				28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT898447.1				27995	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	9	no	included_main_analysis
+LT900500.1				28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT900501.1				28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT900502.1				28008	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	9	no	included_main_analysis
+LT905450.1				28026	yes	cov_existing	also_in_ncbi_download	1.0	pass	4	complete_ends	GI-a	32	no	included_main_analysis
+LT905451.1				27945	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GI-a	23	no	included_main_analysis
+LT906581.1				27969	yes	cov_existing	also_in_ncbi_download	1.0	pass	217	end_incomplete(>=30 ref nt not covered)	GI-a	23	no	included_main_analysis
+LT906582.1				28061	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	23	yes	included_main_analysis
+LT906620.1				28017	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-a	23	no	included_main_analysis
+MF281416.1			21-Feb-2017	28005	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	475	yes	included_main_analysis
+MF346935.1			Jul-2016	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	361	yes	included_main_analysis
+MF373643.1			2014	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	471	yes	included_main_analysis
+MF375374.1			21-May-2017	28079	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	205	yes	included_main_analysis
+MF462814.1	CH/SXYL/2016		10-Sep-2016	28063	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	443	yes	included_main_analysis
+MF577027.1				28315	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	unresolved	578	yes	included_main_analysis
+MF737355.1			Jul-2001	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	483	yes	included_main_analysis
+MF782686.1	NW17		2015	28010	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	460	yes	included_main_analysis
+MF782687.1	NW8		2015	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	117	yes	included_main_analysis
+MF807951.1	C3-HB2017		19-Feb-2017	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	77	yes	included_main_analysis
+MF807952.1	B5-HB2017		17-Feb-2017	28046	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	160	yes	included_main_analysis
+MG334554.1	USA/OK10240-6/2017		07-Feb-2017	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	159	yes	included_main_analysis
+MG334555.1	USA/OK10240-8/2017		07-Feb-2017	27438	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	159	no	included_main_analysis
+MG546687.1	CH/BJ9/2015		Sep-2015	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	211	yes	included_main_analysis
+MG546690.1	CH/BJ11/2016		Nov-2016	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	285	yes	included_main_analysis
+MG781192.1	PPC 14		2014-10-23	27962	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	0	no	included_main_analysis
+MG837011.1			21-Feb-2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	128	yes	included_main_analysis
+MG837012.1			20-Jan-2016	27412	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	576	yes	included_main_analysis
+MG837058.1			31-May-2017	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	230	yes	included_main_analysis
+MG983755.1	GDgh			28067	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	342	yes	included_main_analysis
+MH004412.1	PEDV/MEX/GTO/02/2016		19-Jul-2016	27661	yes	ncbi_download		1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	565	yes	included_main_analysis
+MH004413.1	PEDV/MEX/JAL/03/2016		06-Dec-2016	27694	yes	ncbi_download		1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	567	yes	included_main_analysis
+MH004414.1	PEDV/MEX/JAL/19/2017		10-May-2017	27694	yes	ncbi_download		1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	560	yes	included_main_analysis
+MH004415.1	PEDV/MEX/JAL/19/2014		19-Jul-2014	27685	yes	ncbi_download		1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	564	no	included_main_analysis
+MH004416.1	PEDV/MEX/JAL/01/2017		10-Feb-2017	27685	yes	cov_existing	also_in_ncbi_download	1.0	pass	4	end_incomplete(>=30 ref nt not covered)	GII-a	561	yes	included_main_analysis
+MH004417.1	PEDV/MEX/JAL/02/2017		10-Feb-2017	27685	yes	cov_existing	also_in_ncbi_download	1.0	pass	3	end_incomplete(>=30 ref nt not covered)	GII-a	569	no	included_main_analysis
+MH004418.1	PEDV/MEX/JAL/03/2017		10-Feb-2017	27685	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-a	569	yes	included_main_analysis
+MH004419.1	PEDV/MEX/JAL/04/2017		20-Feb-2017	27685	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	570	yes	included_main_analysis
+MH004420.1	PEDV/MEX/JAL/05/2017		28-Feb-2017	27685	yes	cov_existing	also_in_ncbi_download	1.0	pass	2	end_incomplete(>=30 ref nt not covered)	GII-a	572	yes	included_main_analysis
+MH004421.1	PEDV/MEX/PUE/01/2015		05-Nov-2015	27685	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	568	yes	included_main_analysis
+MH006957.1	PEDV/MEX/MICH/01/2013		24-Jul-2013	27685	yes	ncbi_download		1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+MH006958.1	PEDV/MEX/MICH/19/2013		30-Sep-2013	27675	yes	ncbi_download		1.0	pass	1	end_incomplete(>=30 ref nt not covered)	GII-c	559	no	included_main_analysis
+MH006959.1	PEDV/MEX/GTO/01/2013		30-Sep-2013	27685	yes	ncbi_download		1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+MH006960.1	PEDV/MEX/VER/01/2014		08-Nov-2014	27674	yes	ncbi_download		1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	559	no	included_main_analysis
+MH006961.1	PEDV/MEX/JAL/01/2014		19-Jul-2014	27685	yes	ncbi_download		1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	564	yes	included_main_analysis
+MH006962.1	PEDV/MEX/MICH/02/2015		20-Mar-2015	27675	yes	ncbi_download		1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	559	yes	included_main_analysis
+MH006963.1	PEDV/MEX/PUE/01/2016		13-Mar-2013	27685	yes	ncbi_download		1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	566	yes	included_main_analysis
+MH006965.1	PEDV/MEX/MICH/02/2013		24-Jul-2013	27685	yes	ncbi_download		1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	91	no	included_main_analysis
+MH013462.1	PEDV/MEX/SON/01/2015		13-Sep-2015	27685	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	562	yes	included_main_analysis
+MH013463.1	PEDV/MEX/VER/01/2015		21-Oct-2015	27685	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	571	yes	included_main_analysis
+MH013464.1	PEDV/MEX/VER/02/2015		21-Oct-2015	27685	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	571	no	included_main_analysis
+MH013465.1	PEDV/MEX/QRO/01/2017		21-Jun-2017	27667	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	563	yes	included_main_analysis
+MH052681.1			Mar-2017	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	19	yes	included_main_analysis
+MH052682.1			Jul-2017	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	527	yes	included_main_analysis
+MH052683.1			Nov-2017	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	126	no	included_main_analysis
+MH052684.1			Dec-2017	27999	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	495	yes	included_main_analysis
+MH052685.1			Dec-2017	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	127	yes	included_main_analysis
+MH052687.1			Jun-2017	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	126	yes	included_main_analysis
+MH052688.1			May-2017	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	125	yes	included_main_analysis
+MH052689.1			Apr-2017	28032	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	344	yes	included_main_analysis
+MH056657.1	JSX2014/ATT			28031	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	449	yes	included_main_analysis
+MH056658.1	JSX2014		2014	28015	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	444	yes	included_main_analysis
+MH061336.1	CH/SCGA/2017		05-Jan-2017	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	16	yes	included_main_analysis
+MH061337.1	CH/SCZG/2017		05-Jan-2017	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	289	yes	included_main_analysis
+MH061338.1	CH/SCZY44/2017		09-Sep-2017	28026	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	35	yes	included_main_analysis
+MH061339.1	CH/SCAZ10/2017		27-Nov-2017	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	290	yes	included_main_analysis
+MH061340.1	CH/SCZY103/2017		01-Dec-2017	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	158	yes	included_main_analysis
+MH061341.1	CH/SCLS/2018		12-Jan-2018	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	287	yes	included_main_analysis
+MH061342.1	CH/SCZJ/2018		06-Feb-2018	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	157	yes	included_main_analysis
+MH061343.1	CH/SCMY/2018		29-Jan-2018	28026	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	41	yes	included_main_analysis
+MH107321.1			16-Jan-2013	28041	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-a	202	yes	included_main_analysis
+MH107322.1			05-Nov-2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	314	yes	included_main_analysis
+MH243316.1			Mar-2018	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	55	yes	included_main_analysis
+MH243318.1			Mar-2018	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	3	complete_ends	GII-a	75	yes	included_main_analysis
+MH243319.1			Mar-2018	28017	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	445	yes	included_main_analysis
+MH581489.1			20-Jul-2017	28066	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-a	299	yes	included_main_analysis
+MH593900.1	S236		20-Mar-2018	28009	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	228	yes	included_main_analysis
+MH708243.1	H11-SD2017		01-Sep-2017	28042	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	353	yes	included_main_analysis
+MH708895.1			18-Jan-2011	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	369	yes	included_main_analysis
+MH726362.1			08-Feb-2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	210	yes	included_main_analysis
+MH726363.1			22-Jun-2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	198	yes	included_main_analysis
+MH726364.1			13-Dec-2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	176	yes	included_main_analysis
+MH726365.1			15-Jan-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	175	yes	included_main_analysis
+MH726366.1			04-Jun-2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	174	yes	included_main_analysis
+MH726367.1			17-Sep-2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	199	yes	included_main_analysis
+MH726368.1			23-Sep-2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	152	no	included_main_analysis
+MH726369.1			21-Aug-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	173	yes	included_main_analysis
+MH726370.1			12-Mar-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	215	yes	included_main_analysis
+MH726371.1			09-Jan-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	214	yes	included_main_analysis
+MH726372.1			13-Dec-2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	121	yes	included_main_analysis
+MH726373.1			15-Jun-2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	417	yes	included_main_analysis
+MH726374.1			07-Jun-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	316	yes	included_main_analysis
+MH726375.1			04-Jun-2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	327	yes	included_main_analysis
+MH726376.1			24-Mar-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	213	yes	included_main_analysis
+MH726377.1			11-Jul-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	229	no	included_main_analysis
+MH726378.1			28-Jul-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	229	no	included_main_analysis
+MH726379.1			28-Jul-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	229	yes	included_main_analysis
+MH726380.1			06-Jun-2014	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	150	yes	included_main_analysis
+MH726381.1			06-May-2015	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	149	yes	included_main_analysis
+MH726382.1			18-May-2016	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	148	yes	included_main_analysis
+MH726383.1			27-Feb-2017	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	147	yes	included_main_analysis
+MH726384.1			10-Feb-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	207	yes	included_main_analysis
+MH726385.1			10-Feb-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	209	yes	included_main_analysis
+MH726386.1			25-May-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	208	yes	included_main_analysis
+MH726387.1			10-Feb-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	100	no	included_main_analysis
+MH726388.1			10-Feb-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	100	no	included_main_analysis
+MH726389.1			10-Feb-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	100	yes	included_main_analysis
+MH726390.1			10-Feb-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	99	yes	included_main_analysis
+MH726391.1			15-Jul-2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	223	yes	included_main_analysis
+MH726392.1			02-Jul-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	98	yes	included_main_analysis
+MH726393.1			10-Mar-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	222	yes	included_main_analysis
+MH726394.1			08-Dec-2015	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	219	yes	included_main_analysis
+MH726395.1			06-Feb-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	225	yes	included_main_analysis
+MH726396.1			07-Dec-2013	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	212	yes	included_main_analysis
+MH726397.1			20-Oct-2012	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	212	no	included_main_analysis
+MH726398.1			25-May-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	212	no	included_main_analysis
+MH726399.1			25-Sep-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	227	no	included_main_analysis
+MH726400.1			26-Apr-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	227	yes	included_main_analysis
+MH726401.1			27-Nov-2011	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	226	yes	included_main_analysis
+MH726402.1			06-May-2016	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	120	yes	included_main_analysis
+MH726403.1			24-Feb-2017	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	97	no	included_main_analysis
+MH726404.1			17-Dec-2017	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	97	yes	included_main_analysis
+MH726405.1			06-Dec-2016	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	391	yes	included_main_analysis
+MH726406.1			25-Feb-2017	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	96	no	included_main_analysis
+MH726407.1			25-Feb-2017	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	96	yes	included_main_analysis
+MH726408.1			01-Aug-2014	28026	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	0	no	included_main_analysis
+MH748550.1	PEDV JS-A		10-Nov-2017	28045	yes	cov_existing	also_in_ncbi_download	1.0	pass	2	complete_ends	GII-b	100	no	included_main_analysis
+MH891584.1			06-Feb-2018	28027	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-a	408	yes	included_main_analysis
+MH891585.1			07-Feb-2018	28027	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-a	407	yes	included_main_analysis
+MH891586.1			18-Apr-2018	28024	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	398	yes	included_main_analysis
+MH891587.1			19-Apr-2018	28024	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	399	yes	included_main_analysis
+MH891588.1			21-Feb-2017	28024	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	406	yes	included_main_analysis
+MH891589.1			19-Jan-2018	28024	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	400	yes	included_main_analysis
+MH891590.1			06-Feb-2018	28024	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	397	yes	included_main_analysis
+MH910099.1				28035	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	337	yes	included_main_analysis
+MK032689.1			Mar-2018	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	220	yes	included_main_analysis
+MK032690.1			Apr-2018	28050	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	321	yes	included_main_analysis
+MK032691.1			Apr-2018	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	60	yes	included_main_analysis
+MK032692.1			Apr-2018	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	86	yes	included_main_analysis
+MK071619.1	COL/Antioquia00265/2015		09-Jan-2015	28016	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	80	no	included_main_analysis
+MK071620.1	COL/Antioquia00958/2015		29-Jan-2015	28017	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	80	yes	included_main_analysis
+MK071621.1	COL/Cundinamarca03267/2014		07-Mar-2014	28011	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+MK071622.1	COL/Huila/2014		17-Mar-2014	28024	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	396	yes	included_main_analysis
+MK071623.1	COL/Cundinamarca03715/2014		16-Mar-2014	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+MK071624.1	COL/Cundinamarca03962/2014		21-Mar-2014	28018	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	81	yes	included_main_analysis
+MK071625.1	COL/Antioquia/2014		27-Apr-2015	28013	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	80	no	included_main_analysis
+MK071626.1	COL/Cundinamarca/2015		06-May-2015	28019	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	80	no	included_main_analysis
+MK071627.1	COL/ValledelCauca05761/2015		08-May-2015	28017	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	89	no	included_main_analysis
+MK071629.1	COL/Antioquia06285/2015		20-May-2015	28031	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	370	yes	included_main_analysis
+MK071630.1	COL/Antioquia07053/2015		03-Jun-2015	28013	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	80	no	included_main_analysis
+MK071631.1	COL/Antioquia08010/2015		06-Jan-2015	28005	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	80	no	included_main_analysis
+MK071632.1	COL/ValledelCauca/2015		01-Jul-2017	28008	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	80	no	included_main_analysis
+MK071633.1	COL/Antioquia08520/2015		03-Jul-2015	28017	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	80	no	included_main_analysis
+MK071634.1	COL/ValledelCauca08565/2015		03-Jul-2015	28018	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	80	no	included_main_analysis
+MK071635.1	COL/Antioquia09796/2015		30-Jul-2015	28018	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	80	no	included_main_analysis
+MK071636.1	COL/Antioquia09831/2015		29-Jul-2015	28019	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	80	no	included_main_analysis
+MK071637.1	COL/Antioquia10641/2015		11-Aug-2015	28017	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	80	no	included_main_analysis
+MK071638.1	COL/Antioquia14856/2015		21-Oct-2015	27996	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	404	yes	included_main_analysis
+MK071639.1	COL/Cauca/2015		05-May-2015	28010	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	80	no	included_main_analysis
+MK138353.1	G2		2016	28030	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	376	yes	included_main_analysis
+MK138516.1	V7-HB2018		09-Mar-2018	28034	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	43	yes	included_main_analysis
+MK140811.1			2018	28024	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	54	yes	included_main_analysis
+MK140812.1			2018	28022	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	54	no	included_main_analysis
+MK140813.1			2018	28026	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	54	no	included_main_analysis
+MK140814.1			2018	28036	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	394	yes	included_main_analysis
+MK250953.1	ZJ/ZX2018-C10		Feb-2018	28032	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	373	yes	included_main_analysis
+MK288006.1			22-May-2011	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	311	yes	included_main_analysis
+MK392335.1			Feb-2010	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	367	yes	included_main_analysis
+MK409657.1			31-Jan-2016	28067	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	52	no	included_main_analysis
+MK409658.1			23-Feb-2016	28067	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	52	yes	included_main_analysis
+MK409659.1			16-Jun-2016	28060	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	63	yes	included_main_analysis
+MK482396.1			Nov-2018	28023	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	356	no	included_main_analysis
+MK482397.1			Nov-2018	28023	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	356	yes	included_main_analysis
+MK558089.1	SF4017		04-Apr-2017	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	478	yes	included_main_analysis
+MK559454.1			2014	28027	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	365	yes	included_main_analysis
+MK559456.1			2018	28027	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	365	no	included_main_analysis
+MK584552.1	AJ1102(F12)		May-2011	28044	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	296	no	included_main_analysis
+MK606368.1			24-Jun-2018	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	154	yes	included_main_analysis
+MK606369.1			06-Aug-2018	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	184	yes	included_main_analysis
+MK644601.1			01-Jun-2017	28040	yes	cov_existing	also_in_ncbi_download	1.0	pass	12	complete_ends	GII-a	533	yes	included_main_analysis
+MK644602.1			20-Oct-2017	28045	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	254	yes	included_main_analysis
+MK644603.1			27-Oct-2017	28043	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	307	yes	included_main_analysis
+MK644604.1			13-Nov-2017	28046	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	110	yes	included_main_analysis
+MK644605.1			02-Feb-2018	28043	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	312	yes	included_main_analysis
+MK673545.1	TW/Yunlin550/2018		27-Feb-2018	28012	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	236	yes	included_main_analysis
+MK690502.1			Mar-2016	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	328	yes	included_main_analysis
+MK702008.1			Oct-2018	28003	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	487	yes	included_main_analysis
+MK796238.1	CN/Liaoning25/2018		Mar-2018	27961	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-a	269	yes	included_main_analysis
+MK841494.1			Oct-2016	28002	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	241	no	included_main_analysis
+MK841495.1			Sep-2016	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	241	yes	included_main_analysis
+MK862249.1	HeN170821		Aug-2017	28020	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	511	yes	included_main_analysis
+MN037494.1	WHLL		2017-04-18	28070	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	115	yes	included_main_analysis
+MN056942.1	FR2019001		Feb-2019	28008	yes	cov_existing	also_in_ncbi_download	1.0	pass	14	complete_ends	GII-c	418	yes	included_main_analysis
+MN114121.1			Mar-2018	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	114	yes	included_main_analysis
+MN315264.1	AH-2018-HF1		30-Sep-2018	27937	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	0	no	included_main_analysis
+MN486588.1	Ah2016f2		Feb-2016	27933	yes	cov_existing	also_in_ncbi_download	1.0	pass	3	complete_ends	GII-c	330	yes	included_main_analysis
+MN594506.1				28053	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	346	yes	included_main_analysis
+MN644470.1	HLJ		2015	27953	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	2	yes	included_main_analysis
+MN692771.1			24-Apr-2014	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	9	no	included_main_analysis
+MN692772.1			29-Apr-2014	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	9	no	included_main_analysis
+MN692773.1			29-Apr-2014	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	434	no	included_main_analysis
+MN692774.1			03-Jun-2014	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	9	no	included_main_analysis
+MN692775.1			11-Jul-2014	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	432	yes	included_main_analysis
+MN692776.1			30-Sep-2014	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	434	yes	included_main_analysis
+MN692777.1			30-Sep-2014	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	434	no	included_main_analysis
+MN692778.1			07-Oct-2014	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	9	no	included_main_analysis
+MN692779.1			09-Oct-2014	27989	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	433	yes	included_main_analysis
+MN692780.1			19-Dec-2014	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	4	complete_ends	GII-c	68	yes	included_main_analysis
+MN692781.1			12-Feb-2016	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-c	48	yes	included_main_analysis
+MN692782.1			23-Sep-2016	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-c	49	yes	included_main_analysis
+MN692783.1			05-Dec-2016	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	4	complete_ends	GII-c	74	yes	included_main_analysis
+MN692784.1			19-Jan-2017	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	33	yes	included_main_analysis
+MN692785.1			19-Jan-2017	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	33	no	included_main_analysis
+MN692786.1			19-Jan-2017	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	4	complete_ends	GII-c	70	yes	included_main_analysis
+MN692787.1			11-Jan-2018	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	45	yes	included_main_analysis
+MN692788.1			02-Feb-2018	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	4	complete_ends	GII-c	73	yes	included_main_analysis
+MN692789.1			02-Mar-2018	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	2	complete_ends	GII-c	61	yes	included_main_analysis
+MN692790.1			03-May-2018	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	4	complete_ends	GII-c	67	yes	included_main_analysis
+MN692791.1			30-Jan-2019	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-c	47	yes	included_main_analysis
+MN692792.1			07-Jan-2019	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	46	yes	included_main_analysis
+MN692793.1			11-May-2019	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	29	yes	included_main_analysis
+MN759311.1	GD-XL-2019		18-Mar-2019	28056	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	100	no	included_main_analysis
+MN816181.1			Mar-2018	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	58	yes	included_main_analysis
+MN841671.1	SHXX1902		Feb-2019	28051	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	252	yes	included_main_analysis
+MN844888.1			Mar-2019	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	59	yes	included_main_analysis
+MN971595.1			Jan-2019	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	503	yes	included_main_analysis
+MN971596.1			Feb-2018	28039	yes	cov_existing	also_in_ncbi_download	1.0	pass	2	complete_ends	GII-a	127	no	included_main_analysis
+MT090145.1	CH/HNYY/2018		2018	28037	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	196	yes	included_main_analysis
+MT090146.1	CH/SXWS/2018		2018	28032	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	320	yes	included_main_analysis
+MT166307.1	HB2018		May-2018	28026	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	389	yes	included_main_analysis
+MT198679.1	IBT-VN		02-Feb-2018	28031	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	423	yes	included_main_analysis
+MT303066.1	shxx1902		Feb-2019	27974	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	249	yes	included_main_analysis
+MT338517.1	CH/HNXX/2016			28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	528	yes	included_main_analysis
+MT338518.1	HNAY2016			28020	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	515	yes	included_main_analysis
+MT490315.1	EdoMex/103/2018		2018	28034	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	293	yes	included_main_analysis
+MT490316.1	EdoMex/205/2018		2018	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	293	no	included_main_analysis
+MT547179.1	17GXCZ-1ORF3d		Jan-2017	27662	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	78	no	included_main_analysis
+MT547180.1	17GXCZ-1ORF3c		Jan-2017	28044	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	78	yes	included_main_analysis
+MT602520.1			2014	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	4	complete_ends	GII-c	71	yes	included_main_analysis
+MT625963.1	CH/JSXZ/2015		2015	28044	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-a	195	yes	included_main_analysis
+MT646162.1			Oct-2015	28066	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	124	yes	included_main_analysis
+MT659926.1			Feb-2019	28032	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	343	yes	included_main_analysis
+MT683617.1	MSCH		Sep-2016	28066	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	241	no	included_main_analysis
+MT783684.1	PEDV CH/SX/2015		2016-04	27960	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	0	no	included_main_analysis
+MT787025.1	PEDV CH/SX/2016		2016-12	28036	yes	cov_existing	also_in_ncbi_download	1.0	pass	5	complete_ends	GII-a	372	yes	included_main_analysis
+MT843277.1	SH1302		Feb-2013	27921	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	0	no	included_main_analysis
+MT843278.1			Dec-2019	28051	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	258	yes	included_main_analysis
+MT843279.1			Feb-2013	27969	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	0	no	included_main_analysis
+MT843280.1			Dec-2019	27974	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	247	yes	included_main_analysis
+MW143081.1			Aug-2016	28000	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	520	yes	included_main_analysis
+MW143082.1			Jan-2017	27958	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	529	no	included_main_analysis
+MW143083.1			May-2017	28058	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	531	yes	included_main_analysis
+MW143084.1			Aug-2018	27994	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	291	no	included_main_analysis
+MW143085.1			Aug-2018	28076	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	291	yes	included_main_analysis
+MW143086.1			Mar-2017	27958	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	529	no	included_main_analysis
+MW143087.1			Mar-2017	27958	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	529	yes	included_main_analysis
+MW143088.1			Jan-2018	28011	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	424	no	included_main_analysis
+MW143089.1			Feb-2018	28014	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	424	yes	included_main_analysis
+MW143090.1			Apr-2018	28011	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	468	yes	included_main_analysis
+MW143091.1			Jan-2018	28076	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	350	no	included_main_analysis
+MW143092.1			Feb-2018	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	350	yes	included_main_analysis
+MW143093.1			Jun-2019	28062	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	130	yes	included_main_analysis
+MW143094.1			Oct-2016	28064	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	368	yes	included_main_analysis
+MW165327.1			2014-01-21	27908	yes	ncbi_download		1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	89	no	included_main_analysis
+MW165328.1			2014-01-21	27238	yes	ncbi_download		1.0	pass	0	end_incomplete(>=30 ref nt not covered)	unresolved	89	no	included_main_analysis
+MW165329.1			2013-07-01	27754	yes	ncbi_download		1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	557	yes	included_main_analysis
+MW386982.1			Dec-2020	28052	yes	ncbi_download		1.0	pass	0	complete_ends	GII-b	274	yes	included_main_analysis
+MW413556.1	HB/HEBEU/2020		Dec-2020	28041	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	129	yes	included_main_analysis
+MW560715.1			2019	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	119	no	included_main_analysis
+MW560716.1			2019	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	119	yes	included_main_analysis
+MW560717.1			2019	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	118	yes	included_main_analysis
+MW561264.1	CH/HLJ/18		2018	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	124	no	included_main_analysis
+MW762534.1			08-Dec-2020	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	76	yes	included_main_analysis
+MW805354.1			15-Jun-2019	28050	yes	cov_existing	also_in_ncbi_download	1.0	pass	2	complete_ends	GII-b	336	yes	included_main_analysis
+MW805355.1			15-Jun-2019	28050	yes	cov_existing	also_in_ncbi_download	1.0	pass	2	complete_ends	GII-b	336	no	included_main_analysis
+MW805356.1			15-Jun-2019	28050	yes	cov_existing	also_in_ncbi_download	1.0	pass	2	complete_ends	GII-b	336	no	included_main_analysis
+MW805357.1			15-Jun-2019	28050	yes	cov_existing	also_in_ncbi_download	1.0	pass	2	complete_ends	GII-b	336	no	included_main_analysis
+MZ241108.1			25-Dec-2020	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	116	yes	included_main_analysis
+MZ268115.1			12-Oct-2015	28048	yes	cov_existing	also_in_ncbi_download	1.0	pass	4	complete_ends	GII-c	14	yes	included_main_analysis
+MZ313556.1			03-Jan-2017	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	17	no	included_main_analysis
+MZ313557.1			01-Apr-2016	28031	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	28	yes	included_main_analysis
+MZ325484.1			03-Jan-2017	28019	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	17	no	included_main_analysis
+MZ325485.1			03-Jan-2017	28034	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	17	no	included_main_analysis
+MZ325486.1			07-Apr-2016	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	28	no	included_main_analysis
+MZ325487.1			27-Dec-2016	28021	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	17	no	included_main_analysis
+MZ342899.1			2017	28064	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	342	no	included_main_analysis
+MZ364307.1	CH/GX/PEDV/938/2016		29-Feb-2016	28044	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	277	no	included_main_analysis
+MZ364308.1	CH/GX/PEDV/997/2016		05-May-2016	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	277	yes	included_main_analysis
+MZ364309.1	CH/GX/PEDV/1008/2016		29-May-2016	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	278	yes	included_main_analysis
+MZ364310.1	CH/GX/PEDV/1401/2016		08-Dec-2016	28044	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	279	yes	included_main_analysis
+MZ364311.1	CH/GX/PEDV/1902/2017		22-Dec-2017	28044	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	375	yes	included_main_analysis
+MZ364312.1	CH/GX/PEDV/1939/2018		15-Jan-2018	28044	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-a	518	yes	included_main_analysis
+MZ364313.1	CH/GX/PEDV/1984/2018		27-Feb-2018	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	131	yes	included_main_analysis
+MZ364314.1	CH/GX/PEDV/2373/2018		14-Nov-2018	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	280	yes	included_main_analysis
+MZ364315.1	CH/GX/PEDV/2467/2019		11-Jan-2019	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	517	yes	included_main_analysis
+MZ364316.1	CH/GX/PEDV/2473/2019		17-Jan-2019	28044	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	351	yes	included_main_analysis
+MZ380292.1			Jul-2016	28046	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	411	yes	included_main_analysis
+MZ540767.1			2020-12	27962	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	8	yes	included_main_analysis
+MZ581326.1	YN150		20-Jul-2017	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	379	no	included_main_analysis
+MZ596343.1			Oct-2019	27953	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	0	no	included_main_analysis
+MZ604716.1	YN17		2016-10-20	28034	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	281	yes	included_main_analysis
+MZ712170.1	PEDV-KB2013-130			28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	340	yes	included_main_analysis
+MZ787936.1	TQ_VN		20-Jun-2018	28031	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	427	yes	included_main_analysis
+MZ787937.1	HN_VN		20-Aug-2018	28031	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	410	yes	included_main_analysis
+MZ803010.1			2014	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	91	no	included_main_analysis
+MZ977202.1	CH/2018		Oct-2018	27929	yes	ncbi_download		1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	297	no	included_main_analysis
+OK465397.1			2021	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	450	yes	included_main_analysis
+OK584017.1			May-2021	28064	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	204	yes	included_main_analysis
+OL347994.1			Oct-2021	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	393	yes	included_main_analysis
+OL348059.1	XJ1904-34		20-Apr-2019	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	380	yes	included_main_analysis
+OL361788.1	JSXC		Feb-2021	28050	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	90	yes	included_main_analysis
+OL411879.1	SC2021		Aug-2021	28015	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	474	yes	included_main_analysis
+OL446966.1				27970	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	524	yes	included_main_analysis
+OL446967.1			2021	28032	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	465	yes	included_main_analysis
+OL704806.1				28037	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	89	no	included_main_analysis
+OL762456.1	PEDV SD2020		Sep-2020	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	123	yes	included_main_analysis
+OL762457.1	PEDV HK2021		Feb-2021	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	256	yes	included_main_analysis
+OL762458.1	PEDV SDLY2020		Oct-2020	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	146	yes	included_main_analysis
+OL762459.1	PEDV SD2021		Apr-2021	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	145	yes	included_main_analysis
+OL762460.1	PEDV JX2020		Dec-2020	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	90	no	included_main_analysis
+OL762461.1	PEDV TRS2021		Jan-2021	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	113	yes	included_main_analysis
+OM393722.1			Sep-2020	28128	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	451	yes	included_main_analysis
+OM505025.1			01-Mar-2021	28014	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	464	yes	included_main_analysis
+OM714830.2			Nov-2019	28037	yes	cov_existing	also_in_ncbi_download	2.0	pass	4	complete_ends	GII-a	324	yes	included_main_analysis
+OM776958.1			Oct-2019	28049	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	132	yes	included_main_analysis
+OM814174.1	CN19		04-Jul-2019	27899	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GI-b	481	yes	included_main_analysis
+OM914738.1			20-Nov-2021	28095	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	498	yes	included_main_analysis
+ON068583.1				27912	no	cov_existing	not_in_current_ncbi_query		pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	550	yes	included_main_analysis
+ON075821.1				28063	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	323	yes	included_main_analysis
+ON155919.1			12-Mar-2020	28055	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-a	123	no	included_main_analysis
+ON262797.1	AH2012/12-P102		2012	27968	yes	ncbi_download		1.0	pass	1	complete_ends	GII-b	352	no	included_main_analysis
+ON571549.1			Aug-2021	28034	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	283	yes	included_main_analysis
+ON649885.1	JS-B		30-Dec-2021	28039	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	100	no	included_main_analysis
+ON944187.1			03-Apr-2020	28034	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	354	no	included_main_analysis
+ON944188.1			05-Apr-2020	28034	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	354	no	included_main_analysis
+ON960076.1	CH/HNLYL/2021		22-Dec-2021	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	1	complete_ends	GII-a	284	yes	included_main_analysis
+ON960077.1	CH/HNWMB/2021		15-May-2021	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	163	yes	included_main_analysis
+ON964511.1			2020-11-19	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	162	yes	included_main_analysis
+ON968723.1			20-Mar-2022	28097	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	200	yes	included_main_analysis
+OP191700.1	PEDV GD/HZ/2016		2016	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	161	yes	included_main_analysis
+OP245917.1	SDTA13-2020		2020	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	2	complete_ends	GII-a	123	no	included_main_analysis
+OP326239.1			2019-11-15	28100	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	322	yes	included_main_analysis
+OP382083.1			10-Feb-2021	28036	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	286	yes	included_main_analysis
+OP480878.1			23-Jul-2021	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	246	yes	included_main_analysis
+OP529823.1				28033	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	416	yes	included_main_analysis
+OP529824.1				28021	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	unresolved	325	yes	included_main_analysis
+OP603897.1			20-May-2022	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	177	yes	included_main_analysis
+OP688373.1			2018	27953	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	0	no	included_main_analysis
+OP784565.1			2017	28042	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	72	yes	included_main_analysis
+OP894120.1				28165	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-b	100	no	included_main_analysis
+OP972835.1			25-Oct-2022	28031	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	349	yes	included_main_analysis
+OQ129480.1				27932	no	cov_existing	not_in_current_ncbi_query		pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	530	yes	included_main_analysis
+OQ269588.1			20-Apr-2019	28032	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	82	yes	included_main_analysis
+OQ269589.1			26-Apr-2020	28026	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	36	yes	included_main_analysis
+OQ269590.1			26-Apr-2020	28041	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	288	yes	included_main_analysis
+OQ269591.1			29-Dec-2021	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	156	yes	included_main_analysis
+OQ269592.1			25-Feb-2022	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	155	yes	included_main_analysis
+OQ302146.1			Jan-2017	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	17	yes	included_main_analysis
+OQ349200.1			2021	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	282	yes	included_main_analysis
+OQ349201.1			2021	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	231	yes	included_main_analysis
+OQ349202.1			2021	28041	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	245	yes	included_main_analysis
+OQ349228.1			Apr-2022	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	172	yes	included_main_analysis
+OQ378935.1				28194	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	189	no	included_main_analysis
+OQ412638.1	ECQ1		25-Jun-2018	28044	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	360	yes	included_main_analysis
+OQ412639.1	EHuB2		28-Nov-2018	28057	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	388	yes	included_main_analysis
+OQ437174.1	YNLP/2022		10-Dec-2022	28036	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	359	yes	included_main_analysis
+OQ437175.1	YN2021		27-Sep-2021	27953	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	5	yes	included_main_analysis
+OQ589489.1	attenuated AJ1102-R		25-Feb-2023	28042	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	348	yes	included_main_analysis
+OQ703966.1			15-Mar-2022	28037	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	201	yes	included_main_analysis
+OQ731917.1			25-Mar-2022	27953	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	0	no	included_main_analysis
+OQ731918.1			12-Mar-2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	259	yes	included_main_analysis
+OQ858592.1	SD-LC		2020	28032	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	341	yes	included_main_analysis
+OQ915150.1	ZJ2022		Feb-2022	28047	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	243	yes	included_main_analysis
+OQ979198.1	HNYZ		2021	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	171	yes	included_main_analysis
+OQ979199.1	HNXH		2021	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	181	yes	included_main_analysis
+OQ979200.1	HNZK1		2021	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	440	yes	included_main_analysis
+OQ979201.1	HNZK5		2021	28013	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	534	yes	included_main_analysis
+OR061129.1			Feb-2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	297	yes	included_main_analysis
+OR085228.1			2022-07-12	28055	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	446	yes	included_main_analysis
+OR085229.1			2022-07-12	28024	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	446	no	included_main_analysis
+OR085230.1			2022-07-12	28023	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	446	no	included_main_analysis
+OR085231.1			2022-07-12	28025	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	446	no	included_main_analysis
+OR085232.1			2023-03-01	28126	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	519	no	included_main_analysis
+OR085233.1			2023-03-01	28015	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	519	no	included_main_analysis
+OR085234.1			2023-03-01	28065	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	519	yes	included_main_analysis
+OR085235.1			2022-02-20	28026	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	12	no	included_main_analysis
+OR085236.1			2022-02-20	28002	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	12	no	included_main_analysis
+OR085237.1			2022-02-20	28016	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	12	no	included_main_analysis
+OR085238.1			2022-03-09	28022	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	79	yes	included_main_analysis
+OR085239.1			2022-12-01	28008	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	298	yes	included_main_analysis
+OR085240.1			2022	28124	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	37	yes	included_main_analysis
+OR085241.1			2022-02-17	28015	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	39	no	included_main_analysis
+OR085242.1			2022-02-17	28188	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	39	yes	included_main_analysis
+OR085243.1			2022-02-17	27440	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	39	no	included_main_analysis
+OR085244.1			2023-02-20	28014	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	459	yes	included_main_analysis
+OR085245.1			2022-05-01	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	395	no	included_main_analysis
+OR085246.1			2022-05-01	28174	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	395	yes	included_main_analysis
+OR085247.1			2022-05-01	28054	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	395	no	included_main_analysis
+OR085248.1			2022-10-06	28039	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	90	no	included_main_analysis
+OR085249.1			2022	28092	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	133	yes	included_main_analysis
+OR085250.1			2023-02-20	28063	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	122	yes	included_main_analysis
+OR085251.1			2023-02-07	28219	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	122	no	included_main_analysis
+OR085252.1			2022-07-25	28095	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	203	yes	included_main_analysis
+OR085253.1			2022-07-25	28058	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	203	no	included_main_analysis
+OR085254.1			2022-07-25	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	203	no	included_main_analysis
+OR085255.1			2022-12-16	28178	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	143	yes	included_main_analysis
+OR085256.1			2022-07-23	28013	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	143	no	included_main_analysis
+OR085257.1			2022-07-23	28041	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	143	no	included_main_analysis
+OR085258.1			2022-07-23	28023	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	143	no	included_main_analysis
+OR085259.1			2022-07-23	28036	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	143	no	included_main_analysis
+OR085260.1			2022-07-23	28044	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	143	no	included_main_analysis
+OR085261.1			2022-12-01	28011	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	463	yes	included_main_analysis
+OR085262.1			2022-12-01	28058	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	138	yes	included_main_analysis
+OR085263.1			2022-12-01	28021	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	138	no	included_main_analysis
+OR085264.1			2022-12-01	28025	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	138	no	included_main_analysis
+OR085265.1			2022-12-01	28025	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	138	no	included_main_analysis
+OR085266.1			2022-06-19	28019	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	137	no	included_main_analysis
+OR085267.1			2022-06-19	28080	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	137	yes	included_main_analysis
+OR085268.1			2022-06-19	28049	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	137	no	included_main_analysis
+OR085269.1			2022	28061	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	136	yes	included_main_analysis
+OR085270.1			2022	28014	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	261	no	included_main_analysis
+OR085271.1			2022-07-01	28079	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	135	yes	included_main_analysis
+OR085272.1			2023-02-07	28053	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	134	yes	included_main_analysis
+OR085273.1			2023-02-07	28024	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	134	no	included_main_analysis
+OR085274.1			2023-02-20	28077	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	232	no	included_main_analysis
+OR085275.1			2023-02-20	28084	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	232	no	included_main_analysis
+OR085276.1			2022-06-18	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	109	no	included_main_analysis
+OR085277.1			2022-06-18	28155	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	109	no	included_main_analysis
+OR085278.1			2022-06-18	28152	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	109	yes	included_main_analysis
+OR085279.1			2022-06-18	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	109	no	included_main_analysis
+OR085280.1			2022-07-12	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	216	yes	included_main_analysis
+OR085281.1			2022-07-12	28195	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	216	no	included_main_analysis
+OR085282.1			2022-07-12	28044	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	216	no	included_main_analysis
+OR085283.1			2022-07-12	28059	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	216	no	included_main_analysis
+OR085284.1			2022-07-12	28060	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	216	no	included_main_analysis
+OR085285.1			2022-12-16	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	452	yes	included_main_analysis
+OR085286.1			2023-02-20	28076	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	415	yes	included_main_analysis
+OR085287.1			2023-02-20	28030	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	374	yes	included_main_analysis
+OR085288.1			2023-02-20	28100	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	315	yes	included_main_analysis
+OR085289.1			2023-02-20	28009	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	315	no	included_main_analysis
+OR085290.1			2023-02-20	28054	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	315	no	included_main_analysis
+OR085291.1			2021-04-21	28017	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	419	yes	included_main_analysis
+OR085292.1			2021-04-21	27953	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	419	no	included_main_analysis
+OR085293.1			2022-06-28	28009	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	473	no	included_main_analysis
+OR085294.1			2022-06-28	28019	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	473	yes	included_main_analysis
+OR085295.1			2022-12-01	28031	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	414	yes	included_main_analysis
+OR085296.1			2022-12-01	28027	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	414	no	included_main_analysis
+OR085297.1			2022-12-01	28016	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	414	no	included_main_analysis
+OR085298.1			2022-07-01	28056	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	283	no	included_main_analysis
+OR085299.1			2022-12-01	28016	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	283	no	included_main_analysis
+OR085300.1			2023-02-20	28106	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	385	yes	included_main_analysis
+OR085301.1			2022-12-01	28001	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-b	280	no	included_main_analysis
+OR085302.1			2022-12-01	28026	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	280	no	included_main_analysis
+OR085303.1			2022-12-01	28009	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	280	no	included_main_analysis
+OR085304.1			2022-12-01	28113	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	296	no	included_main_analysis
+OR085305.1			2022-12-01	28034	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	280	no	included_main_analysis
+OR085306.1			2022-12-01	28043	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	280	no	included_main_analysis
+OR085307.1			2022-12-01	27972	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-b	280	no	included_main_analysis
+OR085308.1			2022-12-01	28112	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	296	yes	included_main_analysis
+OR085309.1			2022-12-01	28016	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	296	no	included_main_analysis
+OR085310.1			2022-12-01	28011	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	296	no	included_main_analysis
+OR085311.1			2022-12-01	27981	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-b	296	no	included_main_analysis
+OR085312.1			2023-02-06	28012	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	354	no	included_main_analysis
+OR090885.1			Oct-2020	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	300	yes	included_main_analysis
+OR090886.1			Oct-2020	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	294	yes	included_main_analysis
+OR090887.1			Dec-2020	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	108	yes	included_main_analysis
+OR090888.1			Dec-2020	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	107	yes	included_main_analysis
+OR123893.1	HB2022		2022	28039	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	217	yes	included_main_analysis
+OR234022.1			05-Nov-2021	28050	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	295	yes	included_main_analysis
+OR418363.1	FS202201		2022	28034	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	354	no	included_main_analysis
+OR418364.1	JY202201		2022	28019	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	442	no	included_main_analysis
+OR587951.1			10-Mar-2023	28065	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	40	yes	included_main_analysis
+OR596889.1			2015	28030	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	124	no	included_main_analysis
+OR601542.1			2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	362	yes	included_main_analysis
+OR601543.1			2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	362	no	included_main_analysis
+OR684450.1	HN-1/2023		2023	28018	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	488	yes	included_main_analysis
+OR684451.1	HN-2/2023		2023	28008	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	467	yes	included_main_analysis
+OR684452.1				28014	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	447	yes	included_main_analysis
+OR707084.1				27869	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	539	yes	included_main_analysis
+OR722805.1			2021	28059	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	152	no	included_main_analysis
+OR734225.1			2020	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	358	yes	included_main_analysis
+PP107941.1				28012	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	127	no	included_main_analysis
+PP107942.1				28046	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	270	yes	included_main_analysis
+PP107943.1				28054	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	292	yes	included_main_analysis
+PP107944.1				28050	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	318	yes	included_main_analysis
+PP107945.1				28049	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	235	yes	included_main_analysis
+PP107946.1				28048	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	234	yes	included_main_analysis
+PP107947.1				28053	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	242	yes	included_main_analysis
+PP198349.1	CHN/JX-202201		15-Aug-2022	27880	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	551	yes	included_main_analysis
+PP441972.1			2023	28032	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	93	yes	included_main_analysis
+PP441973.1			2023	28032	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	462	yes	included_main_analysis
+PP441974.1			2024	28032	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	92	yes	included_main_analysis
+PP442050.1				28038	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	232	yes	included_main_analysis
+PP472642.1			12-Jan-2021	27885	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	90	no	included_main_analysis
+PP472643.1			24-Jun-2022	27882	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	555	yes	included_main_analysis
+PP472644.1			23-Mar-2022	27882	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	552	yes	included_main_analysis
+PP472645.1			21-Feb-2022	27873	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	546	yes	included_main_analysis
+PP472646.1			27-Oct-2021	27882	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	549	yes	included_main_analysis
+PP472647.1			16-Dec-2023	27869	yes	cov_existing	also_in_ncbi_download	1.0	pass	11	end_incomplete(>=30 ref nt not covered)	GII-c	548	yes	included_main_analysis
+PP623116.1			15-Nov-2022	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	189	yes	included_main_analysis
+PP668229.1				28059	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	409	no	included_main_analysis
+PP668230.1				28059	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	409	no	included_main_analysis
+PP668231.1				28059	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	409	yes	included_main_analysis
+PP668232.1				28059	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	319	no	included_main_analysis
+PP668233.1				28059	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	319	no	included_main_analysis
+PP668234.1				28047	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	319	no	included_main_analysis
+PP668235.1				28047	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	319	no	included_main_analysis
+PP668236.1				28054	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	319	yes	included_main_analysis
+PP668237.1				28054	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-a	319	no	included_main_analysis
+PP690526.1			13-Jun-2023	28050	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	0	no	included_main_analysis
+PP690527.1			22-Mar-2023	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	420	yes	included_main_analysis
+PP785988.1			2021	28063	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	273	yes	included_main_analysis
+PP958821.1			2020	27996	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	499	yes	included_main_analysis
+PP987385.1			2023	28081	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	95	yes	included_main_analysis
+PP998009.1			Jan-2023	28036	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	286	no	included_main_analysis
+PP999774.1			Jan-2024	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	50	yes	included_main_analysis
+PQ014389.1	CH-JX-2024		14-Apr-2024	28072	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	87	yes	included_main_analysis
+PQ141088.1	OH-24-5439		03-Mar-2024	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	94	yes	included_main_analysis
+PQ179480.1	SX0818-2022		2022	27713	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	558	yes	included_main_analysis
+PQ181669.1			May-2015	28034	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	317	yes	included_main_analysis
+PQ288283.1			Sep-2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	364	yes	included_main_analysis
+PQ316088.1			2022-12-08	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	403	yes	included_main_analysis
+PQ316089.1			2024-01-02	27995	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-c	38	no	included_main_analysis
+PQ316090.1			2023-01-07	28033	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	329	no	included_main_analysis
+PQ316091.1			2023-01-25	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	378	yes	included_main_analysis
+PQ316092.1			2023-01-04	28025	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	260	no	included_main_analysis
+PQ631046.1			01-Nov-2022	27920	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	553	yes	included_main_analysis
+PQ682538.1	AHCZ02		Oct-2022	28179	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	412	yes	included_main_analysis
+PQ768103.1	EJS6		2022	28062	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	44	yes	included_main_analysis
+PQ846960.1			08-Feb-2024	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	313	yes	included_main_analysis
+PQ878525.1			2023	28073	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	38	yes	included_main_analysis
+PV036764.1			2024	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	335	no	included_main_analysis
+PV036765.1			2024	28048	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	250	yes	included_main_analysis
+PV036766.1			2024	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	335	yes	included_main_analysis
+PV036767.1			2024	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	347	yes	included_main_analysis
+PV036768.1			2023	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	260	no	included_main_analysis
+PV036769.1			2024	28032	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	366	yes	included_main_analysis
+PV036770.1			2023	27936	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	536	yes	included_main_analysis
+PV036771.1			2023	27931	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	end_incomplete(>=30 ref nt not covered)	GII-a	536	no	included_main_analysis
+PV036772.1			2023	28052	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	206	yes	included_main_analysis
+PV036773.1			2023	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	422	no	included_main_analysis
+PV036774.1			2023	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	422	yes	included_main_analysis
+PV036778.1			2024	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	257	no	included_main_analysis
+PV036779.1			2024	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	257	yes	included_main_analysis
+PV036780.1			2024	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	333	yes	included_main_analysis
+PV036781.1			2024	28036	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	302	yes	included_main_analysis
+PV098397.1			10-Feb-2023	28037	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	240	yes	included_main_analysis
+PV098398.1			10-Feb-2023	28034	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	334	yes	included_main_analysis
+PV107499.1			2021	28066	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	377	yes	included_main_analysis
+PV125746.1			Mar-2023	28073	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	238	yes	included_main_analysis
+PV146400.1				27521	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	unresolved	575	yes	included_main_analysis
+PV232221.1			2024	28021	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	4	yes	included_main_analysis
+PV449162.1			2022	28047	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	332	yes	included_main_analysis
+PV464256.1			2023	28040	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	122	no	included_main_analysis
+PV524657.1				28017	no	cov_existing	not_in_current_ncbi_query		pass	0	complete_ends	GII-c	535	yes	included_main_analysis
+PV533621.1			10-Apr-2023	28349	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	521	yes	included_main_analysis
+PV695983.1			2024	28064	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	345	yes	included_main_analysis
+PV805672.2	HY1HY		08-Jun-2023	28074	yes	cov_existing	also_in_ncbi_download	2.0	pass	0	complete_ends	GII-a	458	yes	included_main_analysis
+PV805677.2	VLC23DN		22-Sep-2023	28038	yes	cov_existing	also_in_ncbi_download	2.0	pass	0	complete_ends	GII-a	458	no	included_main_analysis
+PV837602.1	swine/QD2306		28-Jun-2023	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	111	no	included_main_analysis
+PV916407.1	OH-24-5439-20		03-Mar-2024	28012	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	94	no	included_main_analysis
+PV974486.1			Jan-2023	28381	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	402	yes	included_main_analysis
+PV982377.1			2023-04	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	338	yes	included_main_analysis
+PX146708.1			2024	28043	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	383	yes	included_main_analysis
+PX387542.1			2025	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	335	no	included_main_analysis
+PX437825.1			2024	28034	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	429	yes	included_main_analysis
+PX475711.1			2024	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	56	yes	included_main_analysis
+PX482648.1			Jun-2025	28171	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	239	yes	included_main_analysis
+PX482649.1			Mar-2025	28064	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	301	yes	included_main_analysis
+PX482650.1			Oct-2024	28104	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	430	yes	included_main_analysis
+PX482651.1			Mar-2024	28256	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	354	yes	included_main_analysis
+PX482652.1			Jun-2024	28117	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	401	yes	included_main_analysis
+PX482653.1			Jan-2024	28201	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	421	yes	included_main_analysis
+PX482654.1			Jan-2024	28068	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	266	yes	included_main_analysis
+PX482655.1			Dec-2024	28016	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	439	yes	included_main_analysis
+PX578467.1			Dec-2021	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	265	yes	included_main_analysis
+PX578468.1			Dec-2021	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	264	yes	included_main_analysis
+PX578469.1			Dec-2021	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	123	no	included_main_analysis
+PX578470.1			Oct-2021	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	123	no	included_main_analysis
+PX578471.1			Sep-2021	28014	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	454	yes	included_main_analysis
+PX578472.1			Nov-2021	28025	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	354	no	included_main_analysis
+PX578473.1			Sep-2021	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	263	yes	included_main_analysis
+PX578474.1			Sep-2021	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	262	yes	included_main_analysis
+PX578475.1			Oct-2021	28021	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GI-b	0	no	included_main_analysis
+PX578476.1			Oct-2021	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	100	no	included_main_analysis
+PX578477.1			Dec-2021	28014	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	448	yes	included_main_analysis
+PX578478.1			Sep-2021	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	261	no	included_main_analysis
+PX578479.1			Sep-2021	28027	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	261	no	included_main_analysis
+PX578482.1			Nov-2021	28007	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	354	no	included_main_analysis
+PX578483.1			Oct-2021	28027	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	261	no	included_main_analysis
+PX578484.1			Dec-2021	28020	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	494	yes	included_main_analysis
+PX578485.1			Feb-2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	136	no	included_main_analysis
+PX578486.1			Mar-2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	136	no	included_main_analysis
+PX578487.1			Mar-2022	28026	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	387	yes	included_main_analysis
+PX578488.1			Mar-2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	268	yes	included_main_analysis
+PX578489.1			Mar-2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	267	yes	included_main_analysis
+PX578490.1			Mar-2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	260	no	included_main_analysis
+PX578491.1			Mar-2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	260	yes	included_main_analysis
+PX578492.1			Mar-2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	329	yes	included_main_analysis
+PX578493.1			Mar-2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	268	no	included_main_analysis
+PX578494.1			Mar-2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	271	yes	included_main_analysis
+PX578495.1			May-2021	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	101	yes	included_main_analysis
+PX578496.1			Apr-2022	27998	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	493	yes	included_main_analysis
+PX578498.1			Mar-2022	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-c	12	yes	included_main_analysis
+PX578499.1			May-2021	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	101	no	included_main_analysis
+PX578500.1			Feb-2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	331	yes	included_main_analysis
+PX578501.1			Mar-2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	272	yes	included_main_analysis
+PX578502.1			Mar-2022	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	272	no	included_main_analysis
+PX578503.1			Nov-2021	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	261	yes	included_main_analysis
+PX578504.1			Apr-2022	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	425	yes	included_main_analysis
+PX578505.1			Mar-2023	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	112	yes	included_main_analysis
+PX578506.1			Mar-2023	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	112	no	included_main_analysis
+PX578507.1			Mar-2023	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	111	yes	included_main_analysis
+PX578510.1			Feb-2023	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	442	yes	included_main_analysis
+PX578511.1			Mar-2023	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	112	no	included_main_analysis
+PX578512.1			01-Jun-2021	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	94	complete_ends	GII-c	540	yes	included_main_analysis
+PX634159.1	PEDV TZ 2025		Jun-2025	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	103	no	included_main_analysis
+PX705503.1			15-Sep-2023	28037	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	201	no	included_main_analysis
+PX733331.1	HB-2023		Nov-2023	28029	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-b	371	yes	included_main_analysis
+PX733332.1	JS-2023		Nov-2023	28035	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	428	yes	included_main_analysis
+PX883750.1	BN-24		2024	28098	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	496	yes	included_main_analysis
+PX955317.1			Oct-2025	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	6	complete_ends	GII-a	437	yes	included_main_analysis
+PX960520.1			01-Jan-2025	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	104	yes	included_main_analysis
+PX996112.1			2025	28028	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	405	yes	included_main_analysis
+PZ105934.1			20-Jul-2025	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	103	yes	included_main_analysis
+PZ126940.1			2020	27945	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	532	no	included_main_analysis
+PZ126941.1			2020	27945	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	532	yes	included_main_analysis
+PZ126942.1			2020	27945	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	532	no	included_main_analysis
+PZ126943.1			2020	27945	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	532	no	included_main_analysis
+PZ188955.1			2026-01	28138	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	102	yes	included_main_analysis
+PZ433554.1			2021	28111	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	224	yes	included_main_analysis
+PZ433555.1			2023	28163	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	537	yes	included_main_analysis
+PZ433556.1			2024	28082	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	382	yes	included_main_analysis
+PZ433557.1			2024	28097	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	413	yes	included_main_analysis
+PZ458385.1			2024	28038	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	191	yes	included_main_analysis
+PZ462777.1			03-Nov-2025	28058	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	103	no	included_main_analysis
+PZ495893.1	YN-S2DR13		2020	28031	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	unresolved	355	yes	included_main_analysis
+PZ561483.1			Oct-2024	28031	yes	cov_existing	also_in_ncbi_download	1.0	pass	0	complete_ends	GII-a	310	yes	included_main_analysis
+PZ949040.1			16-Jan-2025	28035	yes	ncbi_download		1.0	pass	0	complete_ends	GII-a	363	yes	included_main_analysis

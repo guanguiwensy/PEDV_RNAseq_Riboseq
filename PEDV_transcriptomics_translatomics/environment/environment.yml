@@ -1,0 +1,18 @@
+# DRAFT conda environment for the *server-side* steps. Versions are those recorded in environment/software_versions.tsv;
+# entries marked TO_CONFIRM there must be checked before this file is trusted.
+name: pedv_server
+channels: [conda-forge, bioconda]
+dependencies:
+  - python=3.11
+  - star=2.7.11b
+  - minimap2=2.30
+  - samtools=1.22.1
+  - bowtie2        # TO_CONFIRM version (2.5.4 vs 2.2.1)
+  - cutadapt       # TO_CONFIRM (2.6)
+  - viennarna=2.7.2
+  - mafft=7.525
+  - blast=2.14.0
+  - numpy
+  - pandas
+  - pysam
+# PRICE 1.0.5 / Gedi 1.0.6f must be built from source with OpenJDK 11 (not available as a conda package); see docs/SERVER_SCRIPTS_REQUIRED.md

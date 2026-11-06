@@ -1,6 +1,6 @@
 # Integrated Transcriptomic and Translatomic Profiling Reveals Noncanonical RNA Junctions and Hidden Coding Potential in Porcine Epidemic Diarrhea Virus
 
-> **Status:** This directory is being prepared. The analysis code has not been uploaded yet. Scripts, documentation and reproduction instructions will be added step by step and checked against the final manuscript.
+> **Status:** first public code archive (v0.1). The analysis code, configuration, sample registry and test records are uploaded; see [README_CODE_PACKAGE.md](README_CODE_PACKAGE.md) for the full guide. Raw sequencing data are registered under NCBI BioProject PRJNA1554149 but **not yet public**, so data-driven re-runs are currently limited. Reproduction level reached: recomputation from stored analysis source tables and replotting from archived intermediate results; **full reproduction from raw reads (FASTQ) has not been done**.
 
 ## Overview
 
@@ -47,30 +47,38 @@ Third-party tools (for example MAFFT, CD-HIT and SynPlot2) are not redistributed
 
 Western blot, RT-qPCR, PRM/mass spectrometry, GraphPad Prism analyses, schematic illustrations, and exploratory analyses that are not part of the reported results.
 
-## Planned organization
-
-The structure below is a plan. The subdirectories do not exist yet, and final directory and file names will follow the code once it is uploaded.
+## Organization
 
 ```
 PEDV_transcriptomics_translatomics/
-├── README.md
-├── RNAseq/
-├── Riboseq/
-├── Comparative_genomics/
-└── Documentation/
+├── README.md                 this overview
+├── README_CODE_PACKAGE.md    detailed guide (levels of reproduction, sample registry, set-up, limitations)
+├── LICENSE                   MIT
+├── config/                   path configuration and the sample registry (config/sample_registry.py)
+├── metadata/                 sample.txt (30 libraries), reference/genome notes, 1,083-genome accession list, figure-to-sample map
+├── rnaseq/                   RNA-seq modules (alignment, junctions, classification, dynamics, TRS/microhomology)
+├── riboseq/                  Ribo-seq modules (alignment, P-site offsets, periodicity, PRICE, HARTIS, gRNA terminal translation, PK1)
+├── comparative_genomics/     sequence database, alignment/lineage, ORF scan, retention and null models
+├── figures/                  final plotting scripts, one directory per figure
+├── environment/              software versions and environment drafts
+├── docs/                     per-figure code index, run order, test report, issue register, release blockers
+└── tests/                    reproduction/audit scripts, logs and the final sample-whitelist audit
 ```
 
 ## Data availability
 
-How to obtain the raw sequencing data, reference sequences and required intermediate files will be described here once the data are deposited. Accession numbers are not yet available.
+* Authors' sequencing data (20 Vero RNA-seq, 6 Vero Ribo-seq, 2 PK-1 RNA-seq, 2 PK-1 Ribo-seq libraries): NCBI BioProject **PRJNA1554149**, registered, not yet released; library and run accessions are listed in `metadata/sample.txt`.
+* Public external data keep their own accessions (`metadata/public_data_sources.tsv`).
+* 1,083 PEDV genomes: `metadata/PEDV_1083_genomes_accession_list.tsv` and `metadata/PEDV_database_construction.md`.
+* Reference `PEDV_GIb` (27,959 nt) is rebuilt exactly from GenBank KP162057.1 plus 8 substitutions with `metadata/reconstruct_reference_v1_1.py` (SHA-256 verified).
 
 ## Software requirements
 
-To be added. This section will list the computing environment, software versions, Python and R packages, and external tools needed for each module.
+See `environment/` (`software_versions.tsv`, `requirements.txt`, `environment.yml` draft). Versions marked TO_CONFIRM in `software_versions.tsv` still have to be checked.
 
 ## Figure reproduction
 
-The manuscript contains Figures 1–6 and Supplementary Figures 1–19. Some panels come from wet-lab experiments, mass spectrometry, GraphPad Prism or schematics and are not covered by this repository. A table linking each computational figure panel to its script, input files and run instructions will be added as the code is released. Figures cannot be reproduced from this directory at present.
+The manuscript contains Figures 1–6 and Supplementary Figures 1–19. Some panels come from wet-lab experiments, mass spectrometry, GraphPad Prism or schematics and are not covered here. The per-panel table is `docs/FIGURE_CODE_INDEX.tsv`; run order in `docs/RUN_ORDER.md`; what was reproduced, what differs and what is unfinished: `docs/REPRODUCTION_TEST_REPORT.md`, `docs/SAMPLE_WHITELIST_DIFF_REPORT.md`, `docs/UNRESOLVED_ISSUES.md` and `tests/FINAL_SAMPLE_WHITELIST_AUDIT.tsv`. Not re-run: Sup. Figs 4, 8, 9, 14, 17, 18; Fig. 5 is only partly reproduced (independent plotting script).
 
 ## Citation
 

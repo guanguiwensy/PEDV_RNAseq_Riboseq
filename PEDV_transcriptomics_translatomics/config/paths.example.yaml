@@ -1,0 +1,6 @@
+# Copy to config/paths.local.yaml (git-ignored) and edit. Environment variables of the same name take precedence.
+PEDV_P: /data/pedv/P            # working copy of the original  main project tree  tree
+PEDV_K: /data/pedv/K            # working copy of the original  冠状病毒移码蛋白/  tree
+PEDV_R: /data/pedv/R            # working copy of the original  PEDV_riboseq/  tree
+PEDV_COV: /data/pedv/cov        # old working tree of the sequence-database scripts (coronavirus_* folders + N1_conservation_analysis)
+PEDV_SERVER_ROOT: /data/pedv/server   # server-side data root (only for the shell/python scripts that ran on the server)
