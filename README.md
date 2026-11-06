@@ -66,7 +66,6 @@ PEDV_transcriptomics_translatomics/
 * Authors' sequencing data (20 Vero RNA-seq, 6 Vero Ribo-seq, 2 PK-1 RNA-seq, 2 PK-1 Ribo-seq libraries): NCBI BioProject **PRJNA1554149**, registered, not yet released; library and run accessions are listed in `metadata/sample.txt`.
 * Public external data keep their own accessions (`metadata/public_data_sources.tsv`).
 * 1,083 PEDV genomes: `metadata/PEDV_1083_genomes_accession_list.tsv` and `metadata/PEDV_database_construction.md`.
-* Reference `PEDV_GIb` (27,959 nt) is rebuilt exactly from GenBank KP162057.1 plus 8 substitutions with `metadata/reconstruct_reference_v1_1.py` (SHA-256 verified).
 
 ## Software requirements
 
