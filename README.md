@@ -71,10 +71,6 @@ PEDV_transcriptomics_translatomics/
 
 See `environment/` (`software_versions.tsv`, `requirements.txt`, `environment.yml` draft). Versions marked TO_CONFIRM in `software_versions.tsv` still have to be checked.
 
-## Figure reproduction
-
-The manuscript contains Figures 1–6 and Supplementary Figures 1–19. Some panels come from wet-lab experiments, mass spectrometry, GraphPad Prism or schematics and are not covered here. The per-panel table is `docs/FIGURE_CODE_INDEX.tsv`; run order in `docs/RUN_ORDER.md`; what was reproduced, what differs and what is unfinished: `docs/REPRODUCTION_TEST_REPORT.md`, `docs/SAMPLE_WHITELIST_DIFF_REPORT.md`, `docs/UNRESOLVED_ISSUES.md` and `tests/FINAL_SAMPLE_WHITELIST_AUDIT.tsv`. Not re-run: Sup. Figs 4, 8, 9, 14, 17, 18; Fig. 5 is only partly reproduced (independent plotting script).
-
 ## Citation
 
 *Integrated Transcriptomic and Translatomic Profiling Reveals Noncanonical RNA Junctions and Hidden Coding Potential in Porcine Epidemic Diarrhea Virus.* Manuscript submitted.
