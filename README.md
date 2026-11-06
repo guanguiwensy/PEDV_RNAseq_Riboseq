@@ -43,10 +43,6 @@ RPF length selection and library choice differ between figures. They will be doc
 
 Third-party tools (for example MAFFT, CD-HIT and SynPlot2) are not redistributed. Only our own wrapper code, configuration and workflow steps will be included.
 
-### Out of scope
-
-Western blot, RT-qPCR, PRM/mass spectrometry, GraphPad Prism analyses, schematic illustrations, and exploratory analyses that are not part of the reported results.
-
 ## Organization
 
 ```
