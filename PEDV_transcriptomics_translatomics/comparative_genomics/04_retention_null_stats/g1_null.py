@@ -3,19 +3,17 @@ One simulation feeds G1 (stop/AUG/near-cognate density per frame), G2 (stop-anch
 Observed values are computed by the SAME code applied to the reference (R=1).
 Resampled: codons wholly inside the CDS body (excluding the canonical stop codon and the ORF1a/ORF1b overlap 12592-12622 with its flanking codons).
 Fixed: everything else (UTRs, stop codons, Met/Trp codons, overlap, codons already claimed by an upstream ORF)."""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sys, time
 from r6lib import *
 NREP=int(sys.argv[1]) if len(sys.argv)>1 else 10000

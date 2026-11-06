@@ -1,26 +1,18 @@
 #!/usr/bin/env python3
-"""分析一: Junction 四类统计 + 非经典 sgRNA 跨毒株同源/复现。
-输入: _in/junc (gx_pe_junc.py 产物; 参考=LJX_merged_denovo / LLCPK_denovo), 冻结 GI-b: Fig2 事件矩阵/簇表 + GIb_atlas_v1.0 (phase5/_in/_work/sgRNA_atlas_GIb.tsv)。
-复用: 簇规则(s03_highfreq.py: dep-nc 按 acceptor 链式<=5nt; 非依赖 donor&acceptor<=5nt 单连接), best_alignment_similarity (build_sgRNA_atlas_GIb.py 逻辑),
-      junction_homology (module5_9 engine), 原项目对应 ±3 nt。分类规则 cls() 原样来自 p5_pe_junc.py(未改)。
-输出: junction_composition_cross_strain.tsv, junction_recurrence_per_sample.tsv, junction_homology_GIb_LJX_LLCPK.tsv, noncanonical_sgRNA_similarity.tsv"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import os, sys, json, gzip, collections, numpy as np, pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from gx_common import *
-sys.path.insert(0, os.path.join(TASKS, "module5_9_tis_orf_infra", "engine"))
 import pedv_orf_engine as E
 IN = os.path.join(G, "_in"); F2 = os.path.join(TASKS, "Fig2_Supp_junction_dynamics", "data")
 SAMPLES = [("SRR27751928", "LJX_P1", "LJX", "LJXm"), ("SRR27751927", "LJX_P2", "LJX", "LJXm"), ("SRR27751926", "LJX_P3", "LJX", "LJXm"), ("SRR31828424", "LLCPK_P10_1", "LLC-PK", "LLCPK")]
@@ -34,18 +26,18 @@ for srr, lab, ds, ref in SAMPLES:
     reads.append(d); viral[lab] = json.load(open(os.path.join(IN, "junc", f"{srr}.{ref}.summary.json")))["primary_reads_in_prefilter"]
 R = pd.concat(reads, ignore_index=True); n_nonhom = R[R.cls == "nonhomologous_end"].groupby("sample").size().to_dict()
 R = R[R.cls != "nonhomologous_end"].copy()
-# 旧参考(LJXc/LLCc)结果, 并列比较
+
 OLD = {"LJX_P1": "SRR27751928.LJXc", "LJX_P2": "SRR27751927.LJXc", "LJX_P3": "SRR27751926.LJXc", "LLCPK_P10_1": "SRR31828424.LLCc"}
 old = {}
 for lab, key in OLD.items():
     d = pd.read_csv(os.path.join(ESV, "phase5", "_in5", "junc", key + ".reads.tsv.gz"), sep="\t"); d["cls"] = d["class"].map(norm); d = d[d.cls != "nonhomologous_end"]
     old[lab] = d
-# 冻结 GI-b
+
 M = pd.read_csv(os.path.join(F2, "junction_event_sample_matrix_long.csv.gz")); M = M.rename(columns={"acc": "acceptor", "junction_class": "cls"})
 PA = pd.read_csv(os.path.join(F2, "panelA_per_sample_class_fractions.csv")); GIB_VIRAL = int(PA.viral_fragments.sum())
 OC = pd.read_csv(os.path.join(F2, "noncanonical_clusters_all.csv")); GIB_TOT = int(M.reads.sum())
 ATL = pd.read_csv(os.path.join(ESV, "phase5", "_in", "_work", "sgRNA_atlas_GIb.tsv"), sep="\t")
-# ---------------- 1. 四类组成
+
 rows = []
 def comp(name, dataset, ref, df, vir, pooled_note=""):
     N = len(df)
@@ -74,10 +66,10 @@ for i, r in tmp.iterrows():
         o = old[r["sample"]]; tmp.loc[i, "old_ref_junction_reads"] = int((o.cls == r.junction_class).sum()); tmp.loc[i, "old_ref_pct"] = round(100 * (o.cls == r.junction_class).mean(), 4)
         tmp.loc[i, "old_ref_label"] = "LJXc" if r["sample"].startswith("LJX") else "LLCc"
 write_tsv(tmp, "junction_composition_cross_strain.tsv")
-# GI-b 每库(Vero 20 libs)四类比例, 供 Fig1
+
 pa = PA[["sample_id", "MOI", "treatment", "hpi", "f_canonical", "f_TRSL_dep_noncanonical", "f_TRSL_indep_distant", "f_TRSL_indep_local", "all_classified"]]
 write_tsv(pa, "junction_composition_GIb_per_library.tsv")
-# ---------------- 2. 簇(GI-b 坐标), 同源归并 (s03 规则)
+
 ev = R.groupby(["sample", "dataset", "cls", "gene", "donor", "acceptor", "donor_GIb", "acceptor_GIb"], dropna=False).size().rename("reads").reset_index(); ev["gene"] = ev.gene.fillna("")
 Ns = R.groupby("sample").size().to_dict(); ev["N"] = ev["sample"].map(Ns)
 def chain_1d(vals, w=5):
@@ -115,14 +107,14 @@ def assign(r):
     if r.cls == "TRSL_dep_noncanonical": return dmap[r.acceptor_GIb]
     return imap[(r.cls, r.donor_GIb, r.acceptor_GIb)]
 a_ = ev.apply(assign, axis=1, result_type="expand"); a_.columns = ["cluster_id", "d_min", "d_max", "a_min", "a_max"]; ev = pd.concat([ev, a_], axis=1)
-# 液位: 映射模糊性 (liftover class)
+
 LF = pd.read_csv(os.path.join(G, "tables", "GII_to_GIb_coordinate_liftover.tsv"), sep="\t")
 LFd = {ds: LF[LF.dataset == lab].set_index("gII_pos").mapping_class.to_dict() for ds, lab in (("LJX", "LJX_merged"), ("LLC-PK", "LLC-PK"))}
 def amb(ds, pos): return LFd[ds].get(int(pos), "NA")
 ev["donor_map_class"] = [amb(d, p) for d, p in zip(ev.dataset, ev.donor)]; ev["acc_map_class"] = [amb(d, p) for d, p in zip(ev.dataset, ev.acceptor)]
 ev["mapping_ambiguous"] = ev.donor_map_class.str.startswith("ambiguous") | ev.acc_map_class.str.startswith("ambiguous") | ev.donor_map_class.str.startswith("unmappable") | ev.acc_map_class.str.startswith("unmappable")
 ev.to_csv(os.path.join(IN, "gx_events_with_cluster.tsv"), sep="\t", index=False)
-# 簇表
+
 labs = [s[1] for s in SAMPLES]
 def nsamp(df, cols, thr): return (df[cols] >= thr).sum(axis=1)
 cl_rows = []
@@ -142,7 +134,7 @@ for s in labs: CL[f"per10k|{s}"] = (1e4 * CL[f"reads|{s}"] / Ns[s]).round(3)
 CL["LJX_per10k_pooled"] = (1e4 * CL.LJX_pooled_reads / sum(Ns[s] for s in labs[:3])).round(3)
 CL["LJX_recurrent(>=3reads in >=2 piglets)"] = CL.LJX_n_piglets_ge3 >= 2
 CL["LLCPK_detected(>=3reads; single sample)"] = CL.LLCPK_reads >= 3
-# ---------------- 3. 与冻结 GI-b 对应 (±3 nt, 同 s03 orig_match)
+
 PAD = 3
 def gib_match(r):
     if r.junction_class == "canonical":
@@ -164,7 +156,7 @@ def atl(r):
     return ";".join(a.sgRNA_id) if len(a) else ""
 CL["GIb_atlas_v1.0_id"] = CL.apply(atl, axis=1)
 write_tsv(CL.sort_values(["junction_class", "LJX_pooled_reads"], ascending=[True, False]), "junction_recurrence_per_sample.tsv")
-# ---------------- 4. 以冻结 GI-b atlas 为主轴的同源表
+
 SEQ_G = GIB
 def flank(seq, pos, up, dn): return seq[max(0, pos - 1 - up):pos - 1 + dn]
 def best_sim(a, b, max_shift=10):
@@ -185,7 +177,6 @@ def near_indel(ds, gpos, w=15):
     t = indel_tab[ds]; x = t[(t.GIb_pos_adjacent >= gpos - w) & (t.GIb_pos_adjacent <= gpos + w)]
     return ";".join(f"{r.type}:{r.length_nt}nt@GIb{r.GIb_pos_adjacent}" for r in x.itertuples())
 def seq_evidence(ds, d, a, Gd, Ga):
-    """GII 事件(d,a native) vs GI-b 同源事件(Gd,Ga) 的序列证据"""
     sq = SEQ[ds]
     acc_g = flank(GIB, Ga, 12, 12); acc_q = flank(sq, a, 12, 12)
     dn_g = GIB[max(0, Gd - 12):Gd]; dn_q = sq[max(0, d - 12):d]
@@ -200,7 +191,7 @@ def seq_evidence(ds, d, a, Gd, Ga):
 TRSL_core = {ds: SEQ[ds][int(G2Q[ds][67]) - 1:int(G2Q[ds][72])] if G2Q[ds][67] and G2Q[ds][72] else "NA" for ds in DATASETS}
 TRSL_core["GI-b"] = GIB[66:72]
 json.dump(TRSL_core, open(os.path.join(IN, "TRSL_core.json"), "w"))
-# GI-b 总 reads 与 power
+
 tot_by_sample = Ns
 def status(reads_list, exp_list, ds):
     if ds == "LJX":
@@ -220,7 +211,7 @@ def best_event(ds, cids):
     if not len(g): return None
     return g.groupby(["donor", "acceptor", "donor_GIb", "acceptor_GIb"]).reads.sum().sort_values(ascending=False).reset_index().iloc[0]
 atl_nc = ATL[ATL.type == "noncanonical"]
-# 对每个 atlas nc: 找到 Fig2 簇(给出冻结丰度)
+
 for a in atl_nc.itertuples(index=False):
     rep = int(a.representative_breakpoint); lo = int(a.body_cluster_start) - PAD; hi = int(a.body_cluster_end) + PAD
     s = OC[(OC.junction_class == "TRSL_dep_noncanonical") & (OC.acc_max >= lo) & (OC.acc_min <= hi)]
@@ -247,14 +238,14 @@ for a in atl_nc.itertuples(index=False):
         amb_ = ev[(ev.dataset == ds) & (ev.donor == be.donor) & (ev.acceptor == be.acceptor)].mapping_ambiguous.any()
         row.update({f"{tag}_native_donor": int(be.donor), f"{tag}_native_acceptor": int(be.acceptor), f"{tag}_GIb_donor_lifted": int(be.donor_GIb), f"{tag}_GIb_acceptor_lifted": int(be.acceptor_GIb),
                     f"{tag}_breakpoint_shift_vs_GIb_rep": shift, f"{tag}_shift_explanation": expl, f"{tag}_mapping_ambiguity": "ambiguous_near_indel_or_unmappable" if amb_ else "unique"})
-        # 序列证据 (GI-b 端以 atlas 代表 acceptor + 该事件 donor_GIb 近似)
+
         Gd = int(be.donor_GIb) if be.donor_GIb else 66
         ev_ = seq_evidence(ds, int(be.donor), int(be.acceptor), Gd, rep)
         srows.append(dict(GIb_sgRNA_id=a.sgRNA_id, dataset=ds, GIb_donor=Gd, GIb_acceptor=rep, native_donor=int(be.donor), native_acceptor=int(be.acceptor), event_reads=int(be.reads),
                           breakpoint_conserved="exact" if shift == 0 else f"shift{shift:+d}nt:{expl}", **ev_,
                           reads_per10k_GII=round(1e4 * be.reads / (Ns[labs[2]] if False else (sum(Nlj) if ds == "LJX" else Nll)), 3) if False else round(1e4 * (sum(lj_reads) if ds == "LJX" else ll_reads) / (sum(Nlj) if ds == "LJX" else Nll), 3),
                           GIb_per10k=round(1e4 * frac, 3), LJX_piglets_ge1=sum(x >= 1 for x in lj_reads) if ds == "LJX" else "", LJX_piglets_ge3=sum(x >= 3 for x in lj_reads) if ds == "LJX" else ""))
-    # 分类
+
     lj_ok = st_lj.startswith("recurrent"); ll_ok = st_ll.startswith("detected"); lj_any = lj_ok or st_lj.startswith("single") ; ll_any = ll_ok
     lj_nd = st_lj.startswith("not_detected_adequate"); ll_nd = st_ll.startswith("not_detected_adequate")
     lj_na = st_lj.startswith("not_detected_low"); ll_na = st_ll.startswith("not_detected_low")
@@ -271,7 +262,7 @@ for a in atl_nc.itertuples(index=False):
     row["cross_strain_category"] = v
     hrows.append(row)
 H = pd.DataFrame(hrows)
-# canonical 5 个
+
 for gene in ("S", "ORF3", "E", "M", "N"):
     g = CL[(CL.junction_class == "canonical") & (CL.canonical_gene == gene)]
     mm = M[(M.cls == "canonical") & (M.canonical_gene == gene)]
@@ -281,7 +272,7 @@ for gene in ("S", "ORF3", "E", "M", "N"):
                GII_cluster_ids=";".join(g.cluster_id), cross_strain_category="canonical_all_three")
     hrows.append(row)
 H = pd.DataFrame(hrows)
-# GII 有而 atlas 无对应的 dep-nc / distant / local (GII-only candidates)
+
 matched = set(";".join(H.GII_cluster_ids.fillna("")).split(";"))
 extra = CL[(CL.junction_class != "canonical") & (~CL.cluster_id.isin(matched))].copy()
 extra = extra[(extra.LJX_pooled_reads + extra.LLCPK_reads) >= 3]

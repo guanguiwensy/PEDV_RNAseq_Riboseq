@@ -21,4 +21,4 @@ Columns: strain / country / date (from the record), genome length, the two prove
 
 ## Reference genome (not part of the 1,083)
 `PEDV_GIb` = refdata_GIb_v1.1, 27,959 nt: a reference-guided consensus of the authors' own CV777-group RNA-seq data (sample RNA_VERO_HAR_0.1MOI_16h; pipeline "single-sample assembly SSA_v1.0"), with 5′ positions 1–7 filled from CV777 and position 8 corrected A→G from read evidence (v1 → v1.1).
-**It is colinear with the public record KP162057.1 (same length, no indel) and differs at exactly 8 positions**, so it can be rebuilt exactly from GenBank: see `reconstruct_reference_v1_1.py` (verifies the input record and the output by SHA-256; the rebuilt FASTA is byte-identical to the file used for all analyses, SHA-256 `48c36027…8412b92`).
+**It is colinear with the public record KP162057.1 (same length, no indel) and differs at exactly 8 positions.** The analysis reference has SHA-256 `48c36027…8412b92`.

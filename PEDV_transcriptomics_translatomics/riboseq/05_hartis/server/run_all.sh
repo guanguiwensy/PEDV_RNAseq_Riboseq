@@ -1,5 +1,5 @@
 #!/bin/bash
-# HARTIS_v3 G1 第 4 步：7 库全量抽取（并行，每库 1 核 1 日志；meta 已存在的库跳过 = 断点续跑）
+
 H=${PEDV_SERVER_ROOT:?set PEDV_SERVER_ROOT}/analysis_GIb/HARTIS_v3_hostpos
 PY=${PYTHON_BIN:-python}
 GTF=${PEDV_SERVER_ROOT:?set PEDV_SERVER_ROOT}/refdata_dual_host/vero_ChlSab1.1/Chlorocebus_sabaeus.ChlSab1.1.116.gtf

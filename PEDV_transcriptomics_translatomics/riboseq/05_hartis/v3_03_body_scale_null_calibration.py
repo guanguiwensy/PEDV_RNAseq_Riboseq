@@ -1,29 +1,14 @@
-"""v3-03 body 尺度条件零分布原型 + 宿主内部校准（只用宿主基因层 29 nt 数据）。
-单位 = 一个宿主 canonical CDS（整段，基因层）。统计量 r = n1/m，m = n1 + n2。单侧方向写死：F1 富集（r 大）。
-匹配（预设容差，同文库内）：|Δlog2 m| ≤ 0.5，|Δlog2 n0 密度| ≤ 0.5，|ΔGC| ≤ 0.03；匹配数 < 100 时容差 ×1.5，最多 2 次；仍不足 → insufficient。
-三种 p：
-  P_emp  = (1 + #{匹配位点 r_g ≥ r}) / (1 + K)
-  P_bb   = beta-binomial 上尾 P(X ≥ n1 | m, α, β)，(α, β) 由匹配位点 (n1_g, m_g) 的 MLE 给出
-  P_bin  = 固定 p 二项上尾 P(X ≥ n1 | m, p0)，p0 = 该库训练集合并 F1 份额（已知偏倚的基准线）
-校准：
-  (1) 留出集：可训练基因按 seed 20261027 随机二分，训练半 → 建零分布；留出半 → 评估 p 分布
-  (2) F1↔F2 对调：候选 = F2，参照 = F1，完全相同流程（r' = n2/m，零分布用训练集 n2/m）
-  (3) 标签置换：训练与留出两侧都对每个基因随机交换 n1/n2（同一种子），流程不变 → 应均匀
-分层评估：全部、m 最高 10%、n0 密度最高 10%、m < 30。报告 p≤0.05/0.01/0.001 比例及 Clopper–Pearson 95% CI。
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import os, numpy as np, pandas as pd
 from scipy.stats import kstest, binom, betabinom, beta as betad
 from scipy.optimize import minimize
@@ -72,11 +57,11 @@ res = []
 for lib, d in G.groupby('library'):
     d = d.copy(); idx = rng.permutation(d.index.values); half = len(idx) // 2
     tr, te = d.loc[idx[:half]], d.loc[idx[half:]]
-    te = te.sample(min(len(te), 1500), random_state=SEED)       # 每库留出评估 ≤1500 个基因
+    te = te.sample(min(len(te), 1500), random_state=SEED)
     for test_name, which, trn, tst in [('heldout_F1', 'n1', tr, te), ('swap_F2_as_candidate', 'n2', tr, te)]:
         e = evaluate(trn, tst, which); e['library'] = lib; e['test'] = test_name
         e = e.join(tst[['m', 'n0_density', 'transcript_id']]); res.append(e)
-    # 标签置换
+
     flip_tr = rng.random(len(tr)) < .5; flip_te = rng.random(len(te)) < .5
     trp = tr.copy(); tep = te.copy()
     trp.loc[flip_tr, ['n1', 'n2']] = trp.loc[flip_tr, ['n2', 'n1']].values; tep.loc[flip_te, ['n1', 'n2']] = tep.loc[flip_te, ['n2', 'n1']].values

@@ -1,44 +1,15 @@
 # -*- coding: utf-8 -*-
-"""阶段2a 步骤3：跨冠状病毒序列宇宙构建 + 分层采样 + QC/去重漏斗。
-
-输入（只读）：
-  $PEDV_COV/coronavirus_accession_selection/species_table.csv        ICTV 54 物种基准
-  $PEDV_COV/coronavirus_accession_selection/selection_manifest.tsv  逐物种检索漏斗（2026-09-10/11）
-  $PEDV_COV/coronavirus_accession_selection/selected_metadata/*.tsv 逐 accession 元数据
-  $PEDV_COV/coronavirus_fasta_download/fasta_final/all_54_species_genomes.fasta  本地序列库（53,593）
-  $PEDV_COV/coronavirus_fasta_download/fasta_final/dedup_groups.tsv 库级精确去重映射
-  data_external/{PEDV,TGEV,PRCV,PDCoV}_metadata.tsv                     1b NCBI 保留集
-  results/phase2_ncbi_excluded_{PEDV,TGEV,PRCV,PDCoV}.tsv               1b 排除集+原因
-  results/phase2_ncbi_dupgroups_{PEDV,TGEV,PRCV,PDCoV}.tsv              1b 去重映射
-  results/PEDV_target_manifest.tsv / results/crossvirus_target_manifest.tsv  1e 纳入清单（cov_existing 元数据）
-  data_external/raw/PEDV_increment_20260925.gb                          2a PEDV 增量（PZ463692.2）
-  data_external/other_representatives.fasta / *_metadata.tsv            外群（2b 步）
-
-抽样规则（总工程师确认，seed 固定 20260925）：
-  每物种完整基因组 ≤50 全纳；>50 按 host/region/year(/lineage) 分层随机抽 20–30，
-  固定包含 locked_representative（RefSeq/参考株）；SARS-CoV-2 硬上限 30 并注明。
-
-输出：
-  results/cross_coronavirus_sequence_universe.tsv
-  results/cross_coronavirus_sampling_summary.tsv
-  results/cross_coronavirus_target_manifest_extension.tsv
-  results/cross_coronavirus_target_manifest_extension.fasta
-  logs/phase2a_dedup_map.tsv
-  logs/phase2a_universe_build.log
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sys, io, re, csv, json, random
 from pathlib import Path
 from datetime import datetime
@@ -67,7 +38,7 @@ def log(msg):
 def norm_sp(s):
     return (s or "").replace("_", " ").strip()
 
-# ---------- 1. 读物种表（ICTV 基准） ----------
+
 species_tbl = []
 with open(SEL / "species_table.csv", encoding="utf-8-sig") as f:
     for r in csv.DictReader(f):
@@ -79,7 +50,7 @@ sp2genus = {s["species"]: s["genus"] for s in species_tbl}
 log(f"物种表载入：{len(species_tbl)} 物种；Orthocoronavirinae 四属："
     f"{ {g: sum(1 for s in species_tbl if s['genus']==g and s['subfamily']=='Orthocoronavirinae') for g in ['Alphacoronavirus','Betacoronavirus','Gammacoronavirus','Deltacoronavirus']} }")
 
-# ---------- 2. 读本地序列库 ----------
+
 lib = {}   # accession.version -> (header, seq)
 bare = defaultdict(list)
 cur_h, cur_s = None, []
@@ -97,7 +68,7 @@ for av in lib:
     bare[av.split(".")[0]].append(av)
 log(f"本地序列库载入：{len(lib)} 条（{FASTA_LIB.name}）")
 
-# ---------- 3. 读逐物种元数据 + 选择漏斗 ----------
+
 meta = {}  # accession.version -> meta dict
 meta_files = sorted(SEL.glob("selected_metadata/*_selected_metadata.tsv"))
 for fp in meta_files:
@@ -122,14 +93,14 @@ with open(SEL / "selection_manifest.tsv", encoding="utf-8-sig") as f:
     for r in csv.DictReader(f, delimiter="\t"):
         funnel[r["ictv_species"]] = r
 
-# 库级去重映射 removed -> kept
+
 lib_dedup = {}
 with open(DEDUP_LIB, encoding="utf-8") as f:
     for r in csv.DictReader(f, delimiter="\t"):
         lib_dedup[r["removed_accession"]] = r["kept_accession"]
 log(f"库级去重映射：{len(lib_dedup)} 条 removed→kept")
 
-# ---------- 4. 猪病毒宇宙 ----------
+
 PIG = {"PEDV": ("PEDV_main", "Alphacoronavirus porci"),
        "TGEV": ("TGEV_main", "Alphacoronavirus suis"),
        "PRCV": ("PRCV_comparator", "Alphacoronavirus suis"),
@@ -148,7 +119,7 @@ def add_pig(virus, acc, ver, src, status, dup, reason, basis, **kw):
                      "inclusion_status": status, "exclusion_reason": reason,
                      "sampling_basis": basis, **kw})
 
-# 4a. 1b NCBI 保留集
+
 for virus in PIG:
     with open(WORK / f"data_external/{virus}_metadata.tsv", encoding="utf-8-sig") as f:
         for r in csv.DictReader(f, delimiter="\t"):
@@ -159,7 +130,7 @@ for virus in PIG:
                     collection_year=(r.get("collection_date", "") or "unknown"),
                     genome_length=r.get("genome_length", ""),
                     n_fraction=r.get("n_fraction", ""), complete_genome="yes")
-# 4b. 1b 排除集（含原因）
+
 for virus in PIG:
     with open(RES / f"phase2_ncbi_excluded_{virus}.tsv", encoding="utf-8-sig") as f:
         for r in csv.DictReader(f, delimiter="\t"):
@@ -170,7 +141,7 @@ for virus in PIG:
                     strain="unknown", host="unknown", country="unknown",
                     collection_year="unknown", genome_length="", n_fraction="",
                     complete_genome="no")
-# 4c. 1b 去重移除集（保留映射；文件无表头：col0=kept，col1..n=removed）
+
 for virus in PIG:
     dgp = RES / f"phase2_ncbi_dupgroups_{virus}.tsv"
     if not dgp.exists():
@@ -187,7 +158,7 @@ for virus in PIG:
                         strain="unknown", host="unknown", country="unknown",
                         collection_year="unknown", genome_length="", n_fraction="",
                         complete_genome="yes")
-# 4d. cov_existing（来自 1e 清单）
+
 for mf in ["PEDV_target_manifest.tsv", "crossvirus_target_manifest.tsv"]:
     with open(RES / mf, encoding="utf-8-sig") as f:
         for r in csv.DictReader(f, delimiter="\t"):
@@ -204,7 +175,7 @@ for mf in ["PEDV_target_manifest.tsv", "crossvirus_target_manifest.tsv"]:
                     collection_year=r.get("collection_date", "") or "unknown",
                     genome_length=r.get("genome_length", ""),
                     n_fraction="", complete_genome="yes")
-# 4e. 2a PEDV 增量
+
 inc_gb = (WORK / "data_external/raw/PEDV_increment_20260925.gb").read_text(encoding="utf-8")
 def parse_gb_single(gb):
     d, seq, org = {}, [], False
@@ -232,9 +203,8 @@ log(f"猪病毒宇宙：PEDV {sum(1 for r in pig_rows if r['virus']=='PEDV')}、
     f"PRCV {sum(1 for r in pig_rows if r['virus']=='PRCV')}、"
     f"PDCoV {sum(1 for r in pig_rows if r['virus']=='PDCoV')}（含排除者与去重移除者）")
 
-# ---------- 5. 四属其他物种宇宙 + 分层采样 ----------
+
 def pig_class(m):
-    """返回元数据行所属的猪病毒组，或 None。"""
     vn = (m["virus_name"] or "").lower()
     if "porcine epidemic diarrhea" in vn: return "PEDV"
     if "transmissible gastroenteritis" in vn or "tgev" in vn: return "TGEV"
@@ -250,19 +220,19 @@ for s in species_tbl:
         continue
     sp, genus = s["species"], s["genus"]
     if sp in ("Alphacoronavirus porci", "Deltacoronavirus suis"):
-        continue  # 全部由猪病毒组覆盖（物种内所有成员均为 PEDV/PDCoV）
+        continue
     sp_meta = [(av, m) for av, m in meta.items() if m["species"] == sp]
-    # 猪病毒组成员行
+
     if sp == "Alphacoronavirus suis":
         pig_part = [(av, m) for av, m in sp_meta if pig_class(m) in ("TGEV", "PRCV")]
-        pool_all = [(av, m) for av, m in sp_meta if pig_class(m) is None]  # FCoV/CCoV 等
+        pool_all = [(av, m) for av, m in sp_meta if pig_class(m) is None]
     else:
         pig_part, pool_all = [], sp_meta
-    # 宇宙行（全部检索到的成员）
+
     for av, m in sp_meta:
         cls = pig_class(m)
         if cls and sp == "Alphacoronavirus suis":
-            continue  # TGEV/PRCV 行已在猪病毒宇宙（或与之重复）
+            continue
         in_lib = av in lib
         dup = "unique"
         reason = ""
@@ -285,9 +255,9 @@ for s in species_tbl:
                            "genome_length": m["length"], "n_fraction": "",
                            "in_library": in_lib, "locked": m["locked"],
                            "_m": m})
-    # 采样池 = 库内可用且非猪病毒
+
     pool = [r for r in other_rows if r["species"] == sp and r["in_library"] and r["duplicate_status"] == "unique"]
-    # 固定包含 RefSeq/参考株（locked）；缺失时从 other_representatives 补（见步骤6后校验）
+
     locked = [r for r in pool if r["locked"]]
     rest = [r for r in pool if not r["locked"]]
     fn = funnel.get(sp, {})
@@ -296,7 +266,7 @@ for s in species_tbl:
         basis = f"species_pool<=50({len(pool)}): all included; refseq_fixed"
     else:
         target = 30
-        # 分层：host × geo_region × collection_year（pandemicum 增加 pango 谱系维）
+
         strata = defaultdict(list)
         for r in rest:
             if sp == "Betacoronavirus pandemicum":
@@ -320,7 +290,7 @@ for s in species_tbl:
                  f"target={target}; seed={SEED}; refseq_fixed")
         if sp == "Betacoronavirus pandemicum":
             basis += "; SARS-CoV-2 hard cap 30"
-    # 2a QC 复核（与 1b 同口径）：长度 25–34 kb 且 N%≤1%，不合格者排除并记录原因
+
     qc_fail = {}
     for r in chosen:
         seq = lib[r["version"]][1]
@@ -365,7 +335,7 @@ for s in species_tbl:
                     "sampling_basis": basis, "notes": ""})
     log(f"{sp}: pool={len(pool)} locked_included={n_locked_in} → included={len(chosen)} ({basis})")
 
-# ---------- 6. 外群 ----------
+
 out_rows = []
 out_fasta = {}
 cur_h, cur_s = None, []
@@ -397,7 +367,7 @@ for av, (g, sub, sp, cg, note) in OUTGRP.items():
                      "outgroup": "yes"})
 log(f"外群纳入：{len(out_rows)}（GECV01031551.1, NC_076697.1）")
 
-# ---------- 7. 汇总输出 ----------
+
 COLS = ["virus_group", "family", "subfamily", "genus", "species", "host", "strain",
         "accession", "version", "sequence_source", "complete_genome", "duplicate_status",
         "inclusion_status", "exclusion_reason", "sampling_basis", "outgroup",
@@ -437,7 +407,7 @@ with open(RES / "cross_coronavirus_target_manifest_extension.tsv", "w", encoding
     w.writeheader()
     w.writerows(man_rows)
 
-# manifest fasta（序列取自本地库 / 猪病毒 fasta / 外群 fasta）
+
 PEDV_FA = {">PEDV_increment"}
 def load_fa(fp):
     d, h, s = {}, None, []
@@ -468,12 +438,12 @@ with open(RES / "cross_coronavirus_target_manifest_extension.fasta", "w", encodi
         for i in range(0, len(seq), 60):
             f.write(seq[i:i+60] + "\n")
 
-# ---------- 8. 采样汇总（漏斗） ----------
+
 SUM_COLS = ["scope", "genus", "species", "n_retrieved", "n_complete", "n_after_dedup",
             "n_after_qc", "n_included", "n_excluded", "exclusion_reason_summary",
             "refseq_fixed_included", "sampling_basis", "notes"]
 sum_out = []
-# 猪病毒漏斗：新鲜 esearch → 1b 链 → 2a
+
 fresh_counts = {"PEDV": 1111, "TGEV": 67, "PRCV": 15, "PDCoV": 279}
 chain_1b = {"PEDV": (1110, 1041, 41, 28), "TGEV": (67, 50, 16, 1),
             "PRCV": (15, 15, 0, 0), "PDCoV": (279, 241, 31, 7)}
@@ -499,7 +469,7 @@ for virus, (group, sp) in PIG.items():
                               + ("；一致，引用 logs/phase2_step2_ncbi_download.log 为完整检索证明" if fresh_counts[virus] == c1b[0]
                                  else f"；+1 增量 PZ463692.2 已下载 QC 通过并纳入")
                               + ("；PRCV 单独标注" if virus == "PRCV" else ""))})
-# 四属漏斗
+
 for srec in summary:
     sp = srec["species"]
     rows_sp = [r for r in other_final if r["species"] == sp]
@@ -525,7 +495,7 @@ for srec in summary:
                               f"库内去重移除 {n_dup}、未入库 {n_notlib}"
                               + ("；物种参考株 AJ271965.2（TGEV Purdue）已在 TGEV 组全量纳入，"
                                  "other 池（FCoV/CCoV 等）无单独 locked 参考株" if sp == "Alphacoronavirus suis" else ""))})
-# 外群
+
 for r in out_rows:
     sum_out.append({"scope": "outgroup", "genus": r["genus"], "species": r["species"],
                     "n_retrieved": 1, "n_complete": 1 if r["complete_genome"] == "yes" else 0,
@@ -538,7 +508,7 @@ with open(RES / "cross_coronavirus_sampling_summary.tsv", "w", encoding="utf-8",
     w.writerows(sum_out)
 log(f"summary 写出：{len(sum_out)} 行（含四属全部 {sum(1 for s in sum_out if s['scope']=='four_genera')} 物种 + 猪病毒 4 + 外群 2）")
 
-# ---------- 9. 去重映射日志 ----------
+
 with open(LOGS / "phase2a_dedup_map.tsv", "w", encoding="utf-8", newline="") as f:
     w = csv.writer(f, delimiter="\t")
     w.writerow(["scope", "removed_accession", "kept_accession", "source"])
@@ -557,7 +527,7 @@ with open(LOGS / "phase2a_dedup_map.tsv", "w", encoding="utf-8", newline="") as 
         w.writerow(["local_library_54species", rm, kp, "library_exact_dedup"])
 log(f"去重映射写出 logs/phase2a_dedup_map.tsv")
 
-# ---------- 10. 自检 ----------
+
 log("=== 自检 ===")
 gen_inc = Counter(r["genus"] for r in man_rows)
 for g in ["Alphacoronavirus", "Betacoronavirus", "Gammacoronavirus", "Deltacoronavirus"]:
@@ -573,7 +543,7 @@ log(f"manifest 总数：{len(man_rows)}；其中 PEDV {sum(1 for r in man_rows i
     f"PDCoV {sum(1 for r in man_rows if r['virus_group']=='PDCoV_main')}、"
     f"other {sum(1 for r in man_rows if r['virus_group']=='other')}、"
     f"outgroup {sum(1 for r in man_rows if r['virus_group']=='outgroup')}")
-# QC 复核（库序列长度/N%）
+
 bad = []
 for r in man_rows:
     if r["sequence_source"] == "local_library_54species":

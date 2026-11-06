@@ -1,23 +1,20 @@
 # -*- coding: utf-8 -*-
-"""5′ 端三个窗口（3–45、75–135、255–325）× 六轨，仿用户给的 gRNA 5′ translation landscape 面板 A；着色沿用 3′ 小图方案：
-读框相对 ORF1a 读框（青绿 = ORF1a 框，橙 = +1，紫 = +2）。P-site = 正式 6 库（CHX 16 h = RIBO_VERO_CHX_1MOI_16h）。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import io, contextlib
 with contextlib.redirect_stdout(io.StringIO()):
-    exec(open(__import__('os').path.join(REPO_ROOT+'/riboseq/06_gRNA_terminal_translation', 'audit3utr.py'), encoding="utf-8").read().split("# ================= 表1")[0])
+    audit_source = open(__import__('os').path.join(REPO_ROOT+'/riboseq/06_gRNA_terminal_translation', 'audit3utr.py'), encoding="utf-8").read()
+    exec(audit_source.partition("\nLO, HI = 27326, 27959")[0])
 import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt, matplotlib.gridspec as gs
 from matplotlib.patches import Patch
@@ -28,7 +25,7 @@ MST = 293
 HOT = [(21, 23), (102, 104), (111, 114), (270, 272), (285, 296)]
 cat = pd.read_csv(ROOT + r"/fig5_gRNA5prime_figure_package/input_data/gRNA5p_catalogue/gRNA_5prime_candidate_catalogue.tsv", sep="\t", comment="#")
 cat = cat[cat.length_aa >= 8]
-WINS = [(3, 45, 22, 22, "AUG", 3), (75, 135, 113, 71, "UUG", 20), (255, 325, 271, 271, "UUG", 9)]   # (窗口起, 窗口止, 热点位置, 候选起始, 密码子, aa)
+WINS = [(3, 45, 22, 22, "AUG", 3), (75, 135, 113, 71, "UUG", 20), (255, 325, 271, 271, "UUG", 9)]
 fig = plt.figure(figsize=(7.4, 4.6)); outer = gs.GridSpec(1, 3, figure=fig, left=0.03, right=0.985, top=0.82, bottom=0.12, wspace=0.12)
 for ci, (a, z, hp, cs, ccod, caa) in enumerate(WINS):
     xs = np.arange(a, z + 1); fr = (xs - cs) % 3

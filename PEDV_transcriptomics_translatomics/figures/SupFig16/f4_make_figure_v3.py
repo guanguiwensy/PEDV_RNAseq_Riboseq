@@ -1,17 +1,15 @@
-"""Supplementary Figure L REVISED v3 layout: page 1 = A (full width) / B + C3 (side by side) / D (+D2); page 2 = C1 over C2 (full width)."""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
+"""Build the two-page Supplementary Figure 16 layout."""
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import csv,json,collections,textwrap,numpy as np
 import matplotlib
 matplotlib.use("Agg")
@@ -40,7 +38,7 @@ _sp=importlib.util.spec_from_file_location("f3",__import__('os').path.join(__imp
 def AX(fig,x,ytop,w,h,**k): return fig.add_axes([x/FW,1-(ytop+h)/FH,w/FW,h/FH],**k)
 def TX(fig,x,y,s,**k): return fig.text(x/FW,1-y/FH,s,**k)
 nc=[a for a in A if a['canonical_frame_family']=='no']
-PP=PdfPages(O+"Supplementary_Figure_L_REVISED_v3.pdf")
+PP=PdfPages(O+"Supplementary_Figure_16.pdf")
 # ============================================================ PAGE 1
 fig=plt.figure(figsize=(FW,FH))
 TX(fig,LM,0.12,"Supplementary Figure L  Sequence-defined candidate ORF families of PEDV and their retention across lineages",fontsize=9,fontweight="bold",va="top")
@@ -53,7 +51,7 @@ for n,s,e in CDS:
     else: axc.text((s+e)/2,1.05,n,ha="center",va="bottom",fontsize=7,color=RCOL[n])
 TX(fig,LM+left+0.1,0.97,"ORF1a/1b overlap 12,592–12,622; slippery heptamer 12,586–12,592 (known −1 PRF, not a new ORF)",fontsize=7,va="top",color="#444")
 hl=[Rectangle((0,0),1,1,facecolor=AUGC,label="family contains AUG start"),Rectangle((0,0),1,1,facecolor=NCC,label="near-cognate starts only"),
-    Rectangle((0,0),1,1,facecolor="white",edgecolor=RED,lw=1.1,label="Figure 6 featured (original, provisional)")]
+    Rectangle((0,0),1,1,facecolor="white",edgecolor=RED,lw=1.1,label="Figure 6 featured")]
 fig.legend(handles=hl,loc="upper right",bbox_to_anchor=((LM+WID)/FW,1-0.30/FH),ncol=3,frameon=False,fontsize=7,handlelength=1.2,columnspacing=1.0)
 lanes={}
 for f in (0,1,2):
@@ -76,10 +74,10 @@ for f in (0,1,2):
         if int(a['genomic_frame_static'])!=f: continue
         r=pos[a['family_id']]; s=int(a['start_min']); e=int(a['stop_position'])+2
         col=AUGC if a['contains_AUG']=='yes' else NCC
-        isf=a['fig6_original_featured_provisional']=='yes'; isc=(a['featured']=='yes' and not isf)
+        isf=a['featured']=='yes'
         ax.add_patch(Rectangle((s,r-0.28),e-s,0.56,facecolor=col,edgecolor=RED if isf else "none",linewidth=1.1 if isf else 0))
         ax.plot([e,e],[r-0.4,r+0.4],color="#222",lw=0.6)
-        if isf or isc:
+        if isf:
             yl=n+0.2+0.8*(cnt%2); cnt+=1
             ax.plot([(s+e)/2]*2,[r+0.3,yl],color=RED if isf else "#555",lw=0.5)
             ax.text((s+e)/2,yl,a['figure6_name'],ha="center",va="bottom",fontsize=7,color=RED if isf else "#444",fontweight="bold" if isf else "normal")
@@ -148,7 +146,7 @@ axh=AX(fig,hx,hy,hw,rh*len(rowsD))
 nf=0
 for j,fid in enumerate(order):
     p=fm[fid]['parent']; axs.add_patch(Rectangle((j,0),1,1,facecolor=RCOL.get(p,"#999"),edgecolor="none"))
-    if fm[fid]['fig6_original_featured_provisional']=='yes':
+    if fm[fid]['featured']=='yes':
         axs.add_patch(Polygon([[j+0.5,0],[j-0.5,-1.6],[j+1.5,-1.6]],closed=True,facecolor=RED,edgecolor="none"))
         lv=2.2+2.6*(nf%2); nf+=1
         axs.plot([j+0.5,j+0.5],[1,lv],color=RED,lw=0.4)
@@ -185,12 +183,12 @@ ax4.set_title("D2  Per-genome completeness (bar = median; not an estimate of tra
 TX(fig,LM,FH-0.30,textwrap.fill("Lineage = nearest S-gene panel member (Guo 2019 anchors; GI-b n=30 on 5 anchors, GI-a n=23 on 3); S-gene lineage need not reflect the history of other loci (recombination). Retention = sequence retention of eligible start/stop architecture, not evidence of translation, expression or protein-level selection.",170),fontsize=7,va="bottom")
 PP.savefig(fig)
 for ext,kw in (("png",dict(dpi=300)),("jpg",dict(dpi=300,pil_kwargs={"quality":95})),("svg",{}),("pdf",{})):
-    fig.savefig(O+f"Supplementary_Figure_L_REVISED_v3_p1.{ext}",**kw)
+    fig.savefig(O+f"Supplementary_Figure_16_p1.{ext}",**kw)
 fig.savefig(O+"work/v3_p1.png",dpi=130); plt.close(fig)
 # ============================================================ PAGE 2
 fig=plt.figure(figsize=(FW,FH))
 fams,c1,c2=f3.load(); n=len(fams); LG=f3.LG
-TX(fig,LM,0.12,"Supplementary Figure L (continued)  Sequence retention of the families currently highlighted in Figure 6 (provisional list)",fontsize=9,fontweight="bold",va="top")
+TX(fig,LM,0.12,"Supplementary Figure 16 (continued)  Sequence retention of the families highlighted in Figure 6",fontsize=9,fontweight="bold",va="top")
 TX(fig,LM,0.42,"C",fontsize=10,fontweight="bold",va="top")
 TX(fig,LM+0.5,0.45,"C1  Start-codon state of reference start variants (>40 aa) by S-gene lineage",fontsize=7,va="top")
 x0=LM+1.0; wC=WID-1.0; y0=1.15; rowh=0.25
@@ -232,9 +230,9 @@ ax2.set_xlabel("Family ORF architecture retained / assessable genomes",fontsize=
 ax2.spines[["top","right"]].set_visible(False); ax2.tick_params(labelsize=7)
 ax2.legend(handles=[Line2D([],[],marker='D' if g=='ALL' else 'o',ls='none',color=f3.LCOL[g],markeredgecolor='black' if g=='GI-b' else 'none',ms=5,label=('All PEDV' if g=='ALL' else g)) for g in LG],
            loc="upper left",bbox_to_anchor=(0.0,-0.07),ncol=6,frameon=False,fontsize=7,handletextpad=0.3,columnspacing=1.2)
-TX(fig,LM,FH-0.30,textwrap.fill("Families: provisional Figure 6 list (checkpoint-3 evidence architecture; Figure 6 not frozen), chosen by Figure 6 evidence class and not by conservation; order = genomic position of the most upstream start. No Ribo-seq quantity was used in any calculation; retention is not evidence of translation or protein function.",150),fontsize=7,va="bottom")
+TX(fig,LM,FH-0.30,textwrap.fill("Families are ordered by the genomic position of the most upstream start. No Ribo-seq quantity was used in the retention calculation; retention is not evidence of translation or protein function.",150),fontsize=7,va="bottom")
 PP.savefig(fig); PP.close()
 for ext,kw in (("png",dict(dpi=300)),("jpg",dict(dpi=300,pil_kwargs={"quality":95})),("svg",{}),("pdf",{})):
-    fig.savefig(O+f"Supplementary_Figure_L_REVISED_v3_p2.{ext}",**kw)
+    fig.savefig(O+f"Supplementary_Figure_16_p2.{ext}",**kw)
 fig.savefig(O+"work/v3_p2.png",dpi=130)
 print("ok")

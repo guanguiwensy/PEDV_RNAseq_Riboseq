@@ -1,26 +1,15 @@
 # -*- coding: utf-8 -*-
-"""G2b 公共模块：宿主逐密码子表（逐库 × 逐读长）、基因分折、窗口聚合。只读 _server 数据，不写任何既有文件。
-
-密码子 j（rel 3j = F0 P-site）：n0 = c[3j]，n1 = c[3j+1]（F1），n2 = c[3j+2]（F2）；只用 n_sense_tx = 1 的位点；
-任何一个位点存在 n_sense_tx > 1 记录的密码子整体剔除。CDS 内部：j ∈ [10, N−11]（去起始后 30 nt、终止前 30 nt）。
-splice 口径：main = 只用 splice_class 0（未剪接，与病毒 read 一致）；all = 0/1/2 合并（敏感性）。
-端点上下文（与 HARTIS_v3 g2_hostcodon 的 Mb53 一致，按读长推广）：读长 L、offset o 时，F1 读段 5′ 端 t = cs + 3j + 1 − o，
-  b5F1 = seq[t]，b5F2 = seq[t+1]，b3F1 = seq[t+L−1]，b3F2 = seq[t+L]；ctx = 64·b5F1 + 16·b5F2 + 4·b3F1 + b3F2（含 N 记 256）。
-基因 5 折：按 gene_id 随机排列（seed 20261027）后 rank mod 5。
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, gzip, numpy as np, pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -30,7 +19,7 @@ OUT = os.path.abspath(os.path.join(HERE, '..'))
 LIBS = [(SR.lib("RIBO_VERO_CHX_1MOI_5h"), 'CHX5h'), (SR.lib("RIBO_VERO_HAR_1MOI_5h"), 'HAR5h'), (SR.lib("RIBO_VERO_CHX_1MOI_8h"), 'CHX8h'), (SR.lib("RIBO_VERO_HAR_1MOI_8h"), 'HAR8h'),
         (SR.lib("RIBO_VERO_CHX_1MOI_16h"), 'CHX16h'), (SR.lib("RIBO_VERO_HAR_1MOI_16h"), 'HAR16h')]
 LABEL = dict(LIBS)
-# Module 1 M1_v1.0 expanded 集（读长:offset）
+
 SPEC = {SR.lib("RIBO_VERO_CHX_1MOI_5h"): {29: 12, 30: 12}, SR.lib("RIBO_VERO_HAR_1MOI_5h"): {29: 12}, SR.lib("RIBO_VERO_CHX_1MOI_8h"): {29: 12, 30: 12, 31: 12},
         SR.lib("RIBO_VERO_HAR_1MOI_8h"): {29: 12, 30: 12}, SR.lib("RIBO_VERO_CHX_1MOI_16h"): {29: 12, 30: 12, 31: 12},
         SR.lib("RIBO_VERO_HAR_1MOI_16h"): {29: 12, 30: 12}}
@@ -68,7 +57,6 @@ def tx_table():
 
 
 def codon_table(sid, L, splice='main', tier='tier_main'):
-    """返回 CDS 内部逐密码子 DataFrame：tx_idx, fold, j, N, n0, n1, n2, m, ctx（只保留 n0+n1+n2 > 0 的密码子，窗口聚合时零密码子不贡献计数）。"""
     tx = tx_table(); SEQ, ST = _c['seq']; off = SPEC[sid][L]
     key = ('pos', sid)
     if key not in _c:
@@ -98,15 +86,13 @@ def codon_table(sid, L, splice='main', tier='tier_main'):
 
 
 def gene_density(C):
-    """基因内部 F0 密度（P-site/nt），用于区分基因表达水平与窗口局部峰。"""
     s = C.groupby('tx_idx').agg(n0=('n0', 'sum'), N=('N', 'first'))
     return (s.n0 / (3 * (s.N - 20).clip(lower=1))).rename('gene_dens')
 
 
 def windows(C, w, pj):
-    """把逐密码子聚合为不重叠的 w 密码子窗（只取完整窗）。pj = 每个密码子的上下文期望 F1 份额。"""
     blk = (C.j.values - 10) // w
-    nblk = (C.N.values - 21 + 1) // w        # 内部密码子数 = N − 20
+    nblk = (C.N.values - 21 + 1) // w
     keep = blk < nblk
     D = pd.DataFrame(dict(tx_idx=C.tx_idx.values[keep], fold=C.fold.values[keep], blk=blk[keep],
                           n0=C.n0.values[keep], n1=C.n1.values[keep], n2=C.n2.values[keep], m=C.m.values[keep],

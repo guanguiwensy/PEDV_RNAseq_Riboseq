@@ -1,30 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""HARTIS_v3 G1b/G2：宿主多读长逐位点 P-site 抽取 + 新旧口径逐 read 审计（只读 BAM / GTF）。
-
-注释、转录本坐标、P-site、sense 归属与 G1 脚本 host_cds_psite29_extract.py 逐字相同（tx_idx 一致，输出 transcripts.tsv 供核对）。
-新增：
-  1) 读长集合由参数给出（L:offset,...；Module 1 M1_v1.0 expanded 集 + 全部库的 29 nt），offset 冻结、不重估；
-  2) 每条 read 的剪接类别 splice_class：0 = 未剪接；1 = 剪接且 5′端到第一个 N 的比对距离 ≥ 22（旧口径 clean）；2 = 剪接且 < 22（旧口径 unclean）；
-  3) 旧 periodicity 口径（gib_bam_stats.py frame5 + build_C_psite_tables.py）逐 read 复现：
-     5′端映射到"只含 CDS 的拼接坐标"（最近左侧 CDS 块单一归属），主体 = 5′端 CDS 坐标 ∈ [45, CDS长−45)，剔除 unclean，
-     P-site 读框 = (5′端 CDS 坐标 + offset) mod 3；
-  4) 新旧口径逐 read 交叉表与多转录本重复归属统计。
-用法: host_cds_psite_multiL_audit.py <sid> <bam> <gtf> <outroot> <L:off[,L:off...]>
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sys, os, re, json, time, gzip, collections
 import numpy as np, pysam
 
@@ -34,7 +20,7 @@ REFC = (0, 2, 7, 8); FLANK = 60; GAP_MAX = 10; TRIM = 45; CLEAN_NT = 22; BODY = 
 OFFS = {int(a): int(b) for a, b in (x.split(':') for x in spec.split(','))}
 t0 = time.time()
 
-# ---------- 注释（与 G1 脚本相同） ----------
+
 rx = re.compile(r'(\S+) "([^"]*)"')
 ex = collections.defaultdict(list); cds = collections.defaultdict(list); tinfo = {}
 for line in open(gtf):
@@ -73,7 +59,7 @@ HB = {kk: np.array(sorted(v), dtype=np.int64) for kk, v in blocks.items()}
 CMX = {kk: np.maximum.accumulate(a[:, 1]) for kk, a in HB.items()}
 NT = len(TID); T2K = {t: k for k, (t, g, gn) in enumerate(TID)}
 
-# ---------- 旧口径：只含 CDS 的拼接坐标（gib_bam_stats.py 原样，另附 tx_idx） ----------
+
 oblocks = collections.defaultdict(list)
 for t, bl in cds.items():
     chrom, strand = tinfo[t][0], tinfo[t][1]
@@ -109,7 +95,6 @@ def old_coord(chrom, strand, p5):
 
 
 def walk(r, rev, cig):
-    """返回 (P-site 用的比对坐标列表或 None, 是否剪接, 5′端到第一个 N 的比对距离)。"""
     spliced = any(op == 3 for op, n in cig)
     L = 0; first_n = None
     for op, n in (reversed(cig) if rev else cig):
@@ -165,7 +150,7 @@ for chrom in bam.references:
                 for k, c in ha: ANTI[(k, L0)] += 1
             else: qc[f'L{L0}_unassigned'] += 1
         DUP[(L0, ns, nrec)] += 1
-        # 旧口径
+
         p5 = r.reference_end if rev else r.reference_start + 1
         oc = old_coord(chrom, st, p5)
         old_body = 0; old_tx = -1; old_fr = -1
@@ -201,6 +186,6 @@ with open(os.path.join(OUT, 'transcripts.tsv'), 'w') as f:
         f.write(f'{k}\t{t}\t{g}\t{gn}\t{CHR[k]}\t{STR[k]}\t{TL[k]}\t{CS[k]}\t{CE[k]}\t{CE[k]-CS[k]+1}\t{SPLIT[k]}\n')
 meta = dict(sid=sid, bam=bam_path, bam_size=os.path.getsize(bam_path), gtf=gtf, lengths_offsets=OFFS,
             n_transcripts=NT, elapsed_s=round(time.time() - t0), NH_gt1_skipped=0, primary_mapped=0)
-meta.update({k: int(v) for k, v in qc.items()})   # 计数为 0 的键也显式写出
+meta.update({k: int(v) for k, v in qc.items()})
 json.dump(meta, open(os.path.join(OUT, f'meta_multiL_{sid}.json'), 'w'), indent=1, ensure_ascii=False)
 print(json.dumps(meta, ensure_ascii=False))

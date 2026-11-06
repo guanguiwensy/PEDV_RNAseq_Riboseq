@@ -1,20 +1,15 @@
 #!/usr/bin/env python3
-"""Step 4: Supplementary Figure (PEDV RNA junction dynamics) A-E, A4 portrait, 180 mm wide.
-全部由 data/*.csv(s3/s5 产出)读入, 无手工数值。配色沿用 Fig.2 (canonical 蓝系 / dep / distant / local), 时间梯度沿用 Supp Fig.1 hpi 色。
-figure_skill.md: Arial, 最小字号 7 pt, PNG 300 dpi + PDF + SVG, 宽 <= 180 mm, 高尽量 <= 240 mm。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -28,7 +23,7 @@ from matplotlib.ticker import FuncFormatter, NullLocator
 D = PEDV_P+"Fig2_Supp_junction_dynamics/data/"
 F = PEDV_P+"Fig2_Supp_junction_dynamics/figures/"
 MM = 1 / 25.4
-FS, FSL = 7, 8                      # 刻度/图例/注释 7 pt; 轴标题 8 pt
+FS, FSL = 7, 8
 plt.rcParams.update({"font.family": "Arial", "pdf.fonttype": 42, "svg.fonttype": "none", "font.size": FS,
                      "axes.linewidth": 0.7, "xtick.major.width": 0.7, "ytick.major.width": 0.7,
                      "xtick.major.size": 2.5, "ytick.major.size": 2.5})
@@ -94,7 +89,7 @@ for layer, (ytop, ylab) in enumerate(layers):
             pos += 0.7
         xpos = np.array(xpos)
         bottoms = np.zeros(len(d))
-        comps = ([("f_canonical", CANON_ALL)] + [("f_" + n, NCOL[n]) for n in NCC]) if layer == 0 else \
+        comps = ([("f_canonical", CANON_ALL)] + [("f_" + n, NCOL[n]) for n in NCC]) if layer == 0 else\
             [("nc_frac_" + n, NCOL[n]) for n in NCC]
         for k, c in comps:
             v = d[k].values
@@ -245,12 +240,12 @@ cb = fig.add_axes([(hx + 8) / W, 1 - (hy + hh + 11.0) / H, 38 / W, 2.2 / H])
 cb.imshow(np.linspace(-2.5, 2.5, 256)[None, :], cmap=CM, aspect="auto", extent=[-2.5, 2.5, 0, 1])
 cb.set_yticks([]); cb.set_xticks([-2, 0, 2]); cb.tick_params(labelsize=FS, length=2, pad=1)
 cb.set_xlabel("Row z-score", fontsize=FS, labelpad=1)
-# D 图例放在 C 下方左半版(含 hatched 与 † 说明)
+
 fig.legend(handles=[Patch(color=TR_COL["CHX"], label="CHX (column strip)"), Patch(color=TR_COL["HAR"], label="HAR (column strip)")],
            loc="upper left", bbox_to_anchor=(2 / W, 1 - (yC + 70) / H), ncol=2, frameon=False, fontsize=FS,
            handlelength=1.0, columnspacing=1.0, borderaxespad=0)
 txt(2, yC + 75, "Panel D: row colours as in C; hatched cells,", va="top")
-txt(2, yC + 79, "not informative (low depth); † authenticity under audit.", va="top")
+txt(2, yC + 79, "not informative (low depth); † low-confidence.", va="top")
 
 # =============================== E ===============================
 yE = hy + hh + 20.0

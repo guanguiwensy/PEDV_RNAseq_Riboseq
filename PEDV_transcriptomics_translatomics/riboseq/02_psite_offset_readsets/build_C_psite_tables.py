@@ -1,20 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""§7–§8：周期性表（宿主/病毒，逐读长 + 混合）与 P-site 表（PEDV 碱基分辨率长表 + 合并宽表 + 互校；宿主按基因汇总）。
-PEDV reads 一条不删：所有读长（含 LPF）只要宿主上测得 offset 就给出 P-site；offset=NA 的 reads 计数单列（预期 0）。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import os, sys, json, gzip, collections
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import *
@@ -78,13 +74,13 @@ for sid in IDS:
     assert ntot == int(A["pedv_all"]["reads"]), (sid, ntot)
     na_report.append({**mcols(sid), "PEDV_reads_total": ntot, "PEDV_reads_with_psite": ntot - sum(nNA.values()),
                       "PEDV_reads_offset_NA": sum(nNA.values()), "offset_NA_lengths": ";".join(f"{L}:{n}" for L, n in sorted(nNA.items())) or "-"})
-    # 长表
+
     cat = lambda L: SETS[sid][L]["category"] if L in SETS[sid] else ("long_protected_fragment" if L >= LONG_MIN else "not_included")
     for (st, p, L), n in sorted(C.items(), key=lambda x: (x[0][0], x[0][1], x[0][2])):
         gf = (p - 1) % 3 if st == "+" else "NA(−链)"
         fo.write(f"{sid}\t{m['time_h']}\t{m['drug']}\t{st}\t{p}\t{L}\t{off[min(L,150)]}\t{cat(L)}\t{n}\t{gf}\t{OFS.get(p,'-') if st=='+' else '-'}\n")
         long_rows_written += 1
-    # 宽表（合并）
+
     Wd = collections.defaultdict(lambda: collections.Counter())
     for (st, p, L), n in C.items():
         for k in SETNAMES:
@@ -95,7 +91,7 @@ for sid in IDS:
     for k in SETNAMES:
         a = sum(n for (st, p, L), n in C.items() if in_set(sid, L, k)); b = sum(v[k] for v in Wd.values())
         checks.append({**mcols(sid), "set": k, "long_table_sum": a, "wide_table_sum": b, "match": a == b})
-    # ---- 周期性：病毒（frame5 按 ORF，+链，ORF 唯一区，5′ 端定位，与 C2/C3 同口径） ----
+
     F5 = collections.defaultdict(lambda: np.zeros(3, np.int64))
     for r in rd(f"{WORK}/stats/{sid}/frame5.tsv"): F5[(r["domain"], int(r["L"]))] += [int(r["f0"]), int(r["f1"]), int(r["f2"])]
     doms = ["PEDV_all"] + [f"PEDV_{n}" for n, a, b in ORFS]
@@ -121,7 +117,7 @@ for sid in IDS:
             (per_h if dom == "host" else per_v).append(row)
 fo.close()
 
-# 宽表输出
+
 WCOLS = SETNAMES + ["strict_core_dedup(敏感性)"]
 with gzip.open(f"{OUT}/psite_counts_PEDV_GIb_wide.tsv.gz", "wt", encoding="utf-8", newline="") as f:
     f.write(provenance("psite_counts_PEDV_GIb_wide：sample × strand × position，各读长集合合并（每个读长用自己的 offset）", prov_extra +

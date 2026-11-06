@@ -1,25 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""逐样本 × 逐读长的宿主 CDS 读框分布（真实 P-site，CDS 相对坐标 mod 3）。
-数据：RGP_v1.3 的服务器一遍统计（host_psite_pass.py 的输出，已同步到本地 _work/server/host_psite/）。不上服务器、不重算 offset。
-  - host_gene_cds_psite.tsv：每个 canonical protein_coding 转录本、每读长 L 的 P-site 在 CDS（GTF CDS，不含终止密码子）内的三个读框计数 f0/f1/f2
-    frame = (P-site 转录本坐标 − CDS 起点) mod 3；转录本坐标沿外显子拼接（剪接外显子相位正确），链方向已处理
-  - host_psite_metagene.tsv：起始 (0=AUG 的 A) 与终止 (0=终止密码子第1位) ±60 nt 的逐读长 P-site 数，用于从全 CDS 中扣除端部窗口，得到 CDS-body
-CDS-body（项目既有定义：两端各去 45 nt）= 全 CDS − 起始窗口 rel 0..44 − 终止窗口 rel −45..−1。终止窗口读框 = (rel + CDS 长度) mod 3，
-对 CDS 长度非 3 的倍数的转录本，汇总统计无法逐转录本修正，下面报告这类转录本的 P-site 比例作为误差上界。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, sys, json, gzip, math
 import numpy as np, pandas as pd
@@ -45,24 +36,24 @@ for sid, drug, t in SAMPLES:
     mg = rd(f"{SRV}/{sid}/host_psite_metagene.tsv")
     qc = dict(l.rstrip().split("\t") for l in open(f"{SRV}/{sid}/host_psite_qc.tsv"))
     g["cds_mod3"] = g.cds_len_nt % 3
-    # 转录本层面的数组，供 bootstrap
+
     tx_ids = g.transcript_id.unique(); tx_index = {t_: i for i, t_ in enumerate(tx_ids)}
     g["ti"] = g.transcript_id.map(tx_index)
     st = mg[(mg.anchor == "start")]; en = mg[(mg.anchor == "stop")]
     for L in LS:
         gl = g[g.L == L]
         N = np.array([gl.f0.sum(), gl.f1.sum(), gl.f2.sum()], dtype=np.int64)
-        # 端部窗口
+
         s = st[(st.L == L) & (st.rel >= 0) & (st.rel <= 44)]
         e = en[(en.L == L) & (en.rel >= -45) & (en.rel <= -1)]
         S = np.array([s[s.rel % 3 == f].n.sum() for f in range(3)], dtype=np.int64)
-        E = np.array([e[e.rel % 3 == f].n.sum() for f in range(3)], dtype=np.int64)     # 假设 CDS 长度 ≡0 (mod 3)
+        E = np.array([e[e.rel % 3 == f].n.sum() for f in range(3)], dtype=np.int64)
         e30 = en[(en.L == L) & (en.rel >= -30) & (en.rel <= -1)]
         E30 = np.array([e30[e30.rel % 3 == f].n.sum() for f in range(3)], dtype=np.int64)
         body = N - S - E; body30 = N - S - E30
-        # CDS 长度非 3 的倍数的转录本中 P-site 占比
+
         bad = gl[gl.cds_mod3 != 0]; badfrac = (bad.f0.sum() + bad.f1.sum() + bad.f2.sum()) / max(N.sum(), 1)
-        # 基因（转录本）聚类 bootstrap：全 CDS F0
+
         if N.sum() > 0 and len(gl) > 1:
             a = gl.f0.values.astype(float); tot = (gl.f0 + gl.f1 + gl.f2).values.astype(float)
             idx = rng.integers(0, len(gl), size=(1000, len(gl)))
@@ -84,7 +75,7 @@ for sid, drug, t in SAMPLES:
                              length_set_category=(o.category_GIb.iloc[0] if len(o) else ""),
                              frac_psites_in_transcripts_CDSlen_not_mod3=badfrac, n_transcripts=int(len(gl))))
 D = pd.DataFrame(rows)
-# 该长度占全部 host CDS RPF 的比例
+
 for nm in D.region.unique():
     m = D.region == nm
     D.loc[m, "length_share_of_host_CDS_psites"] = D[m].groupby("sample").total_host_CDS_psites.transform(lambda x: x / x.sum())

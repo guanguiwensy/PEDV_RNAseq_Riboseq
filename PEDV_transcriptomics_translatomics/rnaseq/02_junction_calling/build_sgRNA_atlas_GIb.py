@@ -1,32 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-GI-b新参考sgRNA atlas重建(23样本合并聚类,不分株)。
-方法沿用旧pipeline(analysis_sgRNA_junction/noncanonical_sgRNA_identity_REVISED_v2/v3)的核心算法:
-  - 读水平分类: leader_start<=100nt为true_leader_derived(A支路),其余为internal_genomic_donor(B支路,不用于sgRNA鉴定)
-  - reliable过滤: primary + 非重复 + NH==1
-  - QC: MAPQ_median>=20 且 min(leader_anchor_median,body_anchor_median)>=15
-  - canonical: 固定+-5nt窗口(5个已知GI-b位点)
-  - noncanonical: 链式聚类(相邻排序坐标间距<=window,window=5为主口径,3为敏感性分析),修正版规则(v3的FIXED版,不是v2的window*2 bug)
-  - peak-aware拆分: cluster宽度>12nt时,按breakpoint读数profile找局部峰,谷值<=较低峰值50%则拆分(至少每个子峰2条reads+1个阳性样本)
-  - 置信分级: High/Probable/Low-confidence-uncertain,阈值按23样本重新校准(旧阈值按每株10-13样本设计,见thresholds_recalibration.md)
-与旧v3的关键区别(按TASK要求删除):
-  - 不分CV777/LZ202401两株,不做坐标映射、homolog配对、homology_relationship、cross-strain diagnostics
-  - 不引用任何旧atlas数字
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import csv
 import glob
 import os
@@ -53,7 +37,7 @@ VALLEY_RATIO_THRESHOLD = 0.5
 MIN_PEAK_READS = 2
 MIN_PEAK_SAMPLES = 1
 
-# n=23合并后重新校准的阈值(见thresholds_recalibration.md),替代旧版按单株10-13样本设计的阈值
+
 HIGH_MIN_POSITIVE_SAMPLES = 6
 PROBABLE_MULTI_MIN_SAMPLES = 3
 PROBABLE_MULTI_MAX_SAMPLES = 5
@@ -64,7 +48,7 @@ GENE_COORDS = {
     "ORF1a": (293, 12622), "ORF1b": (12592, 20613), "S": (20610, 24758),
     "ORF3": (24758, 25033), "E": (25361, 25600), "M": (25608, 26288), "N": (26300, 27625),
 }
-# 已知GI-b canonical位点(观测到的body首碱基,来自refbuild交付验证RNA样本SJ.out.tab直接检出,见DELIVERY_refbuild_GIb.md §6.2)
+
 CANONICAL_SITES = {20597: "S", 24718: "ORF3", 25342: "E", 25597: "M", 26285: "N"}
 
 CIGAR_RE = re.compile(r'(\d+)([MIDNSH=X])')
@@ -183,7 +167,7 @@ def main():
     n_reliable = 0
     n_classA = 0
     n_classB = 0
-    raw_events_all = []  # 未过滤原始候选(全部行,不管dup/sec/NH),供junction_events_raw.tsv
+    raw_events_all = []
 
     for sample in samples:
         fp = os.path.join(GAPFIX_DIR, f"{sample}_mm2_unfiltered.tsv")
@@ -225,7 +209,7 @@ def main():
     print(f"total candidate rows(all samples,unfiltered)={n_total_rows}, reliable={n_reliable}, "
           f"classA(true_leader_derived)={n_classA}, classB(internal_genomic_donor)={n_classB}")
 
-    # write junction_events_raw.tsv (未过滤版本,全部23样本合并,不做任何QC/聚类)
+
     raw_fields = ["sample", "chrom", "read_name", "leader_start", "leader_end", "body_start", "body_end",
                   "gap_len", "gap_index_in_read", "cigar", "mapq", "NH", "is_duplicate", "is_secondary",
                   "is_supplementary", "is_read1", "is_read2"]
@@ -256,7 +240,7 @@ def main():
 
     print(f"unique (donor,body,class) junction-pairs = {len(jp)}")
 
-    # leader donor经验模式(全局,用于TRS-L参照flank提取)
+
     donor_counter = Counter()
     for (donor, body, cls), d in jp.items():
         if cls == "A_true_leader_derived":
@@ -392,7 +376,7 @@ def main():
         for i in range(n):
             left_ok = (i == 0) or (reads[i] >= reads[i - 1])
             right_ok = (i == n - 1) or (reads[i] >= reads[i + 1])
-            strict = (i == 0 and reads[i] > reads[i + 1]) or (i == n - 1 and reads[i] > reads[i - 1]) or \
+            strict = (i == 0 and reads[i] > reads[i + 1]) or (i == n - 1 and reads[i] > reads[i - 1]) or\
                      (0 < i < n - 1 and (reads[i] > reads[i - 1] or reads[i] > reads[i + 1]))
             if left_ok and right_ok and strict:
                 peak_idx.append(i)

@@ -1,27 +1,14 @@
-"""G2-03 窗口级条件零分布在宿主留出基因上的校准（按深度分层，含 p ≤ 0.001 尾部）。
-逐密码子期望：p_j = Mb53（端点碱基 256 组，训练基因估计，向库常数收缩）。
-窗口：single（1 个密码子单元）、cod5（连续 5 个）、cod50（连续 50 个，平铺）、gene（整段主体）。
-窗口统计：m = Σm_j，E1 = Σ m_j p_j，V = Σ m_j p_j (1 − p_j)，z = (n1 − E1)/√V，p̂_w = E1/m。
-三种 p（单侧，F1 富集）：
-  p_emp  条件经验零分布：训练基因同类型窗口、同 m 分层（训练窗口 m 的十分位 + 前 1%）中 z 的经验分布，(1+#≥)/(1+K)
-  p_bb   beta-binomial(m, p̂_w, ρ)，ρ 由训练窗口同分层的 z 方差估计：ρ = max(0, (Var z − 1)/(m̄ − 1))
-  p_bin  二项(m, p̂_w)（有上下文、无离散）
-  p_bin0 二项(m, p0)（库常数基准线）
-另：FRAME_ANOMALY 候选定义的校准——两个非经典框合计过量：q = m/(m + n0)，训练窗口同类型同 n0 分层的经验上尾 p。
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import os, sys, numpy as np, pandas as pd
 from scipy.stats import binom, betabinom, kstest, beta as betad
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

@@ -1,31 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""宿主 P-site 一遍统计（只读 BAM；宿主侧统计）：
-  1) 起始/终止密码子 P-site metagene（Ensembl canonical protein_coding 转录本，含 UTR 的转录本坐标；
-     start: 0 = ATG 的 A；stop: 0 = 终止密码子第 1 位；窗口 -60..+60），逐读长；
-  2) 逐基因 CDS P-site 计数（CDS = GTF CDS 特征，不含终止密码子），按读框 0/1/2，逐读长汇总到读长组。
-P-site = 从 5′端数第 offset+1 个比对碱基（沿比对坐标走，跨 N 正确处理）；offset 取自 psite_offset_GIb（逐样本×逐读长，B 口径）。
-读长 = 比对区块长度（M/=/X/D，跳过 N）。只用唯一比对（BAM 中全部为 NH=1）。
-用法: host_psite_pass.py <sid> <bam> <offsets.json> <outdir>
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sys, os, re, json, collections, time
 import numpy as np, pysam
 sid, bam_path, offj, outroot = sys.argv[1:5]
 OUT = f"{outroot}/{sid}"; os.makedirs(OUT, exist_ok=True)
-GTF = PEDV_SERVER_ROOT+"/refdata_dual_host/pig_Sscrofa11.1/Sus_scrofa.Sscrofa11.1.110.gtf"   # PK1: 猪（原为 Vero ChlSab1.1.116）
+GTF = PEDV_SERVER_ROOT+"/refdata_dual_host/pig_Sscrofa11.1/Sus_scrofa.Sscrofa11.1.110.gtf"
 REFC = (0, 2, 7, 8); W = 60; LMAX = 150
 OFF = {int(k): v for k, v in json.load(open(offj))[sid].items() if v is not None}
 t0 = time.time()
@@ -40,7 +30,7 @@ for line in open(GTF):
     if d.get("transcript_biotype") != "protein_coding": continue
     t = d["transcript_id"]; tinfo[t] = (f[0], f[6], d["gene_id"], d.get("gene_name", ""))
     (ex if f[2] == "exon" else cds)[t].append((int(f[3]), int(f[4])))
-# 转录本坐标：exon 按 5′→3′ 排序；CDS 起点/终点映射到转录本坐标
+
 blocks = collections.defaultdict(list)   # (chrom,strand) -> [gs, ge, tx_base, tid_index]
 TID = []; CS = []; CE = []; TL = []
 for t, el in ex.items():

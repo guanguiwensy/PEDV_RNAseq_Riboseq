@@ -1,21 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""PK1_VERO_ORF_VALIDATION_v1 分析 A/B/C：按 PREREG_cross_cell_classification.md（已冻结）计算；不新写 ORF calling；不算 P 值。
-输入：Vero 16 h（RIBO_VERO_CHX_1MOI_16h CHX、RIBO_VERO_HAR_1MOI_16h HAR；SupM_alt_ORF_evidence/cache/psite_by_length.pkl）与 PK1 16 h（RIBO_PK1_CHX_1MOI_16h、RIBO_PK1_HAR_1MOI_16h；PK1_psite 长表）29 nt + 链 P-site；候选来自 candidate_list_frozen.tsv（Vero 既有结果）。
-输出：VERO_KNOWN_ORF_PK1.tsv、start_variants_PK1_Vero.tsv、UTR_SIGNAL_VALIDATION.tsv、PK1_NEW_ORF_CANDIDATES.tsv 以及作图用的 pickle。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, sys, gzip, csv, pickle, hashlib, collections, math
 import numpy as np
@@ -27,10 +22,10 @@ PREREG_SHA = hashlib.sha256(open(PREREG, "rb").read()).hexdigest()
 VLEN = 27959
 COND = [("CHX", 16), ("HAR", 16)]
 VSID = {("CHX", 16): SR.lib("RIBO_VERO_CHX_1MOI_16h"), ("HAR", 16): SR.lib("RIBO_VERO_HAR_1MOI_16h")}; PSID = {("CHX", 16): SR.lib("RIBO_PK1_CHX_1MOI_16h"), ("HAR", 16): SR.lib("RIBO_PK1_HAR_1MOI_16h")}
-HOST = {"Vero": {"CHX": (0.8454, 0.099, 0.0555), "HAR": (0.8637, 0.0815, 0.0548)}, "PK1": {"CHX": (0.9257, 0.0409, 0.0334), "HAR": (0.7454, 0.1430, 0.1116)}}   # 宿主 canonical CDS 主体 29 nt F0/F1/F2
+HOST = {"Vero": {"CHX": (0.8454, 0.099, 0.0555), "HAR": (0.8637, 0.0815, 0.0548)}, "PK1": {"CHX": (0.9257, 0.0409, 0.0334), "HAR": (0.7454, 0.1430, 0.1116)}}
 PARENT = {"ORF1a": (293, 12622), "ORF1b": (12592, 20613), "S": (20610, 24758), "ORF3": (24758, 25033), "E": (25361, 25600), "M": (25608, 26288), "N": (26300, 27625)}
 
-# ---------- 数据 ----------
+
 cache = pickle.load(open(f"{ROOT}/SupM_alt_ORF_evidence/cache/psite_by_length.pkl", "rb"))["A"]
 ARR = {"Vero": {d: np.asarray(cache[VSID[(d, 16)]][29], float)[:VLEN + 1] for d in ("CHX", "HAR")}, "PK1": {d: np.zeros(VLEN + 1) for d in ("CHX", "HAR")}}
 rev = {v: k for k, v in PSID.items()}
@@ -42,7 +37,7 @@ with gzip.open(f"{ROOT}/PK1_psite/psite_counts_PEDV_GIb_PK1_29nt.tsv.gz", "rt", 
         ARR["PK1"][rev[p[0]][0]][int(p[4])] += int(p[8])
 TOT = {c: {d: ARR[c][d].sum() for d in ("CHX", "HAR")} for c in ARR}
 
-# ---------- 排除区与父 ORF 体 ----------
+
 EXCL = np.zeros(VLEN + 2, bool)
 EXCL[12586:12623] = True; EXCL[26687:26718] = True; EXCL[20610:20614] = True; EXCL[24758:24759] = True
 for n, (a, b) in PARENT.items():
@@ -60,7 +55,7 @@ def f0p(arr, parent):
     fr = (idx - PARENT[parent][0]) % 3
     return float(arr[idx][fr == 0].sum() / arr[idx].sum())
 
-# ---------- 候选 ----------
+
 cl = [l for l in open(f"{ROOT}/PK1_orf_evidence/candidate_list_frozen.tsv", encoding="utf-8") if not l.startswith("#")]
 CL = list(csv.DictReader(cl, delimiter="\t"))
 FAM = [r for r in CL if r["source_group"] == "HARTIS_PRICE_family"]
@@ -81,7 +76,7 @@ for a, f in FAMS.items():
         if frame_of(s, f["parent"]) != f["k"]: bad.append((a, s, frame_of(s, f["parent"]), f["k"]))
 print("frame inconsistencies (alias,start,frame,expected):", bad[:10], len(bad))
 
-# ---------- 度量 ----------
+
 def region_gate(f, cell):
     if cell != "PK1": return None
     lo, hi = f["span"]
@@ -111,7 +106,7 @@ def body_metrics(arr, f, cell, drug):
     pos = pos[~EXCL[pos]] if len(pos) else pos
     fr = (pos - PARENT[parent][0]) % 3 if len(pos) else pos
     cnt = [float(arr[pos][fr == j].sum()) if len(pos) else 0.0 for j in range(3)]; B = sum(cnt)
-    # 父 ORF 体内的病毒同框份额（去掉候选窗口）
+
     m = parent_body(parent).copy(); m[lo:hi + 1] = False; idx = np.nonzero(m)[0]
     vtot = arr[idx].sum(); vfr = (idx - PARENT[parent][0]) % 3
     v_c = float(arr[idx][vfr == k].sum() / vtot) if vtot > 0 else float("nan")
@@ -175,10 +170,11 @@ A_ROWS = [rowfor(r["alias_name"]) for r in SELA]
 def wtsv(name, rows, header):
     with open(f"{OUT}/{name}", "w", encoding="utf-8", newline="") as fh:
         fh.write("\n".join(header) + "\n"); w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()), delimiter="\t"); w.writeheader(); w.writerows(rows)
-H = ["# 分类规则：PREREG_cross_cell_classification.md（sha256 %s；冻结后未改）" % PREREG_SHA, f"# 样本：PK1 16 h（{SR.lib('RIBO_PK1_CHX_1MOI_16h')}、{SR.lib('RIBO_PK1_HAR_1MOI_16h')}）对 Vero 16 h（{SR.lib('RIBO_VERO_CHX_1MOI_16h')}、{SR.lib('RIBO_VERO_HAR_1MOI_16h')}）；29 nt；n=1；MOI = 1（PK1，用户确认）/ 1（Vero）",
-     "# 全部为探索性、未校正；supported/suggestive 只表示“与候选读框富集一致/有提示”，不是显著；未检出不等于不翻译；PK1 CHX 29 nt 周期性不足（frame0 约 0.47）"]
+H = ["# Classification rules: PREREG_cross_cell_classification.md (sha256 %s)" % PREREG_SHA,
+     f"# Samples: PK1 16 h ({SR.lib('RIBO_PK1_CHX_1MOI_16h')}, {SR.lib('RIBO_PK1_HAR_1MOI_16h')}) versus Vero 16 h ({SR.lib('RIBO_VERO_CHX_1MOI_16h')}, {SR.lib('RIBO_VERO_HAR_1MOI_16h')}); 29 nt; n=1; MOI=1 for both cell lines",
+     "# Exploratory, unadjusted results. Supported/suggestive labels indicate consistency with candidate-frame enrichment, not statistical significance. Lack of detection does not imply lack of translation. PK1 CHX 29-nt periodicity is weak (frame 0 approximately 0.47)."]
 wtsv("VERO_KNOWN_ORF_PK1.tsv", A_ROWS, H)
-# 所有起点变体明细
+
 vrows = []
 for r in FAM:
     f = FAMS[r["alias_name"]]
@@ -189,7 +185,7 @@ for r in FAM:
                           "W5_m": int(v["m"]["m"]), "host_cert_tier": v["tier"], "class": v["cls"], "reason": v["why"]})
 wtsv("start_variants_PK1_Vero.tsv", vrows, H)
 
-# ---------- 分析 C：新候选（不在分析 A 的家族）----------
+
 selA = {r["alias_name"] for r in SELA}
 C_ROWS = []
 ORDV = {"supported": 3, "suggestive": 2, "not_detected": 1, "not_assessable": 0}
@@ -215,7 +211,7 @@ wtsv("PK1_NEW_ORF_CANDIDATES.tsv", crow, H + ["# 新候选扫描：既有 74 个
                                                     "# PRICE 在 PK1 上未运行；条件差异检验（类别 3）未做（n=1，无重复，待确认）"])
 print("C scan: non-A families", len(C_ROWS), "PK1 >=suggestive", sum(1 for x in C_ROWS if x[0] >= 2), dict(cat_counts))
 
-# ---------- 分析 B：UTR ----------
+
 HOT = [("5UTR", 22), ("5UTR", 113), ("5UTR", 271), ("3UTR", 27707), ("3UTR", 27820), ("3UTR", 27919), ("3UTR", 27920)]
 def win(arr, lo, hi): return arr[lo:hi + 1]
 B_ROWS = []
@@ -235,7 +231,7 @@ for reg, h in HOT:
         B_ROWS.append({"type": "hotspot", "region": reg, "target": "%d" % h, "drug": drug, "Vero_peak_pos": pv, "Vero_peak_Psites": int(Pv), "Vero_peak_CPM29": round(float(cv[pv]), 1), "Vero_bg_mean": round(bgvm, 3),
                        "PK1_peak_pos": pp, "PK1_peak_Psites": int(P), "PK1_peak_CPM29": round(float(cp[pp]), 1), "PK1_bg_mean": round(bgmean, 3), "peak_shift_nt": pp - pv, "PK1_fold_over_bg": fmt(fold, 1), "PK1_window_total_Psites": int(tot), "class": cls, "reason": why,
                        "note": "热点是 P-site 位置，不是起始密码子；n=1；PK1 CHX 29 nt 周期性不足" if drug == "CHX" else "热点是 P-site 位置，不是起始密码子；n=1"})
-# PK1 非热点 top 位点（5′ 1-300、3′ 27626-27959）
+
 hotwin = [(h - 10, h + 10) for _, h in HOT]
 for reg, lo, hi in (("5UTR", 1, 292), ("3UTR", 27626, 27959)):
     for drug in ("CHX", "HAR"):
@@ -246,7 +242,7 @@ for reg, lo, hi in (("5UTR", 1, 292), ("3UTR", 27626, 27959)):
             fold = P / bm if bm > 0 else float("inf")
             B_ROWS.append({"type": "PK1_top_nonhotspot_site", "region": reg, "target": str(x), "drug": drug, "PK1_peak_pos": x, "PK1_peak_Psites": int(P), "PK1_peak_CPM29": round(float(P / TOT["PK1"][drug] * 1e6), 1), "PK1_bg_mean": round(bm, 3), "PK1_fold_over_bg": fmt(fold, 1),
                            "Vero_peak_Psites": int(ARR["Vero"][drug][x]), "class": "listed_only", "reason": "PREREG §4：只列出，不做“新热点”结论（P-site≥50 且 峰/背景≥20 者标 candidate_for_review）" + ("；candidate_for_review" if (P >= 50 and fold >= 20) else ""), "note": "n=1；探索性"})
-# UTR 候选起点
+
 frz = {}
 for r in CL:
     if r["source_group"] in ("3UTR_audit", "gRNA_5prime_package", "terminal_ORF") and isinstance(r["start"], str) and r["start"].isdigit():
@@ -266,7 +262,7 @@ def utr_start_row(s, label):
         elif P >= 100 and fold >= 20 and rank == 1: cls, why = "start_supported", "P_s=%d, fold=%s, rank=%d" % (P, fmt(fold, 1), rank)
         elif P >= 20 and fold >= 5 and rank <= 2: cls, why = "start_suggestive", "P_s=%d, fold=%s, rank=%d" % (P, fmt(fold, 1), rank)
         else: cls, why = "start_not_detected", "P_s=%d, fold=%s, rank=%d" % (P, fmt(fold, 1), rank)
-        # 候选读框（以起点为 0）体内份额（到冻结终止；无终止则 ±60 nt）
+
         hi = stopv if stopv else s + 60; seg = np.arange(s, min(VLEN, hi) + 1); fr = (seg - s) % 3; carr = ARR[cell]["CHX"]
         cnt = [float(carr[seg][fr == j].sum()) for j in range(3)]; B = sum(cnt)
         out.update({cell + "_HAR_W1_P": int(P), cell + "_HAR_fold": fmt(fold, 1), cell + "_HAR_rank": rank, cell + "_HAR_W5_total": int(w5), cell + "_HAR_class": cls, cell + "_HAR_reason": why,

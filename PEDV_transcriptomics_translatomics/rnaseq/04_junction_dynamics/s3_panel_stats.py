@@ -1,19 +1,15 @@
 #!/usr/bin/env python3
-"""Step 3: 各 panel 所需统计结果 + QC。输入 s1 产出的 data/*.csv(逐样本、可追溯 sample_id)。
-零重复设计: 全部为描述性汇总, 不含显著性检验; CHX/HAR 为两个独立文库(不当作生物学重复)。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import os
 from collections import defaultdict
 import numpy as np
@@ -24,14 +20,14 @@ GL = 27959
 TIMES = [3, 5, 8, 12, 16]
 CAN = ["S", "ORF3", "E", "M", "N"]
 NCC = ["TRSL_dep_noncanonical", "TRSL_indep_distant", "TRSL_indep_local"]
-DET_MIN = 3            # 某文库中"检出"一个事件簇所需最小 junction reads
-BIN = 20               # panel E 直方图 bin (nt)
+DET_MIN = 3
+BIN = 20
 M = 1e6
 rng = np.random.default_rng(20261010)
 
 ps = pd.read_csv(D + "junction_event_sample_matrix_long.csv.gz")
 cls = pd.read_csv(D + "per_sample_class_counts.csv")
-# ---------- 分母: 优先 minimap2 BAM 的病毒 fragment (与 junction calling 同一比对) ----------
+
 den_path = D + "viral_fragments_mm2.tsv"
 if os.path.exists(den_path):
     dn = pd.read_csv(den_path, sep="\t")
@@ -102,7 +98,7 @@ for n in NCC:
 pC.to_csv(D + "panelC_noncanonical_pooled_DESCRIPTIVE.csv", index=False)
 zero_C = int((Cd[NCC] == 0).sum().sum())
 
-# ================= Panel D: 非 canonical 事件簇 =================
+
 nc = ps[ps.junction_class != "canonical"].copy()
 ev = nc.groupby(["donor", "acc", "junction_class"]).reads.sum().reset_index()
 
@@ -116,9 +112,9 @@ def chain(vals, w=5):
     return lab
 
 
-dep = ev[ev.junction_class == "TRSL_dep_noncanonical"].copy()      # 与 Fig2C 相同: acceptor 链式聚类 <=5 nt
+dep = ev[ev.junction_class == "TRSL_dep_noncanonical"].copy()
 dep["cluster_key"] = "dep_" + dep.acc.map(chain(dep.acc.values)).astype(str)
-ind = ev[ev.junction_class != "TRSL_dep_noncanonical"].copy().reset_index(drop=True)   # 新增: donor & acceptor 同时 <=5 nt 单连接
+ind = ev[ev.junction_class != "TRSL_dep_noncanonical"].copy().reset_index(drop=True)
 par = np.arange(len(ind))
 
 
@@ -197,7 +193,7 @@ ov_n = len(set(ov[0.1]) & set(ov[1.0]))
 pd.DataFrame({"top30_MOI0.1": list(ov[0.1]), "top30_MOI1": list(ov[1.0]),
               "in_both": [c in set(ov[1.0]) for c in ov[0.1]]}).to_csv(D + "panelD_top30_overlap_between_MOI.csv", index=False)
 
-# 降采样敏感性: 每文库 classified junction reads 二项稀释到最小深度, 100 次
+
 dmin = int(cls.all_classified.min())
 sel_set = set(sel.cluster_id)
 ncm = nc.groupby(["sample_id", "cluster_id"]).reads.sum().reset_index()
@@ -220,7 +216,7 @@ for s in cls.sample_id:
                     panelD_rows_detected_downsampled_mean=float(np.mean(det_sel))))
 pd.DataFrame(res).merge(meta.reset_index(), on="sample_id").to_csv(D + "panelD_downsampling_sensitivity.csv", index=False)
 
-# ================= Panel E: 断点分布 =================
+
 nb = int(np.ceil(GL / BIN))
 rowsE = []
 ps2 = ps.copy()

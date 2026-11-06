@@ -1,6 +1,4 @@
 #!/bin/bash
-# GI-b 重比对（refdata_GIb_v1.1 merged oh40）。比对参数与冻结 Ribo 流程（Riboseq_qc_mapping/scripts/run_one.sh 及旧 BAM Log.out）逐条一致；
-# 仅新增两个纯输出选项：--outTmpDir（临时目录放 data1，避开根分区）、--outReadsUnmapped Fastx（未比对/超多重 reads 另存，供跨参考多重比对与污染复核；不改变比对结果）。
 set -euo pipefail
 id=$1
 R=${PEDV_SERVER_ROOT:?set PEDV_SERVER_ROOT}/analysis_GIb/Riboseq_GIb_psite
@@ -12,7 +10,7 @@ fq=$(awk -F"\t" -v s=$id '$1==s{print $4}' $R/scripts/samples_GIb.tsv)
 [[ -s $fq ]] || { echo "[ERR] missing $fq"; exit 2; }
 out=$R/align/$id; mkdir -p $out; pre=$out/$id.
 if [[ -s ${pre}Log.final.out ]]; then echo "[$id] skip (done)"; exit 0; fi
-rm -rf $R/tmp/$id   # STAR 要求 outTmpDir 不存在；仅删本任务自建的临时目录
+rm -rf $R/tmp/$id
 echo "[$id] START $(date)"
 $STAR --runThreadN 8 --genomeDir $IDX --readFilesIn $fq --readFilesCommand "pigz -dc" \
   --outSAMtype BAM SortedByCoordinate --outFileNamePrefix $pre --limitBAMsortRAM 20000000000 \

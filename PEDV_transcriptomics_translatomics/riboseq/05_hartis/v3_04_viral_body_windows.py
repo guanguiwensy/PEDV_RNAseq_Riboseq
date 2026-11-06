@@ -1,22 +1,14 @@
-"""v3-04 病毒 body 尺度窗口：候选家族（只输出 n0、m、协变量、匹配宿主数、MDE；n1/n2 盲藏）与非候选窗口（完整计算，用于对调检验与宿主→病毒迁移校准）。
-读框：frame(p) = (p − parent_start) mod 3；F1 = 1，F2 = 2。HAR/CHX 一律纯 29 nt + 链 P-site（offset 12）。
-CHX 16h 两个库分列：065（主 P-site 表）与 813（PRICE/Ribo-TISH 29 nt 用），不合并。
-排除区（预设）：12,586–12,622；canonical 起始 [−12, +30]；canonical 终止 [−30, +30]；26,702 jackpot（PAUSE_v2）；
-  另：ORF 重叠区（canonical 框不唯一）。body 窗 = [家族最 5′ 起点 + 30, 终止 − 30] 去掉排除区与重叠区。
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, sys, numpy as np, pandas as pd
 from scipy.stats import binom
@@ -32,7 +24,7 @@ LIBS = {'HAR5': SR.lib("RIBO_VERO_HAR_1MOI_5h"), 'HAR8': SR.lib("RIBO_VERO_HAR_1
 HOSTLIB = {'HAR5': 'HAR5', 'HAR8': 'HAR8', 'HAR16': 'HAR16', 'CHX5': 'CHX5', 'CHX8': 'CHX8', 'CHX16': 'CHX16'}
 SEQ = ' ' + ''.join(l.strip() for l in open(os.path.join(R, 'refbuild_GIb', 'v1.1', 'virus', 'PEDV_GIb.fa')) if not l.startswith('>')).upper()
 
-# 29 nt 数组
+
 PS = pd.read_csv(os.path.join(RG, 'psite_counts_PEDV_GIb.tsv.gz'), sep='\t', comment='#', usecols=['sample_id', 'strand', 'position', 'read_length', 'psite_count'])
 PS = PS[(PS.strand == '+') & (PS.read_length == 29)]
 A = {}
@@ -46,7 +38,7 @@ for lab, s in LIBS.items():
     a[g.index.values] = g.values; A[lab] = a
 pd.DataFrame([dict(library=k, sample_id=LIBS[k], plus_29nt_psites=int(v.sum())) for k, v in A.items()]).to_csv(os.path.join(T, 'viral_29nt_totals.tsv'), sep='\t', index=False)
 
-# 父 ORF 与相位、排除掩码
+
 parent = np.array([''] * (GL + 2), dtype=object); pst = np.zeros(GL + 2, int); cover = np.zeros(GL + 2, int)
 for n, a, b in ORFS:
     cover[a:b + 1] += 1
@@ -55,7 +47,7 @@ excl = np.zeros(GL + 2, bool)
 excl[12586:12623] = True
 for s in CSTART.values(): excl[max(1, s - 12):s + 31] = True
 for s in CSTOP.values(): excl[max(1, s - 30):min(GL, s + 30) + 1] = True
-excl[26702 - 15:26702 + 16] = True          # jackpot：沿用 PAUSE_v2 判定，窗口半径 15（覆盖 29 nt 足迹）
+excl[26702 - 15:26702 + 16] = True
 excl[cover != 1] = True
 pos = np.arange(GL + 2)
 frame = np.where(pst > 0, (pos - pst) % 3, -1)
@@ -74,7 +66,7 @@ FAM = V.groupby('family_id').agg(parent=('parent_canonical_ORF', 'first'), first
 nm = pd.read_csv(os.path.join(R, 'global_perturbation_screen', 'plus1_orf_capacity', 'panelC_family_name_mapping.tsv'), sep='\t')
 FAM['family_display'] = FAM.family_id.map(dict(zip(nm.original_family_id, nm.displayed_name)))
 
-# 宿主训练集（与 v3_03 相同的剔除；这里用全部可训练基因）
+
 HG = pd.read_csv(os.path.join(T, 'host_gene_level_29nt_frames.tsv.gz'), sep='\t')
 HG = HG[HG.train_eligible & (HG.m >= 10) & HG.GC.notna()].copy()
 HG['lm'] = np.log2(HG.m); HG['ld'] = np.log2(HG.n0_density + 1e-4); HG['r'] = HG.n1 / HG.m
@@ -87,7 +79,7 @@ def host_match(lib, m, dens, gc):
     for lev in range(3):
         k = (np.abs(X - x) <= CAL * 1.5 ** lev).all(1)
         if k.sum() >= KMIN: return d[k], int(k.sum()), f'level{lev}'
-    # 记录越界的维度
+
     out = []
     for j, nmv in enumerate(['m', 'n0_density', 'GC']):
         if x[j] > X[:, j].max() or x[j] < X[:, j].min(): out.append(nmv + '_out_of_host_range')
@@ -114,7 +106,7 @@ for _, f in FAM.iterrows():
                          MDE_n1_min_at_p0_05=n1min, fixed_p0_library=p0,
                          m_gate=('pass' if m >= 30 else ('low' if m >= 10 else 'fail')),
                          detectability=('assessable' if (m >= 30 and sub is not None) else ('low_depth' if (m >= 10 and sub is not None) else 'not_assessable'))))
-# ---- 起始近端尺度（候选起点；只出 n0、m；窗口 W3 与 W9） ----
+
 for _, v in V.iterrows():
     s0 = int(v.start_position)
     for w, (a_, b_) in {'W3': (-1, 1), 'W9': (-3, 5)}.items():
@@ -136,7 +128,7 @@ print(B.groupby(['library', 'detectability']).size().unstack(fill_value=0))
 print(B.groupby(['library', 'match_level']).size().unstack(fill_value=0).to_string())
 print(B[B.family_display.isin(['N-x1', 'N-x2', 'ORF1a-x22'])][['library', 'family_display', 'usable_nt', 'n0', 'm', 'n0_density', 'matched_host_sites', 'match_level', 'detectability']].to_string())
 
-# ---- 非候选窗口：与任何家族 body/起点 ±60 不相交、在父 ORF 内、去排除区，长度 150 nt 平铺 ----
+
 occ = np.zeros(GL + 2, bool)
 for _, f in FAM.iterrows(): occ[max(1, f.first_start - 60):min(GL, f.stop + 60) + 1] = True
 for s in V.start_position.values: occ[max(1, s - 60):min(GL, s + 60) + 1] = True

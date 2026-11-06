@@ -1,19 +1,17 @@
 """Step 1: transcript model + terminal ORF enumeration (sequence only, no translation evidence).
 Transcripts: gRNA, S, ORF3, E, M, N. Junctions from frozen GIb_junction_remeasured.tsv
 (donor = last leader base, acceptor = first body base)."""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import pandas as pd, numpy as np, hashlib
 B = PEDV_P+''
 OUT = B + 'fig5_terminal_ORF/'
@@ -99,7 +97,7 @@ for name in MAIN:
     o, s, m, mst, mend, nend = enumerate_orfs(name)
     aug_pos = [i + 1 for i in range(mst - 1) if s[i:i + 3] == 'ATG']
     any_pos = [i + 1 for i in range(mst - 1) if s[i:i + 3] in START]
-    jstat = '坐标实测;TRS-B身份待确认' if name == 'ORF3' else ('n/a(gRNA无junction)' if name == 'gRNA' else '实测')
+    jstat = 'coordinates measured; TRS-B identity unresolved' if name == 'ORF3' else ('n/a (gRNA has no junction)' if name == 'gRNA' else 'measured')
     jtxt = 'NA' if name == 'gRNA' else f"{int(jn.loc[name, 'leader_end_donor_left_aligned'])}|{int(jn.loc[name, 'body_start_acceptor_left_aligned'])}"
     for r in o:
         if r['unterminated']:
@@ -147,7 +145,7 @@ df['universal_on_all_6'] = df.n_transcripts_identical_ORF == 6
 df['needs_confirmation'] = df.start_in_filled_region_1_9
 df['confirmation_reason'] = np.where(df.start_in_filled_region_1_9,
                                      'start in reference position 1-9 (filled; true gRNA 5-prime end unknown)',
-                                     np.where(df.junction_status.str.contains('待确认'), 'ORF3 TRS-B identity pending', ''))
+                                      np.where(df.junction_status.str.contains('unresolved'), 'ORF3 TRS-B identity unresolved', ''))
 df['transcript_id'] = pd.Categorical(df.transcript_id, order)
 df = df.sort_values(['region', 'transcript_id', 'transcript_start']).reset_index(drop=True)
 df['transcript_id'] = df.transcript_id.astype(str)

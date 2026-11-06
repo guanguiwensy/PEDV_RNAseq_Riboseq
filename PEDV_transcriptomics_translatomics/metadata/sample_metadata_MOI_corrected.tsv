@@ -1,34 +1,27 @@
-﻿sample_id	original_name	library_type	virus_genotype	MOI	MOI_source	has_biological_replicate	treatment	hpi	replicate	paired_sample	design_note	in_current_working_set
-RNA_VERO_CHX_0.1MOI_3h	Cv777CHX3h	RNA-seq	GI-b	0.1	vendor_name	no	CHX	3	NA		batch3 factorial 2MOI x 2treat x 5hpi	no
-RNA_VERO_HAR_0.1MOI_3h	Cv777HAR3h	RNA-seq	GI-b	0.1	vendor_name	no	HAR	3	NA		batch3 factorial 2MOI x 2treat x 5hpi	no
-RNA_VERO_CHX_1MOI_3h	LZCHX3h	RNA-seq	GI-b	1	vendor_name	no	CHX	3	NA		batch3 factorial 2MOI x 2treat x 5hpi	no
-RNA_VERO_HAR_1MOI_3h	LZHAR3h	RNA-seq	GI-b	1	vendor_name	no	HAR	3	NA		batch3 factorial 2MOI x 2treat x 5hpi	no
-RNA_VERO_CHX_0.1MOI_5h	Cv777CHX5h	RNA-seq	GI-b	0.1	vendor_name	no	CHX	5	NA		batch3 factorial 2MOI x 2treat x 5hpi	no
-RNA_VERO_HAR_0.1MOI_5h	Cv777HAR5h	RNA-seq	GI-b	0.1	vendor_name	no	HAR	5	NA		batch3 factorial 2MOI x 2treat x 5hpi	no
-RNA_VERO_CHX_1MOI_5h	LZCHX5h	RNA-seq	GI-b	1	vendor_name	no	CHX	5	NA	RIBO_VERO_CHX_1MOI_5h	batch3 factorial 2MOI x 2treat x 5hpi	yes
-RNA_VERO_HAR_1MOI_5h	LZHAR5h	RNA-seq	GI-b	1	vendor_name	no	HAR	5	NA	RIBO_VERO_HAR_1MOI_5h	batch3 factorial 2MOI x 2treat x 5hpi	yes
-RNA_VERO_CHX_0.1MOI_8h	Cv777CHX8h	RNA-seq	GI-b	0.1	vendor_name	no	CHX	8	NA		batch3 factorial 2MOI x 2treat x 5hpi	no
-RNA_VERO_HAR_0.1MOI_8h	Cv777HAR8h	RNA-seq	GI-b	0.1	vendor_name	no	HAR	8	NA		batch3 factorial 2MOI x 2treat x 5hpi	no
-RNA_VERO_CHX_1MOI_8h	LZCHX8h	RNA-seq	GI-b	1	vendor_name	no	CHX	8	NA		batch3 factorial 2MOI x 2treat x 5hpi	no
-RNA_VERO_HAR_1MOI_8h	LZHAR8h	RNA-seq	GI-b	1	vendor_name	no	HAR	8	NA	RIBO_VERO_HAR_1MOI_8h	batch3 factorial 2MOI x 2treat x 5hpi	yes
-RNA_VERO_CHX_0.1MOI_12h	Cv777CHX12	RNA-seq	GI-b	0.1	vendor_name	no	CHX	12	NA		batch3 factorial 2MOI x 2treat x 5hpi	no
-RNA_VERO_HAR_0.1MOI_12h	Cv777HAR12	RNA-seq	GI-b	0.1	vendor_name	no	HAR	12	NA		batch3 factorial 2MOI x 2treat x 5hpi	no
-RNA_VERO_CHX_1MOI_12h	LZCHX12h	RNA-seq	GI-b	1	vendor_name	no	CHX	12	NA		batch3 factorial 2MOI x 2treat x 5hpi	no
-RNA_VERO_HAR_1MOI_12h	LZHAR12h	RNA-seq	GI-b	1	vendor_name	no	HAR	12	NA		batch3 factorial 2MOI x 2treat x 5hpi	no
-RNA_VERO_CHX_0.1MOI_16h	Cv777CHX16	RNA-seq	GI-b	0.1	vendor_name	no	CHX	16	NA		batch3 factorial 2MOI x 2treat x 5hpi	no
-RNA_VERO_HAR_0.1MOI_16h	Cv777HAR16	RNA-seq	GI-b	0.1	vendor_name	no	HAR	16	NA		batch3 factorial 2MOI x 2treat x 5hpi	no
-RNA_VERO_CHX_1MOI_16h	LZCHX16h	RNA-seq	GI-b	1	vendor_name	no	CHX	16	NA	EXCLUDED_LIBRARY	batch3 factorial 2MOI x 2treat x 5hpi	yes
-RNA_VERO_HAR_1MOI_16h	LZHAR16h	RNA-seq	GI-b	1	vendor_name	no	HAR	16	NA	RIBO_VERO_HAR_1MOI_16h	batch3 factorial 2MOI x 2treat x 5hpi	yes
-EXCLUDED_LIBRARY	8h	RNA-seq	GI-b	1_推定	inferred_same_experiment_as_Ribo	no	CHX	8	NA	RIBO_VERO_CHX_1MOI_8h	earlier prep; MOI 无记录，按同实验的 Ribo 为 1 MOI 推定，待确认	yes
-EXCLUDED_LIBRARY	12h	RNA-seq	GI-b	1_推定	inferred_same_experiment_as_Ribo	no	CHX	12	NA		earlier prep; MOI 无记录，按同实验的 Ribo 为 1 MOI 推定，待确认	no
-EXCLUDED_LIBRARY	16h	RNA-seq	GI-b	1_推定	inferred_same_experiment_as_Ribo	no	CHX	16	NA		earlier prep; MOI 无记录，按同实验的 Ribo 为 1 MOI 推定，待确认	no
-RIBO_VERO_CHX_1MOI_5h	LZCHX5h	Ribo-seq	GI-b	1	user_statement_20261010	no	CHX	5	NA	RNA_VERO_CHX_1MOI_5h	Ribo-seq 实验一律 1 MOI；样本名中的 Cv777/LZ 前缀不表示 MOI	yes
-RIBO_VERO_HAR_1MOI_5h	LZHAR5h	Ribo-seq	GI-b	1	user_statement_20261010	no	HAR	5	NA	RNA_VERO_HAR_1MOI_5h	Ribo-seq 实验一律 1 MOI；样本名中的 Cv777/LZ 前缀不表示 MOI	yes
-RIBO_VERO_HAR_1MOI_8h	LZHAR8h	Ribo-seq	GI-b	1	user_statement_20261010	no	HAR	8	NA	RNA_VERO_HAR_1MOI_8h	Ribo-seq 实验一律 1 MOI；样本名中的 Cv777/LZ 前缀不表示 MOI	yes
-EXCLUDED_LIBRARY	LZCHX12h	Ribo-seq	GI-b	1	user_statement_20261010	no	CHX	12	NA		Ribo-seq 实验一律 1 MOI；样本名中的 Cv777/LZ 前缀不表示 MOI	no
-RIBO_VERO_HAR_1MOI_16h	LZHAR16h	Ribo-seq	GI-b	1	user_statement_20261010	no	HAR	16	NA	RNA_VERO_HAR_1MOI_16h	Ribo-seq 实验一律 1 MOI；样本名中的 Cv777/LZ 前缀不表示 MOI	yes
-EXCLUDED_LIBRARY	Cv777CHX16	Ribo-seq	GI-b	1	user_statement_20261010	no	CHX	16	NA	RNA_VERO_CHX_1MOI_16h	Ribo-seq 实验一律 1 MOI；样本名中的 Cv777/LZ 前缀不表示 MOI	yes
-EXCLUDED_LIBRARY	Cv777HAR16	Ribo-seq	GI-b	1	user_statement_20261010	no	HAR	16	NA		Ribo-seq 实验一律 1 MOI；样本名中的 Cv777/LZ 前缀不表示 MOI	no
-RIBO_VERO_CHX_1MOI_8h	8h	Ribo-seq	GI-b	1	user_statement_20261010	no	CHX	8	NA	EXCLUDED_LIBRARY	Ribo-seq 实验一律 1 MOI；样本名中的 Cv777/LZ 前缀不表示 MOI	yes
-EXCLUDED_LIBRARY	12h	Ribo-seq	GI-b	1	user_statement_20261010	no	CHX	12	NA		Ribo-seq 实验一律 1 MOI；样本名中的 Cv777/LZ 前缀不表示 MOI	no
-RIBO_VERO_CHX_1MOI_16h	16h	Ribo-seq	GI-b	1	user_statement_20261010	no	CHX	16	NA		Ribo-seq 实验一律 1 MOI；样本名中的 Cv777/LZ 前缀不表示 MOI	no
+sample_id	library_type	virus_genotype	MOI	has_biological_replicate	treatment	hpi
+RNA_VERO_CHX_0.1MOI_3h	RNA-seq	GI-b	0.1	no	CHX	3
+RNA_VERO_HAR_0.1MOI_3h	RNA-seq	GI-b	0.1	no	HAR	3
+RNA_VERO_CHX_1MOI_3h	RNA-seq	GI-b	1	no	CHX	3
+RNA_VERO_HAR_1MOI_3h	RNA-seq	GI-b	1	no	HAR	3
+RNA_VERO_CHX_0.1MOI_5h	RNA-seq	GI-b	0.1	no	CHX	5
+RNA_VERO_HAR_0.1MOI_5h	RNA-seq	GI-b	0.1	no	HAR	5
+RNA_VERO_CHX_1MOI_5h	RNA-seq	GI-b	1	no	CHX	5
+RNA_VERO_HAR_1MOI_5h	RNA-seq	GI-b	1	no	HAR	5
+RNA_VERO_CHX_0.1MOI_8h	RNA-seq	GI-b	0.1	no	CHX	8
+RNA_VERO_HAR_0.1MOI_8h	RNA-seq	GI-b	0.1	no	HAR	8
+RNA_VERO_CHX_1MOI_8h	RNA-seq	GI-b	1	no	CHX	8
+RNA_VERO_HAR_1MOI_8h	RNA-seq	GI-b	1	no	HAR	8
+RNA_VERO_CHX_0.1MOI_12h	RNA-seq	GI-b	0.1	no	CHX	12
+RNA_VERO_HAR_0.1MOI_12h	RNA-seq	GI-b	0.1	no	HAR	12
+RNA_VERO_CHX_1MOI_12h	RNA-seq	GI-b	1	no	CHX	12
+RNA_VERO_HAR_1MOI_12h	RNA-seq	GI-b	1	no	HAR	12
+RNA_VERO_CHX_0.1MOI_16h	RNA-seq	GI-b	0.1	no	CHX	16
+RNA_VERO_HAR_0.1MOI_16h	RNA-seq	GI-b	0.1	no	HAR	16
+RNA_VERO_CHX_1MOI_16h	RNA-seq	GI-b	1	no	CHX	16
+RNA_VERO_HAR_1MOI_16h	RNA-seq	GI-b	1	no	HAR	16
+RIBO_VERO_CHX_1MOI_5h	Ribo-seq	GI-b	1	no	CHX	5
+RIBO_VERO_HAR_1MOI_5h	Ribo-seq	GI-b	1	no	HAR	5
+RIBO_VERO_HAR_1MOI_8h	Ribo-seq	GI-b	1	no	HAR	8
+RIBO_VERO_HAR_1MOI_16h	Ribo-seq	GI-b	1	no	HAR	16
+RIBO_VERO_CHX_1MOI_8h	Ribo-seq	GI-b	1	no	CHX	8
+RIBO_VERO_CHX_1MOI_16h	Ribo-seq	GI-b	1	no	CHX	16

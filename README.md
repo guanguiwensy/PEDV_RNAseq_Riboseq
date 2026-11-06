@@ -1,78 +1,50 @@
-# Integrated Transcriptomic and Translatomic Profiling Reveals Noncanonical RNA Junctions and Hidden Coding Potential in Porcine Epidemic Diarrhea Virus
+# PEDV transcriptomics and translatomics
 
-> **Status:** first public code archive (v0.1). The analysis code, configuration, sample registry and test records are uploaded; see [README_CODE_PACKAGE.md](README_CODE_PACKAGE.md) for the full guide. Raw sequencing data are registered under NCBI BioProject PRJNA1554149 but **not yet public**. 
+Code for integrated RNA-seq, Ribo-seq, and comparative-genomics analyses of porcine epidemic diarrhea virus (PEDV).
 
-## Overview
+## Repository layout
 
-Porcine epidemic diarrhea virus (PEDV) is an alphacoronavirus and a major enteric pathogen of pigs. This study combines time-course RNA-seq, Ribo-seq with cycloheximide (CHX) and harringtonine (HAR) treatment, and comparative genomics to profile the PEDV transcriptome and translatome. The analyses address coronavirus RNA transcription, noncanonical RNA junctions, ribosome occupancy on viral RNA, and the hidden coding potential of the PEDV genome. This directory will hold the code and reproduction notes for the computational analyses reported in the manuscript.
+The analysis package is in `PEDV_transcriptomics_translatomics/`:
 
-## Repository scope
+- `rnaseq/`: alignment, junction calling, classification, abundance, and junction dynamics.
+- `riboseq/`: alignment, P-site offsets, periodicity, PRICE, HARTIS, terminal translation, and PK1 comparisons.
+- `comparative_genomics/`: sequence collection, lineage analysis, ORF scans, conservation, and null models.
+- `figures/`: figure-generation scripts.
+- `config/`: shared paths, sample registry, and fixed analysis inputs.
+- `metadata/`: the 30-library sample table, public-data sources, and genome accessions.
+- `environment/`: Python and server environment definitions.
+- `tests/`: reproduction entry points and the sample-registry audit utility.
 
-Only in-house analysis and plotting code for the three modules below is in scope.
+## Data configuration
 
-### RNA-seq analysis
+Raw data and large intermediate files are not stored in this repository. Scripts resolve data roots in this order:
 
-- Read preprocessing, quality control and alignment
-- Quantification of viral and host reads
-- PEDV genome coverage
-- Identification and classification of canonical and noncanonical RNA junctions
-- Abundance, distribution and temporal dynamics of sgRNAs
-- TRS-L similarity, microhomology and related junction analyses
-- Plotting code for the corresponding manuscript figures
+1. environment variables;
+2. `config/paths.local.yaml`;
+3. directories below `PEDV_transcriptomics_translatomics/data_root/`.
 
-### Ribo-seq analysis
+Copy `config/paths.example.yaml` to `config/paths.local.yaml` when custom locations are needed. The configured roots must be writable because some analyses place outputs beside their inputs.
 
-- Read preprocessing and alignment to reference genomes
-- RPF length distribution and P-site offset estimation
-- Reading-frame periodicity and ribosome occupancy
-- CHX- and HAR-based translation signals
-- Ribosome occupancy in the 5′ and 3′ UTRs
-- Prediction and filtering of noncanonical ORFs
-- PRICE and HARTIS (in-house method) analyses and plots
+## Environments
 
-RPF length selection and library choice differ between figures. They will be documented for each analysis as the code is added.
+For workstation analyses:
 
-### Comparative genomics
-
-- Collection and processing of coronavirus and PEDV reference genomes
-- Multiple sequence alignment and redundancy reduction
-- Genome-wide scanning for overlapping ORFs in PEDV
-- Distribution of potential ORFs across genomic regions
-- Sequence conservation and homology of overlapping ORFs
-- Comparative genomics and evolution plots
-
-Third-party tools (for example MAFFT, CD-HIT and SynPlot2) are not redistributed. Only our own wrapper code, configuration and workflow steps will be included.
-
-## Organization
-
-```
-PEDV_transcriptomics_translatomics/
-├── README.md                 this overview
-├── README_CODE_PACKAGE.md    detailed guide (levels of reproduction, sample registry, set-up, limitations)
-├── LICENSE                   MIT
-├── config/                   path configuration and the sample registry (config/sample_registry.py)
-├── metadata/                 sample.txt (30 libraries), reference/genome notes, 1,083-genome accession list, figure-to-sample map
-├── rnaseq/                   RNA-seq modules (alignment, junctions, classification, dynamics, TRS/microhomology)
-├── riboseq/                  Ribo-seq modules (alignment, P-site offsets, periodicity, PRICE, HARTIS, gRNA terminal translation, PK1)
-├── comparative_genomics/     sequence database, alignment/lineage, ORF scan, retention and null models
-├── figures/                  final plotting scripts, one directory per figure
-├── environment/              software versions and environment drafts
-├── docs/                     per-figure code index, run order, test report, issue register, release blockers
-└── tests/                    reproduction/audit scripts, logs and the final sample-whitelist audit
+```bash
+python -m pip install -r PEDV_transcriptomics_translatomics/environment/requirements.txt
 ```
 
-## Data availability
+Alignment, BAM processing, and other server workflows use the Conda environment in `environment/environment.yml`. These workflows require Linux tools such as STAR, samtools, minimap2, bowtie2, and pysam. PRICE additionally requires Gedi and OpenJDK 11.
 
-* Authors' sequencing data (20 Vero RNA-seq, 6 Vero Ribo-seq, 2 PK-1 RNA-seq, 2 PK-1 Ribo-seq libraries): NCBI BioProject **PRJNA1554149**, registered, not yet released; library and run accessions are listed in `metadata/sample.txt`.
-* Public external data keep their own accessions (`metadata/public_data_sources.tsv`).
-* 1,083 PEDV genomes: `metadata/PEDV_1083_genomes_accession_list.tsv` and `metadata/PEDV_database_construction.md`.
+## Samples and public data
 
-## Software requirements
+`metadata/sample.txt` is the authoritative registry for the 30 in-house libraries. External accessions used by the analyses are listed in `metadata/public_data_sources.tsv`.
 
-See `environment/` (`software_versions.tsv`, `requirements.txt`, `environment.yml` draft). Versions marked TO_CONFIRM in `software_versions.tsv` still have to be checked.
+The in-house sequencing data are associated with NCBI BioProject `PRJNA1554149`; run accessions and release dates are recorded in `metadata/sample.txt`.
 
-## Citation
+## Reproduction
 
-*Integrated Transcriptomic and Translatomic Profiling Reveals Noncanonical RNA Junctions and Hidden Coding Potential in Porcine Epidemic Diarrhea Virus.* Manuscript submitted.
+After configuring populated data roots, run the relevant module scripts or use `tests/repro_commands.sh` as an entry-point list. The commands are not a single end-to-end workflow because server-generated inputs are required by several downstream analyses.
 
-Full citation details will be added after publication.
+## License
+
+MIT License. See `LICENSE`.

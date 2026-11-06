@@ -1,20 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""逐读长读框分布：CSV、reads retention audit 与两张条形图。依赖 01_frame_counts.py、02_frame_ambiguity.py。
-This figure is intended to show, library by library, which read lengths carry a reliable reading-frame preference in host CDS P-sites."""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, json, datetime
 import numpy as np, pandas as pd
@@ -44,7 +40,7 @@ sets = rd(f"{RGP}/readlength_sets_GIb.tsv")
 dist = rd(f"{SH}/length_metrics_long.tsv")
 aln = rd(f"{RGP}/riboseq_GIb_alignment_summary.tsv").set_index("sample_id")
 
-# ---- 判据（在看到结果后固定，写入 README；阈值敏感性见 README）----
+
 MIN_N = 5000; MIN_F0 = 0.50; MIN_RATIO = 1.5
 body = D[D.region == "CDS_body_45_45"].copy()
 body["offset_high"] = body.offset_confidence == "high"
@@ -57,7 +53,7 @@ body["extended_candidate"] = body.host_criteria_pass & body.PEDV_QC_pass_C1_C2_C
 flags = body[["sample", "read_length", "host_criteria_pass", "PEDV_QC_pass_C1_C2_C3_frozen", "PEDV_C2_periodicity_frozen", "PEDV_C3_frame0_frozen",
               "in_strict_core", "extended_candidate"]]
 
-# ---- 转录本歧义敏感性（全 CDS）----
+
 amb = pd.read_csv(f"{TAB}/canonical_cds_frame_ambiguity.csv"); amb_ids = set(amb[amb.ambiguous_nt > 0].transcript_id)
 sens = []
 for sid, drug, t in SAMPLES:
@@ -69,7 +65,7 @@ for sid, drug, t in SAMPLES:
                          F0_full_CDS_excl_ambiguous_transcripts=b.f0.sum() / n_b if n_b else np.nan, psites_removed=int(n_all - n_b)))
 sens = pd.DataFrame(sens); sens["abs_change"] = (sens.F0_full_CDS - sens.F0_full_CDS_excl_ambiguous_transcripts).abs()
 
-# ---- 输出表 1：逐样本逐读长的 counts / fractions ----
+
 out = D.merge(flags, on=["sample", "read_length"], how="left")
 hd = ["# Reading-frame distribution of host CDS P-sites by sample and aligned read length",
       "# version: FRM_v1.0", f"# generated: {NOW} (local)",
@@ -82,7 +78,7 @@ hd = ["# Reading-frame distribution of host CDS P-sites by sample and aligned re
 with open(f"{OUT}/read_length_frame_counts_and_fractions.csv", "w", encoding="utf-8", newline="") as f:
     f.write("\n".join(hd) + "\n"); out.to_csv(f, index=False, float_format="%.6g")
 
-# ---- 输出表 2：reads retention audit ----
+
 body_idx = body.set_index(["sample", "read_length"])
 full_idx = D[D.region == "full_CDS"].set_index(["sample", "read_length"])
 rows = []; setdefs = {}
@@ -96,7 +92,7 @@ for sid, drug, t in SAMPLES:
          "all_25_35 (reference, not proposed)": LS}
     dl = dist[(dist.sample_id == sid)]
     th = int(dl[dl.domain == "host"].reads.sum() + 0); tp = int(dl[dl.domain == "PEDV_plus"].reads.sum())
-    # 全部唯一比对 reads（含 ≥150 nt 桶）
+
     th = int(aln.loc[sid, "host_unique_reads"]); tp = int(aln.loc[sid, "PEDV_plus_reads"])
     for nm, Ls in S.items():
         hr = int(dl[(dl.domain == "host") & dl.read_length.isin(Ls)].reads.sum()); pr = int(dl[(dl.domain == "PEDV_plus") & dl.read_length.isin(Ls)].reads.sum())
@@ -118,16 +114,16 @@ hd2 = ["# Read-length filter retention audit (no data in Figures 4-6 changed)", 
 with open(f"{OUT}/read_length_filter_retention_audit.csv", "w", encoding="utf-8", newline="") as f:
     f.write("\n".join(hd2) + "\n"); R.to_csv(f, index=False, float_format="%.6g")
 
-# ---- 组成标准化（16 h 与早期的差异是否来自长度组成）----
+
 bb = body[body.read_length.between(25, 35)]
 share = bb.pivot(index="sample", columns="read_length", values="total_host_CDS_psites")
 share = share.div(share.sum(axis=1), axis=0)
-ref = share.mean(axis=0)          # 六个文库的平均组成
+ref = share.mean(axis=0)
 f0 = bb.pivot(index="sample", columns="read_length", values="F0")
 comp = pd.DataFrame({"observed_F0_25_35": (share * f0).sum(axis=1), "standardised_F0_common_composition": (ref * f0).sum(axis=1)})
 comp.to_csv(f"{TAB}/composition_standardised_F0.csv")
 
-# ---- 图 ----
+
 def n_lbl(n): return f"{n/1e6:.1f}M" if n >= 1e6 else (f"{n/1e3:.0f}k" if n >= 1e3 else str(int(n)))
 def panel_grid(name, mode):
     W, H = 185.0, 200.0
@@ -153,7 +149,7 @@ def panel_grid(name, mode):
         if c == 0: ax.set_ylabel("Fraction of host CDS-body P-sites" if mode == "grouped" else "Frame-0 fraction (F0)", fontsize=7.5)
         else: ax.tick_params(labelleft=False)
         ax.set_xlabel("Aligned footprint length (nt)", fontsize=7.5, labelpad=1)
-        # n 行、strict_core 与判据标记
+
         for i, rr in enumerate(b.itertuples()):
             ax.text(i, -0.30, n_lbl(rr.total_host_CDS_psites), fontsize=7, ha="center", va="top", rotation=0, transform=ax.transData)
             if rr.in_strict_core:
@@ -178,7 +174,7 @@ def panel_grid(name, mode):
 panel_grid("read_length_frame_periodicity_grouped_bars", "grouped")
 panel_grid("read_length_frame0_fraction_bars", "f0")
 
-# ---- 摘要打印 ----
+
 pd.set_option("display.width", 250); pd.set_option("display.max_columns", 30)
 print("sensitivity (exclude %d ambiguous transcripts): max abs change in F0 (25-35 nt) = %.4f; max psites removed = %d" %
       (len(amb_ids), sens[sens.read_length.between(25, 35)].abs_change.max(), sens.psites_removed.max()))
@@ -187,13 +183,13 @@ print(comp.round(3))
 print(R[R.length_set.str.startswith(("strict", "fixed", "extended", "all"))].pivot(index="sample", columns="length_set", values=["host_retention_fraction", "PEDV_retention_fraction"]).round(3).to_string())
 print(R[R.length_set.str.startswith(("strict", "extended", "fixed"))].pivot(index="sample", columns="length_set", values="host_CDS_body_F0").round(3).to_string())
 print(body[body.extended_candidate & ~body.in_strict_core][["sample", "read_length", "F0", "total_host_CDS_psites", "offset_confidence"]].to_string())
-# 药物差异
+
 d = body[body.read_length.between(27, 33)].groupby(["treatment", "read_length"]).F0.agg(["mean", "min", "max"]).round(2)
 print(d.unstack(0).to_string())
-# 体 vs 全 CDS
+
 fb = D[D.read_length.between(25, 35)].pivot_table(index=["sample", "read_length"], columns="region", values="F0")
 print("max |F0 body - F0 full| =", (fb.CDS_body_45_45 - fb.full_CDS).abs().max().round(3), " max |45_30 - 45_45| =", (fb.CDS_body_45_30 - fb.CDS_body_45_45).abs().max().round(3))
-# 与既有 periodicity_host（5′端落在 CDS body 的帧）比较
+
 ph = rd(f"{RGP}/periodicity_host.tsv"); ph["L"] = pd.to_numeric(ph.read_length, errors="coerce")
 ph = ph[ph.L.between(25, 35)].drop(columns=["read_length"]).rename(columns={"sample_id": "sample", "L": "read_length"})
 cmp_ = body.merge(ph[["sample", "read_length", "psite_frame0", "n_reads(5′端在CDS主体)"]], on=["sample", "read_length"])

@@ -1,30 +1,15 @@
 # -*- coding: utf-8 -*-
-"""阶段2a 步骤2：PEDV 增量下载（PZ463692.2，2026-09-25 新鲜 esearch 新增）。
-
-背景：1b（2026-09-24）PEDV esearch count=1110；2026-09-25 新鲜核对 count=1111，
-新增 accession PZ463692.2（其余 1110 条 accession.version 完全一致，见
-logs/phase2a_esearch_ids_PEDV.txt 比对）。按任务规定只下载增量。
-
-下载后做与 1b 相同的 QC：长度 25–34 kb；N 比例 ≤1%；标题排除 partial/合成/专利/载体；
-与现有 PEDV 1083 条（results/PEDV_target_manifest.tsv + data_external 库）精确序列去重比对。
-
-输出：
-  data_external/raw/PEDV_increment_20260925.gb
-  logs/phase2a_pedv_increment.log
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sys, io, re, time, json, urllib.parse, urllib.request
 from pathlib import Path
 from datetime import datetime
@@ -66,7 +51,7 @@ raw_path = EXT / "raw/PEDV_increment_20260925.gb"
 raw_path.write_text(gb, encoding="utf-8")
 log(f"原始 GenBank 已存 {raw_path}（{len(gb)} 字符）")
 
-# 解析单条记录
+
 acc = ver = definition = organism = strain = country = date = host = ""
 seq_parts, in_origin = [], False
 seq_len_gb = None
@@ -98,7 +83,7 @@ seq = "".join(seq_parts).upper()
 n_frac = seq.count("N") / len(seq) if seq else 1.0
 log(f"解析：{ver} | len={len(seq)} | N%={n_frac:.4f} | definition={definition}")
 
-# QC（与 1b 同口径）
+
 fail = []
 if EXCLUDE_TITLE.search(definition):
     fail.append("标题含排除关键词")
@@ -112,7 +97,7 @@ if fail:
     log(f"QC 未通过：{'；'.join(fail)} → 标记 excluded，不纳入")
 else:
     log("QC 通过（长度/N%/标题/物种名）")
-    # 精确序列去重比对：data_external/PEDV.fasta + PEDV_genomes_all
+
     dup_of = None
     for fp, tag in [(EXT / "PEDV.fasta", "ncbi_1041"),
                     (WORK / "results/PEDV_genomes_all.fasta", "all_1083")]:

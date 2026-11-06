@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Reproduction commands of the isolated test run (tests/isolated_run_results.tsv). Not a one-click pipeline. Run from an empty working directory with data-only PEDV_P/K/R roots.
+# Reproduction entry points. Run with populated PEDV_P, PEDV_K, and PEDV_R roots.
 set -euo pipefail
 : "${PEDV_P:?}" "${PEDV_K:?}" "${PEDV_R:?}"
 cd "$(dirname "$0")/.."
@@ -21,9 +21,7 @@ run figures/Fig6/fig6AB_genome_combined.py; run figures/Fig6/fig6C_HAR_PRICE_joi
 # Comparative genomics
 for s in g1_g2_g4_summary g1_conservation g2_length g3_g4_tables g4_activity stats_abc; do run comparative_genomics/04_retention_null_stats/$s.py; done  # T06
 run figures/Fig6/figs_abc.py; run figures/SupFig15/fig_E_onesided.py   # T07,T08
-for s in p6_aggregate s1_C12_featured_and_data p7_panels_and_qc r2_audit_tables r3_old_vs_revised r4_finalize; do run comparative_genomics/04_retention_null_stats/$s.py; done  # T20
+for s in p6_aggregate s1_C12_featured_and_data p7_panels_and_qc; do run comparative_genomics/04_retention_null_stats/$s.py; done
 run figures/SupFig16/f3_panelC.py; run figures/SupFig16/f4_make_figure_v3.py   # T21
 run figures/SupFig5/plot_canonical_variants.py --input "$PEDV_P/GIb_rnaseq_reanalysis/figures/Fig2D-G_arcs_source_data.csv" --output out_sup5   # T22
-run figures/Fig6/fig6C_reproduction_from_source_data.py out_fig6CD   # T23 (post-hoc script)
-run figures/Fig6/fig6D_reproduction_from_source_data.py out_fig6CD   # T24 (post-hoc script)
 run figures/SupFig13/landscape_5p_style.py; run figures/SupFig13/landscape_3p_style.py   # T29

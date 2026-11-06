@@ -1,17 +1,8 @@
 #!/usr/bin/env python3
-"""Final sample-whitelist audit (automatic part).
+"""Scan runtime inputs for sample identifiers outside the registry.
 
-Input : the per-script file-access log of a guarded run (tests/chain_results.jsonl: for every script the data files it read/wrote, recorded by the
-        runtime path guard) and the data roots (PEDV_P / PEDV_K).
-Check : (1) the runtime guard never fired (a non-whitelisted library in a file PATH stops the program);
-        (2) every data file that was READ is scanned for non-whitelisted experimental library numbers / SRR runs INSIDE the file
-            (text and .gz tables). Files with hits are reported with the hit counts. A hit does not by itself mean contamination: row-separable
-            inputs (one row per library) are filtered by the script right after loading and the script asserts the remaining set; the audit
-            therefore reports 'non_whitelist_content' and the script-level filter separately (see FIGURES below).
-Output: tests/FINAL_SAMPLE_WHITELIST_AUDIT_FILES.tsv (one row per script x input file) and the figure-level table is written by
-        tests/build_final_audit.py from this plus the manual figure map.
-Usage : PEDV_P=... PEDV_K=... python tests/audit_whitelist.py tests/chain_results.jsonl tests/FINAL_SAMPLE_WHITELIST_AUDIT_FILES.tsv
-Exit  : 1 if the guard fired in any script, 0 otherwise.
+Usage: python tests/audit_whitelist.py <file-access-log.jsonl> <report.tsv>
+The data roots are read from PEDV_P, PEDV_K, and PEDV_R.
 """
 import os, sys, json, gzip, csv
 _d = os.path.dirname(os.path.abspath(__file__))

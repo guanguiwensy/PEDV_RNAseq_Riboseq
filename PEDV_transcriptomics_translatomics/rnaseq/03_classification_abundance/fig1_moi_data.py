@@ -1,26 +1,15 @@
 #!/usr/bin/env python3
-"""Figure 1 B/C/D/F 按 MOI 重算的数据层(复用 GIb_rnaseq_reanalysis 的既有口径,不改任何既有文件)。
-
-复用来源:
-  - plot_Fig1DEF.py      : 唯一比对(MAPQ=255)fragment 计数、窗口/区域定义(refdata_GIb_v1.1 坐标)、未去重(raw)为主
-  - plot_RNA00_read_composition.py : Panel B 的 PEDV/Host/Other 占比(分母=全部 QC 后 read pairs)
-  - plot_figures_GIb.py  : Panel C 的 depth/总depth*1e6、101 nt 滑动平均
-输入只读: GIb_rnaseq_reanalysis/{figdata,sample_manifest_GIb.tsv,figures}, <PEDV_P>/sample_info.txt
-输出: Fig1_MOI_regrouped/data/*.csv
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os
 import numpy as np
@@ -33,7 +22,7 @@ DATA = f"{OUT}/data"
 TIMES = [3, 5, 8, 12, 16]
 GENOME_LEN = 27959
 
-# 前缀 -> MOI。仅用于生成 metadata 表,图/源数据里不出现这些前缀。
+
 PREFIX_MOI = {"Cv777": 0.1, "LZ": 1.0}
 
 
@@ -48,7 +37,7 @@ def load_metadata():
         "virus_genotype": "GI-b", "MOI": si.MOI, "treatment": si.name_tag, "hpi": si.time_h.astype(int),
         "replicate": "NA", "has_biological_replicate": "no",
         "design_note": "full factorial 2 MOI x 2 treatment x 5 hpi, n=1 per cell"})
-    # 与任务书给出的样本对照逐一核对
+
     moi01 = {SR.lib("RNA_VERO_CHX_0.1MOI_3h"), SR.lib("RNA_VERO_HAR_0.1MOI_3h"), SR.lib("RNA_VERO_CHX_0.1MOI_5h"), SR.lib("RNA_VERO_HAR_0.1MOI_5h"), SR.lib("RNA_VERO_CHX_0.1MOI_8h"), SR.lib("RNA_VERO_HAR_0.1MOI_8h"),
              SR.lib("RNA_VERO_CHX_0.1MOI_12h"), SR.lib("RNA_VERO_HAR_0.1MOI_12h"), SR.lib("RNA_VERO_CHX_0.1MOI_16h"), SR.lib("RNA_VERO_HAR_0.1MOI_16h")}
     chk = set(meta[meta.MOI == 0.1].sample_id)

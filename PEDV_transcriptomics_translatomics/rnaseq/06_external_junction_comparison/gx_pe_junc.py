@@ -1,20 +1,15 @@
 #!/usr/bin/env python3
-"""Junction extraction for paired-end data mapped as one fastq (both mates, names suffixed /1 /2) with minimap2 splice. Same rules as phase 2/3 (N-gap>=50, MAPQ>=20, anchors 15/15, primary only, left-aligned donor/acceptor)
-plus PE handling: a fragment crossing the same (donor, acceptor) in both mates is counted once; viral fragments = fragments with >=1 read >=50% aligned. No PCR de-duplication (as original).
-usage: gx_pe_junc.py run reflabel (派生自 phase5/scripts/p5_pe_junc.py，仅改路径；分类/过滤规则零改动)"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sys, os, json, gzip, collections
 import numpy as np, pysam
 sys.path.insert(0, REPO_ROOT + '/rnaseq/06_external_junction_comparison')

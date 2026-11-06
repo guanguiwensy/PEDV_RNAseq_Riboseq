@@ -1,5 +1,4 @@
 #!/bin/bash
-# 逐样本 BAM 统计：GI-b 新 BAM（full）+ 旧参考 BAM（virus_only，只读，仅取病毒侧比对质量作新旧对照；不重跑旧流程）
 R=${PEDV_SERVER_ROOT:?set PEDV_SERVER_ROOT}/analysis_GIb/Riboseq_GIb_psite
 PY=${PYTHON_BIN:-python}
 Q=${PEDV_SERVER_ROOT:?set PEDV_SERVER_ROOT}/analysis_batch23/Riboseq_qc_mapping/bam_out

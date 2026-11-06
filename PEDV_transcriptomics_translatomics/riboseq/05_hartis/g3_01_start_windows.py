@@ -1,23 +1,14 @@
-"""G3-01 起始近端窗口验证（单点窗 W1 与五密码子窗 W5 = s, s+3, s+6, s+9, s+12）。
-记号：候选起点 s 在 F1（s = 3j+1），单点窗 = 密码子单元 j（n0=c[3j], n1=c[s], n2=c[s+1]）；W5 = 单元 j..j+4 之和。
-(a) 宿主：模型（Mb53）只用训练基因 CDS 主体（j ≥ 10）估计；零分布 = 训练基因主体同类型窗口同 m 分层的 z；
-    在留出基因上按"距 annotated 起始的密码子数 j"（0..40）评估 p ≤ 0.05 比例与 z 均值 —— 检查起始附近的特殊占据。
-(b) 机制：F0 读段 5′ 端碱基（canonical 5′ 端，3j−12）对该密码子非经典框比例 q = m/(m+n0) 的影响（主体、训练基因）。
-(c) 病毒候选起点：W1/W5 的 n0、m（n1/n2 盲藏）、是否在宿主支持范围内、距 canonical 起始；超出支持范围记 out_of_host_support，不算 p。
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, sys, numpy as np, pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -40,7 +31,7 @@ for lib in G.LIBS:
     g = trm.groupby(['b5F1', 'b5F2', 'b3F1', 'b3F2'])[['n1', 'm']].sum(); g['pj'] = (g.n1 + SHR * p0) / (g.m + SHR)
     D = D.join(g.pj, on=['b5F1', 'b5F2', 'b3F1', 'b3F2']); D['pj'] = D.pj.fillna(p0)
     D = D.sort_values(['tx_idx', 'j']); D['E1'] = D.m * D.pj; D['Vv'] = D.m * D.pj * (1 - D.pj)
-    # 构造 W1 / W5（W5 以 j 为起点的 5 个连续单元，滚动求和）
+
     for wt, w in [('W1', 1), ('W5', 5)]:
         agg = D.groupby('tx_idx')[['n0', 'n1', 'm', 'E1', 'Vv']].transform(lambda x: x[::-1].rolling(w, min_periods=w).sum()[::-1]) if w > 1 else D[['n0', 'n1', 'm', 'E1', 'Vv']]
         W = pd.concat([D[['tx_idx', 'j', 'N', 'heldout']], agg], axis=1).dropna()
@@ -61,7 +52,7 @@ for lib in G.LIBS:
                             frac_p_le_0_01=(x <= .01).mean() if len(x) else np.nan, mean_z=d.z.mean(),
                             F1share_obs=d.n1.sum() / max(d.m.sum(), 1), F1share_pred=d.E1.sum() / max(d.m.sum(), 1)))
         host_m_hi = np.quantile(Wtr.m, .995); host_n0_hi = np.quantile(Wtr.n0, .995)
-        # (c) 病毒候选起点（盲藏 n1/n2）
+
         s_ = G.LIBS[lib]; a = np.zeros(GL + 8)
         if s_ == SR.lib("RIBO_VERO_CHX_1MOI_16h"):
             mm = pd.read_csv(os.path.join(RG, '_work', 'server', 'stats', s_, 'pedv_5p_matrix.tsv.gz'), sep='\t')
@@ -80,7 +71,7 @@ for lib in G.LIBS:
                               support=('in_host_support' if sup else 'out_of_host_support'),
                               in_canonical_start_shoulder=bool(any(-12 <= s0 - c <= 30 for c in CANON)),
                               detectability=('not_assessable' if m < 10 else ('out_of_host_support' if not sup else ('assessable' if m >= 30 else 'low_depth')))))
-    # (b) 机制
+
     B = D[(~D.heldout) & (D.j >= 10) & (D.b5F0 < 4)]
     for base, nm in enumerate('ACGT'):
         d = B[B.b5F0 == base]

@@ -1,30 +1,14 @@
-"""G2-02 逐位点宿主模型：各因素对 F1/F2 分配的解释能力（按基因留出，训练基因拟合，留出基因评估）。
-评估量：留出密码子（m ≥ 1）上的二项对数似然 LL = Σ[n1 log p + n2 log(1−p)]；
-  McFadden 伪 R² = 1 − LL(模型)/LL(M0)；每 read 的 ΔLL。
-模型：
-  M0     常数 p
-  Mb5    F1/F2 读段 5′ 端碱基对 (b5F1, b5F2)（16 组）
-  Mb53   5′ 与 3′ 端碱基 (b5F1, b5F2, b3F1, b3F2)（256 组，向 M0 收缩，伪计数 20 reads）
-  Mcod   P 位密码子 × A 位密码子（4,096 组，收缩）
-  Mocc   占据：λ1 = k·(n0+ε)，λ2 = (n0n+ε)，k 在训练集上网格搜索
-  Mocc_alt 占据（对照）：λ1 = k·(n0n+ε)，λ2 = (n0+ε)（检验 F1/F2 各自跟随哪个相邻密码子）
-  Moccb  占据 × 端点碱基速率：λ1 = a(b5F1,b3F1)·(n0+ε)，λ2 = b(b5F2,b3F2)·(n0n+ε)
-  Mfull  Moccb × (CDS 相对位置 5 档 × 局部深度 5 档) 的赔率校正
-ε = 0.5。所有分组参数只用训练基因。
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import os, sys, numpy as np, pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import g2_hostcodon as G
@@ -73,7 +57,7 @@ for lib in G.LIBS:
     la = te.join(a.rename('a'), on=['b5F1', 'b3F1']).a.values * (te.n0.values + EPS)
     lb = te.join(b.rename('b'), on=['b5F2', 'b3F2']).b.values * (te.n0n.values + EPS)
     preds['Moccb'] = la / (la + lb)
-    # Mfull：位置 × 深度 赔率校正（训练集上估计）
+
     def bins(d):
         return pd.cut(d.relpos, [0, .2, .4, .6, .8, 1.01], labels=False), pd.qcut(np.log1p(d.loc_n0), 5, labels=False, duplicates='drop')
     la_tr = tr_m.join(a.rename('a'), on=['b5F1', 'b3F1']).a.values * (tr_m.n0.values + EPS)
@@ -91,7 +75,7 @@ for lib in G.LIBS:
         L = ll(te.n1, te.n2, p)
         rows.append(dict(library=lib, model=mname, test_codons=len(te), test_reads=int(nreads), LL=L, pseudoR2_vs_M0=1 - L / L0,
                          dLL_per_read=(L - L0) / nreads, k_occ=k if mname == 'Mocc' else (best2[1] if mname == 'Mocc_alt' else np.nan)))
-    # 机制：端点碱基的速率（F1 用 b5F1，F2 用 b5F2；F0 读段比例按 b5F0）
+
     for base, nm in enumerate('ACGT'):
         d1 = trc[trc.b5F1 == base]; d2 = trc[trc.b5F2 == base]
         d3 = trc[trc.b3F1 == base]; d4 = trc[trc.b3F2 == base]

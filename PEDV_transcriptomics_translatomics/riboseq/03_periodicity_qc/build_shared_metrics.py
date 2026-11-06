@@ -1,21 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Supplementary Figure 12/13/14 共享计算层：per-sample × per-read-length × domain 指标。
-全部从已冻结的 RGP_v1.3 / M1_v1.0 / batch23 QC 汇总表派生；不回 BAM、不上服务器、不重算 offset。
-每个恒等式都在这里断言；对不上就报错停下，不凑数。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, re, sys, json, datetime
 import numpy as np, pandas as pd
@@ -44,7 +39,7 @@ def wr(name, df, title, extra=()):
     with open(f"{OUT}/{name}", "w", encoding="utf-8", newline="") as f:
         f.write(prov(title, extra)); df.to_csv(f, sep="\t", index=False, float_format="%.6g")
 
-# ============ 1. 漏斗（Panel A）============
+
 q = rd(QC).set_index("seq_id").loc[IDS]
 a = rd(f"{RGP}/riboseq_GIb_alignment_summary.tsv").set_index("sample_id").loc[IDS]
 c = rd(f"{RGP}/riboseq_qc_contamination.tsv").set_index("sample_id").loc[IDS]
@@ -79,7 +74,7 @@ wr("sample_funnel.tsv", f, "六个 Ribo-seq 文库的 reads 漏斗（分母 raw 
    ["上游三列（raw/trimmed/non_rRNA）取自 batch23 QC 表，其 mapped 之后的列属旧参考 star_ChlSab1.1_LZ202401，一律不用",
     "mapped 之后全部取自 riboseq_GIb_alignment_summary.tsv（GI-b）；Nmax=1 → multimapped_2_to_1 构造性为 0"])
 
-# ============ 2. 逐读长长度表 ============
+
 dist = rd(f"{RGP}/riboseq_readlength_distribution.tsv")
 dist["L"] = pd.to_numeric(dist.aligned_length, errors="coerce")
 ge150 = dist[dist.L.isna()]
@@ -120,7 +115,7 @@ wr("length_metrics_long.tsv", long, "sample × read_length × domain 指标（�
     "host frame = 宿主 canonical CDS 主体（两端各去 45 nt）上 P-site 读框（periodicity_host）；PEDV frame = 7 个 canonical ORF 唯一区、P-site 读框（length_qc_GIb）",
     "F0_minus_mean_F1F2 = frame0 − mean(frame1, frame2)（FigSX 既定口径）；offset 为 psite_offset_GIb（Module 1 方法 B，宿主起始密码子校准）"])
 
-# ============ 3. 逐样本×domain 汇总 ============
+
 sm = []
 for s in IDS:
     g = dist[dist.sample_id == s].sort_values("L"); ex = ge150[ge150.sample_id == s]
@@ -135,7 +130,7 @@ sm = pd.DataFrame(sm)
 wr("length_summary.tsv", sm, "逐样本 × domain 的长度汇总（中位长度、29–31 nt 占比、≥35 nt 占比）",
    ["中位长度取累计比例首次 ≥0.5 的长度；≥150 nt 桶按 150 计入分母与累计"])
 
-# ============ 4. offset 候选曲面（由宿主起始 metagene 反推）============
+
 mg = rd(f"{RGP}/host_metagene_GIb.tsv"); mg = mg[(mg.anchor == "start") & mg.length_group.str.match(r"^L\d+$")].copy()
 mg["L"] = mg.length_group.str[1:].astype(int)
 surf = []; DEVS = []
@@ -143,7 +138,7 @@ for (s, L), g in mg.groupby(["sample_id", "L"]):
     r = off[(off.sample_id == s) & (off.read_length == L)]
     if r.empty or pd.isna(r.offset.iloc[0]): continue
     o = int(r.offset.iloc[0]); cnt = g.set_index("rel_nt").psite_count
-    # 该读长 P-site = 5′端 + o；候选 offset c 对应 5′端落在起始 A 之前 c 位 → P-site 相对位置 = o − c
+
     vals = {cand: int(cnt.get(o - cand, 0)) for cand in range(6, 19)}
     tot = sum(vals.values()); pk = max(vals.values()); am = max(vals, key=vals.get)
     if r.peak_reads.iloc[0] > 0:
@@ -168,7 +163,7 @@ wr("offset_candidate_surface.tsv", surf, "候选 P-site offset 曲面（由宿�
    ["reads(c) = host_metagene_GIb 中该读长 start 锚点 rel_nt = offset_selected − c 的 P-site 数；与 psite_offset_GIb.peak_reads 一致（<1.5%）",
     "曲面只含 c∈[6,18]（Module 1 方法 B 的搜索窗），24 nt 的 offset=6 落在窗边界，已标低置信"])
 
-# ============ 5. 校验记录 ============
+
 with open(f"{OUT}/AUDIT_checks.json", "w", encoding="utf-8") as fh:
     json.dump([dict(name=n, ok=ok, detail=d) for n, ok, d in CHECKS], fh, ensure_ascii=False, indent=1)
 print(len(CHECKS), "项检查全部通过")

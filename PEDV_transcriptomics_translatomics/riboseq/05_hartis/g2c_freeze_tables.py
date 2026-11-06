@@ -1,28 +1,15 @@
 # -*- coding: utf-8 -*-
-"""G2c 冻结前检查表（只用宿主留出窗口，主口径 main，模型 EMP_Zs）。两种口径：
-  scope = all_assessable：只要求匹配到 K ≥ 100（与 G2b 第二、三轮相同）；
-  scope = in_support    ：单元级宿主支持规则（冻结范围）——K ≥ 100 且匹配半径 ≤ ±0.75 log2（3 格）且 φ̂(m) 未外推
-                          且匹配集有效基因数 ≥ 30 且 m < 300；不满足者视为 out_of_host_support，不计 p。
-输出（G2c_freeze_checks/）：
-  EMP_Zs_calibration_per_library_length.tsv  逐库×读长×窗口×深度档：p≤0.05/0.01/0.001 实测比例，Clopper-Pearson 与
-      按基因整群 bootstrap（1000 次）95% 区间；对调（F2）同样；偏松判定 point（点估计 > 0.08 或 > 0.02）与 supported（bootstrap 下限 > 0.05 或 > 0.01）
-  EMP_Zs_effective_background_size.tsv       匹配集 K、基因数、单基因最大占比、有效基因数（逆 Simpson）、半径放宽、φ 外推、最小可达 p
-  EMP_Zs_host_support_map.tsv                每个库×读长×窗口：被认证的深度档（从 10–29 起连续）与 m 区间
-  EMP_Zs_multiplicity_null_montecarlo.tsv    宿主全零假设下 BH(q=0.05)/Bonferroni 的"至少一个拒绝"概率（2,000 次；每基因至多 1 窗口）
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import os, glob, numpy as np, pandas as pd
 from scipy.stats import beta as betad
 import g2b_common as G

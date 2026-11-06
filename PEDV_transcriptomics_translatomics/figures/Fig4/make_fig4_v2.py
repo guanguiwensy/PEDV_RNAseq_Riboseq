@@ -1,21 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Figure 4 v2：样本 = CHX 5/8 h (RIBO_VERO_CHX_1MOI_5h, RIBO_VERO_CHX_1MOI_8h)、CHX 16 h = RIBO_VERO_CHX_1MOI_16h（第二批）、HAR 5/8/16 h (RIBO_VERO_HAR_1MOI_5h/62/64)；
-读长集合 = 每个文库中通过宿主判据的读长（25–35 nt；offset high、≥5,000 CDS-body P-site、F0≥0.5、最高帧/次高帧≥1.5）。
-数据全部来自已同步到本地的 RGP_v1.3 / 服务器一遍统计，不上服务器、不重算 offset（RIBO_VERO_CHX_1MOI_16h 的 offset 由已冻结的 Module 1 方法 B 判定函数逐行复刻）。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, sys, csv, gzip, math, json, collections, datetime
 import numpy as np, pandas as pd
@@ -44,7 +39,7 @@ GENES = [("5′UTR", 1, 292, "#EDEDED", 1), ("ORF1a", 293, 12622, "#F3E3EC", 1),
 GLEN = 27959
 J_LO, J_HI = 7, 19
 
-# ============================================================ 1. 读长集合（宿主判据）
+
 main = pd.read_csv(f"{FRM}/read_length_frame_counts_and_fractions.csv", comment="#")
 SR.assert_table_whitelisted(main, "sample", "read_length_frame_counts"); SR.assert_exactly(set(main["sample"]), SR.RIBO_VERO_ALIASES, "read_length_frame_counts")
 B = main[main.region == "CDS_body_45_45"].copy()   # all six whitelisted libraries come from the same (whitelist-only) table
@@ -58,7 +53,7 @@ print("length sets:", SETL)
 pd.DataFrame([dict(sample=s, treatment=DRUG[s], time_hpi=TIME[s], lengths=";".join(map(str, SETL[s])), offsets=";".join(f"{L}:{OFFS[s][L]}" for L in SETL[s]))
               for s in IDS]).to_csv(f"{SD}/length_sets_host_criteria.csv", index=False)
 
-# ============================================================ 2. RIBO_VERO_CHX_1MOI_16h 的 offset（Module 1 方法 B，只读 stats）
+
 def peak_stats(x, L):
     x = x[1:L + 1]; n = int(x.sum())
     if n == 0: return None, 0, 0, 0.0, 0.0
@@ -76,7 +71,7 @@ def offsets_from_stats(sid):
 OFF813_ALL, RL813 = offsets_from_stats(SR.lib("RIBO_VERO_CHX_1MOI_16h"))
 for L in SETL[SR.lib("RIBO_VERO_CHX_1MOI_16h")]: assert OFF813_ALL[L] == OFFS[SR.lib("RIBO_VERO_CHX_1MOI_16h")][L], (L, OFF813_ALL[L], OFFS[SR.lib("RIBO_VERO_CHX_1MOI_16h")][L])
 
-# ============================================================ 3. Panel A：读长分布
+
 dist = rdt(f"{RGP}/riboseq_readlength_distribution.tsv"); dist["L"] = pd.to_numeric(dist.aligned_length, errors="coerce")
 def length_series(sid, kind):
     x = np.arange(18, 51); y = np.zeros(len(x))
@@ -107,7 +102,7 @@ def draw_A(axs):
     for a in axs: a.set_ylim(0, ym)
     axs[1].legend(frameon=False, fontsize=7, loc="upper right")
 
-# ============================================================ 4. Panel B：三读框（宿主 CDS-body，所选读长）
+
 rna = rdt(f"{TASK}/fig4_riboseq_qc/figures/Fig4C1_frame_fractions_source_data.csv") if False else pd.read_csv(f"{TASK}/fig4_riboseq_qc/figures/Fig4C1_frame_fractions_source_data.csv", comment="#")
 rna = rna[(rna.category == "RNA-seq") & rna.sample_id.isin(SR.WHITELIST_LIBRARIES)]   # RNA-seq rows of the final sample table only
 SR.assert_whitelisted(rna.sample_id, "Fig4B RNA-seq frame table")
@@ -133,7 +128,7 @@ def draw_B(ax):
     ax.legend([Line2D([], [], marker="s", ls="", color=PAL[c]) for c in ("CHX", "HAR", "RNA")],
               [f"CHX Ribo (n={len(cats[0][1])})", f"HAR Ribo (n={len(cats[1][1])})", f"RNA-seq (n={len(RNAF)})"], frameon=False, fontsize=7, loc="upper right")
 
-# ============================================================ 5. Panel C：起始/终止 metagene（所选读长，每 10^6 个 CDS P-site）
+
 rowsC = []; MGS = {}
 for s in IDS:
     mg = rdt(f"{WORK}/host_psite/{s}/host_psite_metagene.tsv"); g = rdt(f"{WORK}/host_psite/{s}/host_gene_cds_psite.tsv")
@@ -142,7 +137,7 @@ for s in IDS:
         m = mg[(mg.anchor == an) & mg.L.isin(Ls)].groupby("rel").n.sum().reindex(range(-50, 51), fill_value=0)
         MGS[(s, an)] = m.values / den * 1e6
         for r_, v in m.items(): rowsC.append(dict(sample=s, treatment=DRUG[s], time_hpi=TIME[s], anchor=an, rel_nt=r_, psite_count=int(v), per_million_set_CDS_psites=v / den * 1e6, denominator_CDS_psites=int(den)))
-# 校验：同一函数复现旧 strict_core 版本（060）
+
 old = rdt(f"{RGP}/host_metagene_GIb.tsv"); o60 = old[(old.sample_id == SR.lib("RIBO_VERO_CHX_1MOI_5h")) & (old.length_group == "strict_core") & (old.anchor == "start")].set_index("rel_nt").per_million_strict_core_CDS_psites
 mg = rdt(f"{WORK}/host_psite/{SR.lib('RIBO_VERO_CHX_1MOI_5h')}/host_psite_metagene.tsv"); g = rdt(f"{WORK}/host_psite/{SR.lib('RIBO_VERO_CHX_1MOI_5h')}/host_gene_cds_psite.tsv")
 chk = mg[(mg.anchor == "start") & mg.L.isin([29, 30])].groupby("rel").n.sum() / g[g.L.isin([29, 30])][["f0", "f1", "f2"]].values.sum() * 1e6
@@ -165,7 +160,7 @@ def draw_C(axs):
             else: ax.set_xticklabels([])
         for r_ in range(2): axs[r_][c].set_ylim(0, top)
 
-# ============================================================ 6. Panel D：宿主基因组注释（全部唯一比对 reads 的 P-site，外显子内重新归一）
+
 Uall = {r["sample_id"]: r for r in csv.DictReader(open(f"{TASK}/riboseq_qc_figs_R1_R3/_work/host_annotation/host_annotation_unstranded_all.tsv"), delimiter="\t")}
 u813 = list(csv.DictReader(open(f"{TASK}/riboseq_qc_figs_R1_R3/_work/host_annotation/{SR.lib('RIBO_VERO_CHX_1MOI_16h')}.host_annotation_unstranded.tsv"), delimiter="\t"))[0]
 Uall[SR.lib("RIBO_VERO_CHX_1MOI_16h")] = u813
@@ -202,9 +197,8 @@ def draw_D(ax):
     ax.legend([Rectangle((0, 0), 1, 1, fc=CCOL[c]) for c in EXC], [CNAME[c] for c in EXC], frameon=False, fontsize=7, ncol=2, loc="upper center",
               bbox_to_anchor=(0.5, -0.36), handlelength=1.0, columnspacing=1.0)
 
-# ============================================================ 7. Panel E：PEDV 占据（所选读长；另出全部读长版）
+
 def psite_vec(sid, Ls=None, include_na=False):
-    """+ 链逐碱基 P-site 计数（1..27959）。Ls=None → 全部有 offset 的读长。"""
     c = np.zeros(GLEN + 1)
     if sid != SR.lib("RIBO_VERO_CHX_1MOI_16h"):
         d = pd.read_csv(f"{RGP}/psite_counts_PEDV_GIb.tsv.gz", sep="\t", comment="#", low_memory=False) if not hasattr(psite_vec, "_d") else psite_vec._d
@@ -242,7 +236,7 @@ def psite_vec(sid, Ls=None, include_na=False):
     return c[1:]
 VE = {s: psite_vec(s, SETL[s]) for s in IDS}
 VA = {s: psite_vec(s, None, True) for s in IDS}
-# 校验：旧 6 库口径（全部读长 + offset=NA）的最大值与既有 Figure 4E 一致（060: 67,029）
+
 print("max per-base (all lengths) 060 =", int(VA[SR.lib("RIBO_VERO_CHX_1MOI_5h")].max()), "(Fig4E: 67,029)")
 def draw_E(fig, left, top, w, h, V, gap=2.0, label_unit=1e4):
     th = (h - 5 * gap - 15) / 6 ; ax_list = []
@@ -272,7 +266,7 @@ def draw_E(fig, left, top, w, h, V, gap=2.0, label_unit=1e4):
     gax.set_xlabel("Position on PEDV genome (nt, 1-based; 27,959 nt)", fontsize=8, labelpad=2)
     return ax_list
 
-# ============================================================ 8. 组图（A–E，与现有 Fig 4 排版一致）
+
 FW, FH = 180.0, 220.0
 def combined(name, V):
     global FW, FH
@@ -293,7 +287,7 @@ def combined(name, V):
 combined("Fig4_v2_combined", VE)
 combined("Fig4_v2_combined_E_all_lengths", VA)
 
-# ---- 单面板导出 ----
+
 def single(name, w, h, drawfun, **kw):
     global FW, FH
     FW, FH = w, h
@@ -310,7 +304,7 @@ single("Fig4v2_D_genomic_annotation", 90, 60, lambda f: draw_D(f.add_axes([0.1, 
 single("Fig4v2_E_PEDV_occupancy", 170, 118, lambda f: draw_E(f, 14, 3, 140, 105, VE))
 single("Fig4v2_E_PEDV_occupancy_all_lengths", 170, 118, lambda f: draw_E(f, 14, 3, 140, 105, VA))
 
-# ---- 源数据 ----
+
 def wr(name, df, title, extra=()):
     head = [f"# {title}", "# version: FIG4v2_1.0", f"# generated: {NOW} (local)",
             f"# libraries: CHX 5 h {SR.lib('RIBO_VERO_CHX_1MOI_5h')}, CHX 8 h {SR.lib('RIBO_VERO_CHX_1MOI_8h')}, CHX 16 h {SR.lib('RIBO_VERO_CHX_1MOI_16h')}, HAR 5 h {SR.lib('RIBO_VERO_HAR_1MOI_5h')}, HAR 8 h {SR.lib('RIBO_VERO_HAR_1MOI_8h')}, HAR 16 h {SR.lib('RIBO_VERO_HAR_1MOI_16h')} (one library per condition)",

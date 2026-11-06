@@ -14,8 +14,6 @@ bowtie2	2.5.4 (one delivery doc) / 2.2.1 (earlier flow summary)	rRNA/ncRNA remov
 cutadapt	2.6	Ribo adapter trimming (adapter RA3, --discard-untrimmed)	server	project flow summary	TO_CONFIRM	exact command is in server script run_one.sh (not available locally)
 ViennaRNA	2.7.2 (RNAduplex, RNAcofold)	Fig. 3 pairing energies	workstation or server	Fig. 3 methods	TO_CONFIRM (which machine)	30-nt windows; RNAcofold cross-check rho = 0.88
 PRICE	1.0.5 (Gedi 1.0.6f, OpenJDK 11, built from source)	ORF calling used for Fig. 6E/F, Sup. 17	server	caller_run_parameters.tsv	confirmed	host training without -filter; virus -filter 29:29; host-trained models reused for + and - strand; -fdr 1
-Ribo-TISH	0.2.8	ORF calling (not used by the final figures, kept in docs only)	server	delivery docs	confirmed	not part of this repository
-ribotricer	1.5.0	ORF calling (not used by the final figures)	server	delivery docs	confirmed	not part of this repository
 MAFFT	7.525	multiple alignments (comparative genomics, Sup. 14)	server	delivery docs	confirmed	-
 CD-HIT (cd-hit-est)	version not recorded	0.99 redundancy removal (Sup. 14 workflow)	server	PEDV_ribo/流程.txt	TO_CONFIRM	-c 0.99
 BLAST+	2.14.0	tBLASTn CDS extraction (Sup. 14 workflow)	server/workstation	shell history of the PEDV_ribo directory	confirmed	e-value 1e-5

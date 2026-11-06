@@ -1,29 +1,15 @@
 # -*- coding: utf-8 -*-
-"""阶段2 步骤2：NCBI 定点补充下载 PEDV / TGEV / PRCV / PDCoV 完整基因组。
-
-检索式沿用项目 species_table.csv 的病毒级口径；仅下载目标病毒，不重下整个冠状病毒库。
-原始 GenBank 存 data_external/raw/，解析后输出 FASTA + metadata TSV，并做：
-  筛选（complete、病毒名明确、排除 partial/合成/专利/载体、长度 25–34kb、N<=1%）
-  → 完全相同序列精确去重 → QC 标记 → recombination_flag（仅基于记录注释，不删除）。
-
-输出：
-  data_external/raw/{virus}.gb
-  data_external/{virus}.fasta / {virus}_metadata.tsv
-  logs/phase2_step2_ncbi_download.log
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sys, io, os, re, time, json, urllib.parse, urllib.request
 from pathlib import Path
 from datetime import datetime
@@ -40,10 +26,10 @@ for d in (EXT, RAW, WORK / "logs"):
 
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 ACCESS_DATE = "2026-09-24"
-BATCH = 200          # efetch genbank 每批 id 数
-SLEEP = 0.45         # 无 API key，限速 3 req/s 以内
+BATCH = 200
+SLEEP = 0.45
 
-# 病毒级检索式（与 species_table.csv 同一口径，病毒名替换为单一病毒）
+
 QUERIES = {
     "PEDV": ('("Porcine epidemic diarrhea virus"[Organism] OR '
              '"Porcine epidemic diarrhea virus"[Title]) AND biomol_genomic[PROP] AND '
@@ -98,7 +84,7 @@ def efetch_gb(idlist):
         "db": "nucleotide", "id": ",".join(idlist), "rettype": "gb",
         "retmode": "text", "tool": "pedv_n1", "email": "NA"})
 
-# ---- 极简 GenBank 解析（避免依赖 BioPython 的 LOCUS 容错差异）----
+
 def parse_gb_records(text):
     recs, cur = [], []
     for line in text.splitlines():
@@ -114,7 +100,7 @@ def parse_record(rec):
         m = re.search(rf"^{name}\s+(.+)$", rec, re.M)
         return m.group(1).strip() if m else ""
     def clean(s):
-        # GenBank 限定符值可跨行（如 isolation_source），折叠所有空白为单空格，保证 TSV 一行一条
+
         return " ".join((s or "").split())
     acc_v = field("VERSION") or field("ACCESSION").split()[0]
     definition = field("DEFINITION")
@@ -124,7 +110,7 @@ def parse_record(rec):
     quals = {}
     for q in re.finditer(r"/(\w+)=\"([^\"]*)\"", rec):
         quals.setdefault(q.group(1), []).append(clean(q.group(2)))
-    # 序列
+
     m = re.search(r"^ORIGIN\s*$", rec, re.M)
     seq = ""
     if m:
@@ -184,7 +170,7 @@ def main():
         for f in failed:
             log(f"  失败批次 id[{f[0]}:{f[1]}]: {f[2]}")
 
-        # 解析 + 筛选 + QC + 去重
+
         kept, excluded = [], []
         for rec in all_recs:
             r = parse_record(rec)
@@ -210,7 +196,7 @@ def main():
                 excluded.append((r["accession_version"], reason))
             else:
                 kept.append(r)
-        # 完全相同序列精确去重（保留 accession 字典序最小者）
+
         by_seq = {}
         for r in kept:
             by_seq.setdefault(r["sequence"], []).append(r)
@@ -235,14 +221,14 @@ def main():
                 for g in dup_groups:
                     out.write("\t".join(g) + "\n")
 
-        # 输出 FASTA + metadata
+
         fasta_path = EXT / f"{virus}.fasta"
         meta_path = EXT / f"{virus}_metadata.tsv"
         cols = ["virus", "accession", "version", "definition", "organism", "strain", "isolate",
                 "collection_date", "country", "host", "isolation_source", "genome_length",
                 "n_fraction", "recombination_flag", "genotype_note", "source_url",
                 "sequence_source", "download_date"]
-        with open(fasta_path, "w", encoding="utf-8") as fa, \
+        with open(fasta_path, "w", encoding="utf-8") as fa,\
              open(meta_path, "w", encoding="utf-8") as mt:
             mt.write("\t".join(cols) + "\n")
             for r in sorted(dedup, key=lambda x: x["accession_version"]):
@@ -252,7 +238,7 @@ def main():
                 fa.write(f">{r['accession_version']} {virus} {r['strain'] or r['isolate'] or ''}\n")
                 for i in range(0, ln, 60):
                     fa.write(r["sequence"][i:i + 60] + "\n")
-                # 基因型：仅当记录明确注释时记 verified，否则 unknown（推断留给后续阶段）
+
                 g_note = ""
                 m = re.search(r"genotype\s*[:=\s]?\s*([A-Za-z0-9\-/]+)", r["note"] + " " + r["definition"], re.I)
                 if m and re.search(r"genotype", r["note"], re.I):

@@ -1,18 +1,16 @@
 """gRNA 5' terminal translation: candidate catalogue + continuous evidence + peak attribution (no sgRNA, no binary calls).
 Reference: PEDV_GIb refdata_GIb_v1.1 (genomic RNA, continuous). Reads: RGP_v1.3 strict_core P-sites, + strand."""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, re, json, numpy as np, pandas as pd
 B = PEDV_P+''
@@ -125,7 +123,7 @@ for p0 in list(HOT):                       # +-1 nt shoulders (offset assignment
         HOT.setdefault(q, HOT[p0])
 GROUPS = sorted(set(HOT.values()), key=lambda g: min(p for p in HOT if HOT[p] == g))
 print(f'hotspot positions (>=2pct of 1-{WIN_END} P-sites in >=1 library, plus 103):', rule_pos, GROUPS)
-json.dump({'rule': f'>=2 percent of strict_core P-sites in 1-{WIN_END} in at least one of 6 libraries; 103 added by request; ORF1a start region fixed as 285-296 (-8..+3); other groups carry +-1 nt shoulders',
+json.dump({'rule': f'>=2 percent of strict_core P-sites in 1-{WIN_END} in at least one of 6 libraries; position 103 included; ORF1a start region fixed as 285-296 (-8..+3); other groups carry +-1 nt shoulders',
            'core_positions': {int(k): v for k, v in HOTCORE.items()}, 'positions_with_shoulders': {int(k): v for k, v in HOT.items()}}, open(OUT + 'hotspot_definition.json', 'w'), ensure_ascii=False, indent=1)
 CLSMAP = {'5prime_end_pileup': '5prime_end_pileup', 'ORF1a_start_region': 'ORF1a_canonical_start'}
 

@@ -1,29 +1,15 @@
 # -*- coding: utf-8 -*-
-"""G2c 检查 2：端点上下文校正会不会吸收"真实翻译起始"相关信号（只用宿主；不碰病毒候选）。
-
-上下文变量（与 EMP_Zs 相同）：F1 读段 5′ 端两碱基（b5F1 = P−o，b5F2 = P+1−o）与 3′ 端两碱基（b3F1 = P−o+L−1，b3F2 = P−o+L），
-P = 该密码子的 F1 P-site。单密码子窗中这些位置与 F1 框候选起始密码子（P..P+2）及 Kozak 区（−6..+4）不重叠；
-但多密码子窗中，下游第 k 个密码子的读段端点会落在起点附近（29 nt、k = 4 时 b5 = 起始密码子第 1、2 位）。
-因此做三项实证检查（每个合格库×读长，按基因 5 折，训练折拟合、留出折评估）：
-  A. 期望偏移：F1 框 AUG / near-cognate（9 种单错配）/ 其他起点处的上下文期望 μ − p0（W1、W5）。
-  B. 自然校准：以这些起点为锚的 W1/W5 窗（宿主上视为非翻译 F1）在 EMP_Zs 下 p ≤ 0.05 的比例。
-  C. 掺入功效：在锚定起点的 F1 位加入 Δ = ⌈f·m⌉ 条 read（f = 0.25、0.5、1），比较三种上下文设定的检出率（p ≤ 0.05）：
-     ctx256（完整，EMP_Zs 主模型）、ctx3p16（只用 3′ 端两碱基，永不覆盖 W1/W5 内起始密码子的 5′ 侧）、noctx（无上下文）。
-     若完整上下文在 AUG 处的功效相对 noctx 的比值明显低于"其他起点"处的同一比值，即为系统性削弱。
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import os, sys, numpy as np, pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import g2b_common as G
@@ -39,7 +25,7 @@ FRACS = (0.25, 0.5, 1.0); WINS = (1, 5); MAX_OTHER = 30000
 def ctx_keys(C, mode):
     c = C.ctx.values
     if mode == 'ctx256': return c
-    if mode == 'ctx3p16': return np.where(c == 256, 16, c % 16)          # 只用 b3F1、b3F2
+    if mode == 'ctx3p16': return np.where(c == 256, 16, c % 16)
     return np.zeros(len(c), int)                                           # noctx
 
 
@@ -56,7 +42,6 @@ def rates(C, keys, train_mask):
 
 
 def mode_key(b, mode):
-    """b: 4×n 碱基码（b5F1, b5F2, b3F1, b3F2；4 = N）。"""
     if mode == 'ctx256': return np.where((b == 4).any(0), 256, b[0] * 64 + b[1] * 16 + b[2] * 4 + b[3])
     if mode == 'ctx3p16': return np.where((b[2:] == 4).any(0), 16, b[2] * 4 + b[3])
     return np.zeros(b.shape[1], int)
@@ -65,7 +50,7 @@ def mode_key(b, mode):
 def run(sid, L):
     tx = G.tx_table(); SEQ, ST = G._c['seq']; t = tx.set_index('tx_idx')
     C = G.codon_table(sid, L)
-    # 完整的内部密码子网格（含零计数），便于锚定窗口求和
+
     keyN = t.cds_len_nt // 3
     rows_mu, rows_cal, rows_pow = [], [], []
     rng = np.random.default_rng(G.SEED)
@@ -81,14 +66,14 @@ def run(sid, L):
                 q, _ = rates(C, keys, (C.fold.values != f) & (C.fold.values != g2)); sel = C.fold.values == g2; pj_cf[sel] = q[sel]
             P[mode] = (pj, pj_cf, p0, rate_table(C, keys, trm)[0])
         for w in WINS:
-            # —— 训练窗口（平铺）与 φ̂(m)：与 EMP_Zs 完全相同 ——
+
             null = {}
             for mode, (pj, pj_cf, p0, _) in P.items():
                 W = G.windows(C, w, pj_cf); W = W[(W.fold != f) & (W.m >= TRAIN_MMIN)].copy()
                 z = (W.n1 - W.E1) / np.sqrt(W.V.clip(lower=1e-9)); lm = np.log2(W.m.values); ld = np.log2(W.dens.values + 1 / (3 * w))
                 ph = phi_fit(lm, z.values)
                 null[mode] = (z.values / np.sqrt(ph(lm)), lm, ld, ph)
-            # —— 留出基因中以 F1 框起点为锚的窗口（零计数密码子的上下文期望直接由序列求得）——
+
             te = C[C.fold.values == f]; off = G.SPEC[sid][L]
             recs = []
             for k_tx, d in te.groupby('tx_idx'):
@@ -116,16 +101,16 @@ def run(sid, L):
                 recs.append(pd.DataFrame(r))
             if not recs: continue
             A = pd.concat(recs, ignore_index=True); A = A[A.cat != 'N']
-            E = A[A.m >= EVAL_MMIN].copy()          # 校准与功效：全部 m ≥ 10 的锚定窗口（不抽样）
-            oth = A[A.cat == 'other']                  # 期望偏移：'other' 抽样以控制内存
+            E = A[A.m >= EVAL_MMIN].copy()
+            oth = A[A.cat == 'other']
             if len(oth) > MAX_OTHER: A = pd.concat([A[A.cat != 'other'], oth.sample(MAX_OTHER, random_state=G.SEED + f)])
-            # A. 期望偏移（不依赖计数：窗口内各密码子上下文份额的平均，减 p0）
+
             for cat, d in A.groupby('cat'):
                 for mode in P:
                     rows_mu.append(dict(sid=sid, L=L, fold=f, w=w, cat=cat, mode=mode, n=len(d),
                                         mean_mu_minus_p0=(d[f'mu_unw_{mode}'] - P[mode][2]).mean(),
                                         mean_anchor_codon_mu_minus_p0=(d[f'pjs_{mode}'] - P[mode][2]).mean()))
-            # B/C. 校准与掺入功效
+
             for mode in P:
                 zs_tr, lm_tr, ld_tr, ph = null[mode]
                 for frac in (0.0,) + FRACS:

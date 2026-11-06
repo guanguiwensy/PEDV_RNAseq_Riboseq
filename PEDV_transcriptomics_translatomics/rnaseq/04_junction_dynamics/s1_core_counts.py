@@ -1,23 +1,15 @@
 #!/usr/bin/env python3
-"""Step 1: 按 Figure 2 冻结口径(fig2_classify.py)重算 20 个 RNA-seq 样本的逐样本 junction 计数 + 与 Fig2 合并结果对账。
-口径(原样沿用, 不做任何修改): minimap2 splice 比对(junction_atlas/junction_events_raw.tsv.gz, gap>=50nt);
- 去 is_duplicate/is_secondary/is_supplementary、NH==1; MAPQ>=20 且两侧锚长>=15(leader 锚 = gap 之前所有 M 之和);
- 同一 fragment(read_name)跨同一 (donor,acceptor) 只计 1 次; TRS-L 依赖 = donor 在 leader 区 [55,72];
- canonical = acceptor 在 S20597/ORF3 24718/E 25342/M 25597/N 26285 ±5; TRS-L 非依赖: gap(acc-donor-1) <1000 local, >=1000 distant。
-输出 data/: junction_event_sample_matrix_long.csv.gz, event_table.csv, per_sample_class_counts.csv, filter_audit_per_sample.csv, s1_reconcile.txt"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import re, os, sys, json
 import numpy as np
@@ -26,7 +18,7 @@ import pandas as pd
 BASE = PEDV_P+"GIb_rnaseq_reanalysis/"
 OUT = PEDV_P+"Fig2_Supp_junction_dynamics/data/"
 sys.path.insert(0, __import__('os').path.join(__import__('os').path.dirname(__import__('os').path.abspath(__file__)), '..', '03_classification_abundance'))
-from fig1_moi_data import load_metadata  # MOI 对照(RNA_VERO_CHX_0.1MOI_3h..209)
+from fig1_moi_data import load_metadata
 
 LEADER = (55, 72)
 DIST = 1000
@@ -84,7 +76,7 @@ def main():
     aud["fragments_with_gt1_event"] = int((ev_per_read > 1).sum())
     aud["fragments_total_after_qc"] = int(len(ev_per_read))
     aud["junction_fragments_after_mate_dedup"] = len(u)
-    # 每样本过滤审计
+
     f = pd.DataFrame({
         "rows_raw": d0.groupby("sample").size(),
         "rows_fail_qc": (~d.pass_qc).groupby(d["sample"]).sum(),
@@ -95,7 +87,7 @@ def main():
     f.merge(meta[["sample_id", "MOI", "treatment", "hpi"]], on="sample_id").sort_values(["MOI", "hpi", "treatment"]).to_csv(
         OUT + "filter_audit_per_sample.csv", index=False)
 
-    # 事件表(合并 + 每样本)
+
     ps = u.groupby(["sample", "donor", "acc"]).size().rename("reads").reset_index()
     cl = ps[["donor", "acc"]].drop_duplicates().copy()
     k = [classify(a, b) for a, b in zip(cl.donor, cl.acc)]
@@ -111,8 +103,8 @@ def main():
     ns = ps.groupby("event_id").sample_id.nunique().rename("n_samples")
     et = cl.merge(tot, on="event_id").merge(ns, on="event_id").sort_values("reads_total", ascending=False)
     et.to_csv(OUT + "event_table.csv", index=False)
-    # 每样本 class 计数
-    piv = ps.assign(cls=np.where(ps.junction_class == "canonical", "canonical_" + ps.canonical_gene, ps.junction_class)) \
+
+    piv = ps.assign(cls=np.where(ps.junction_class == "canonical", "canonical_" + ps.canonical_gene, ps.junction_class))\
         .pivot_table(index="sample_id", columns="cls", values="reads", aggfunc="sum", fill_value=0)
     piv = meta[["sample_id", "MOI", "treatment", "hpi"]].merge(piv.reset_index(), on="sample_id")
     for c in ["canonical_S", "canonical_ORF3", "canonical_E", "canonical_M", "canonical_N"]:
@@ -121,7 +113,7 @@ def main():
     piv["all_classified"] = piv.canonical_total + piv.TRSL_dep_noncanonical + piv.TRSL_indep_distant + piv.TRSL_indep_local
     piv.sort_values(["MOI", "hpi", "treatment"]).to_csv(OUT + "per_sample_class_counts.csv", index=False)
 
-    # 对账: 与 Fig2 DELIVERY / events_main.tsv / Fig2_per_sample_event_counts.csv.gz
+
     tot_all = int(ps.reads.sum())
     pooled = piv[["canonical_total", "TRSL_dep_noncanonical", "TRSL_indep_distant", "TRSL_indep_local"]].sum()
     lines = ["# Step1 对账: 本脚本 vs Figure 2 冻结结果", json.dumps(aud, indent=1)]

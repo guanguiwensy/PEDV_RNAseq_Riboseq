@@ -1,5 +1,5 @@
 #!/bin/bash
-# 独立 NH 复核：samtools view -F 0x904（primary mapped），统计全部 / NH>1 / 无 NH 标签 的 read 数（含 PEDV contig）
+
 H=${PEDV_SERVER_ROOT:?set PEDV_SERVER_ROOT}/analysis_GIb/HARTIS_v3_hostpos
 ST=${SAMTOOLS_BIN:-samtools}
 A=${PEDV_SERVER_ROOT:?set PEDV_SERVER_ROOT}/analysis_GIb/Riboseq_GIb_psite/align

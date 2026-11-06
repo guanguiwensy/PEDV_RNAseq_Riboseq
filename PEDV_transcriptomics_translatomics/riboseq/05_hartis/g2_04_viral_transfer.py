@@ -1,25 +1,14 @@
-"""G2-04 宿主逐位点模型向 PEDV 的迁移诊断（只用非候选区段；不作为纯技术泄漏的假定，只作外部诊断）。
-病毒密码子：父 ORF 读框；j = (p − ORF_start)/3；29 nt P-site（+ 链，offset 12）；813 由 5′ 矩阵重建。
-病毒非候选区段：去掉所有 +1 家族 [最 5′ 起点 − 30, 终止 + 30]、全部候选起点 ±30、排除区间（12,586–12,622；canonical 起始 −12..+30 即 j < 10；终止前 30 nt；26,702 ± 15；ORF 重叠区）。
-诊断：
- (1) 组成：端点碱基组合 (b5F1,b5F2,b3F1,b3F2) 的分布（宿主训练密码子 vs 病毒非候选密码子），Jensen–Shannon 距离；GC。
- (2) 读框偏差：F0 份额、F1/(F1+F2)（观测）vs 宿主模型预测。
- (3) 覆盖结构：窗口 m、n0 分布；前 1 个密码子占窗口 m 的比例（尖峰度）；是否在宿主支持范围内。
- (4) 迁移校准：在宿主支持范围内的病毒非候选窗口上，用宿主同类型、同 m 分层的 z 经验零分布计算 p；超出支持范围 → out_of_host_support，不计算 p。
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, sys, numpy as np, pandas as pd
 from scipy.stats import kstest
@@ -29,7 +18,7 @@ T = G.T; V3 = G.V3; R = os.path.join(V3, '..'); RG = os.path.join(R, 'riboseq_GI
 ORFS = [('ORF1a', 293, 12622), ('ORF1b', 12592, 20613), ('S', 20610, 24758), ('ORF3', 24758, 25033), ('E', 25361, 25600), ('M', 25608, 26288), ('N', 26300, 27625)]
 SEQ = ''.join(l.strip() for l in open(os.path.join(R, 'refbuild_GIb', 'v1.1', 'virus', 'PEDV_GIb.fa')) if not l.startswith('>')).upper()
 LUT = {c: i for i, c in enumerate('ACGT')}
-sa = np.array([LUT.get(c, 4) for c in SEQ], np.int8)        # 0-based：位置 p（1-based）→ sa[p−1]
+sa = np.array([LUT.get(c, 4) for c in SEQ], np.int8)
 PS = pd.read_csv(os.path.join(RG, 'psite_counts_PEDV_GIb.tsv.gz'), sep='\t', comment='#', usecols=['sample_id', 'strand', 'position', 'read_length', 'psite_count'])
 PS = PS[(PS.strand == '+') & (PS.read_length == 29)]
 cover = np.zeros(GL + 2, int)
@@ -68,7 +57,6 @@ def viral_codons(lib):
 
 
 def seg_windows(D, wt):
-    """病毒窗口只在连续的非候选密码子段内平铺。"""
     D = D.sort_values(['ORF', 'j']).copy()
     D['seg'] = ((D.j.diff() != 1) | (D.ORF != D.ORF.shift())).cumsum()
     if wt == 'single': D['key'] = np.arange(len(D))
@@ -92,7 +80,7 @@ for lib in G.LIBS:
     g = trm.groupby(['b5F1', 'b5F2', 'b3F1', 'b3F2'])[['n1', 'm']].sum(); g['pj'] = (g.n1 + SHR * p0) / (g.m + SHR)
     Vd = viral_codons(lib); Vd = Vd[(Vd.b5F1 < 4) & (Vd.b5F2 < 4) & (Vd.b3F1 < 4) & (Vd.b3F2 < 4)]
     Vd = Vd.join(g.pj, on=['b5F1', 'b5F2', 'b3F1', 'b3F2']); Vd['pj'] = Vd.pj.fillna(p0)
-    # (1) 组成（按 m 加权的端点碱基组合分布）
+
     hk = trm.groupby(['b5F1', 'b5F2', 'b3F1', 'b3F2']).m.sum(); vk = Vd[Vd.m > 0].groupby(['b5F1', 'b5F2', 'b3F1', 'b3F2']).m.sum()
     idx = hk.index.union(vk.index); P_ = hk.reindex(idx, fill_value=0).values + 1e-9; Q_ = vk.reindex(idx, fill_value=0).values + 1e-9
     P_, Q_ = P_ / P_.sum(), Q_ / Q_.sum(); M_ = (P_ + Q_) / 2
@@ -107,9 +95,9 @@ for lib in G.LIBS:
     for orf, d in Vd.groupby('ORF'):
         orfs.append(dict(library=lib, ORF=orf, codons=len(d), m=int(d.m.sum()), n0=int(d.n0.sum()), F0_share=d.n0.sum() / max(d[['n0', 'n1', 'n2']].sum().sum(), 1),
                          F1share_obs=d.n1.sum() / max(d.m.sum(), 1), F1share_pred_host_model=(d.m * d.pj).sum() / max(d.m.sum(), 1)))
-    # (4) 迁移校准
+
     for wt in ['single', 'cod5', 'cod50']:
-        # 宿主训练窗口（与 g2_03 同口径）
+
         Hd = tr.join(g.pj, on=['b5F1', 'b5F2', 'b3F1', 'b3F2']); Hd['pj'] = Hd.pj.fillna(p0)
         Hd = Hd.sort_values(['tx_idx', 'j'])
         if wt == 'single': key = np.arange(len(Hd))

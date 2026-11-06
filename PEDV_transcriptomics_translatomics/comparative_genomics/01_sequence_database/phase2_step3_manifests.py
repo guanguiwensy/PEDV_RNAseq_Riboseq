@@ -1,32 +1,15 @@
 # -*- coding: utf-8 -*-
-"""阶段2 步骤3：合并 cov_existing 与 ncbi_download，建立目标清单。
-
-输出：
-  results/PEDV_target_manifest.tsv
-  results/crossvirus_target_manifest.tsv
-  logs/phase2_step3_manifests.log
-  logs/phase2_step3_run_stats.json
-
-合并规则：
-  - 以 base accession（去版本号）为键；本地已有序列优先标 sequence_source=cov_existing；
-    仅 NCBI 下载有的标 ncbi_download。
-  - 版本不一致时保留本地版本并记录 ncbi_current_version（不臆断序列相同）。
-  - 基因型三态：仅搬运记录中的明确基因型注释（verified），其余一律 unknown，不推断。
-  - n1_status：LZ202401(PP999774.1)=reference_annotated，其余 pending_stage3。
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sys, io, json, csv, re
 from pathlib import Path
 from datetime import datetime
@@ -67,7 +50,7 @@ def main():
             existing[base_acc(r["accession"])] = r
     log(f"cov_existing QC pass 目标序列：{len(existing)}")
 
-    # ---- ncbi_download（以 versioned accession 为键；另建 base 索引处理版本差异）----
+
     ncbi = {}       # virus -> {"by_version": {acc_ver: row}, "by_base": {base: [rows]}}
     for virus in ("PEDV", "TGEV", "PRCV", "PDCoV"):
         by_version, by_base = {}, {}
@@ -82,7 +65,7 @@ def main():
         multi = sum(1 for v in by_base.values() if len(v) > 1)
         log(f"ncbi_download {virus}: {len(by_version)} 条（其中 {multi} 个 base accession 含多版本）")
 
-    # ---- 合并 4 病毒 ----
+
     manifest_cols = ["virus", "species", "genotype", "genotype_status", "strain",
                      "accession", "version", "genome_length", "sequence_source",
                      "sequence_available", "n1_status", "virus_group",
@@ -96,7 +79,7 @@ def main():
         local_rows = [r for k, r in existing.items() if r["virus"] == vname]
         matched_ncbi = set()
         rows_v = []
-        # 本地优先
+
         for e in local_rows:
             acc = e["accession"]
             n = nv.get(acc)
@@ -118,12 +101,12 @@ def main():
                            e["geo_location"], e["collection_date"], e["host"],
                            "cov_existing", ncbi_ver, note, recom, gnote,
                            e.get("n1_status", "pending_stage3")))
-        # 仅 NCBI 有
+
         for av, n in nv.items():
             if av in matched_ncbi:
                 continue
             if base_acc(n["accession"]) in {base_acc(a) for a in matched_ncbi}:
-                continue  # 本地同 base 其他版本已记录
+                continue
             if any(base_acc(n["accession"]) == base_acc(r[2]) for r in rows_v):
                 continue
             rows_v.append((n["organism"], n["strain"] or n["isolate"] or "Unknown",
@@ -133,14 +116,14 @@ def main():
                            n["genotype_note"] or "", "pending_stage3"))
         log(f"{vname}: 合并后 {len(rows_v)} 条（本地 {len(local_rows)}，其中与 NCBI 重合 "
             f"{len(matched_ncbi)}；纯 NCBI 新增 {len(rows_v) - len(local_rows)}）")
-        for species, strain, acc, ver, glen, country, cdate, host, source, \
+        for species, strain, acc, ver, glen, country, cdate, host, source,\
                 ncbi_ver, note, recom, gnote, n1s in rows_v:
             gnote = gnote or ""
             genotype, gstatus = "unknown", "unknown"
             if gnote.startswith("record_annotation:"):
                 m = re.search(r"genotype\s*[:=]?\s*([A-Za-z0-9\-/]+)", gnote, re.I)
                 token = m.group(1) if m else ""
-                # 记录明确写出 "genotype" 即视为可靠注释；INDEL 等非基因型词除外
+
                 if token and token.upper() not in ("INDEL", "NA", "UNKNOWN", "NONE"):
                     genotype, gstatus = token, "verified"
             if acc == "PP999774.1":
@@ -157,7 +140,7 @@ def main():
                 "_gnote": gnote,
             })
 
-    # ---- other 代表（rep-54 中除 3 个目标物种外的代表基因组，须在本库中可用）----
+
     final_set = set(x.strip() for x in open(FINAL_LIST, encoding="utf-8") if x.strip())
     rep_rows = []
     with open(REP54, encoding="utf-8") as f:
@@ -183,7 +166,7 @@ def main():
             "_gnote": "",
         })
 
-    # ---- 补充下载的 rep-54 其他物种代表（step2b，ncbi_download）----
+
     rep_ext = EXT / "other_representatives_metadata.tsv"
     if rep_ext.exists():
         n_ext = 0
@@ -212,7 +195,7 @@ def main():
                 n_ext += 1
         log(f"step2b 补充的其他物种代表：{n_ext} 条")
 
-    # ---- 本地位其他成员（Alphacoronavirus 1 的 FCoV/CCoV/FIPV/SeCoV 等，作 TGEV 近缘对照）----
+
     n_other_local = 0
     for k, e in existing.items():
         if e["virus_group"] != "other":
@@ -234,7 +217,7 @@ def main():
         n_other_local += 1
     log(f"本地位 Alphacoronavirus-1 其他成员（近缘对照）：{n_other_local} 条")
 
-    # ---- 写出 PEDV 清单 ----
+
     def write_tsv(path, rows):
         with open(path, "w", encoding="utf-8", newline="") as f:
             w = csv.DictWriter(f, fieldnames=manifest_cols, delimiter="\t", extrasaction="ignore")
@@ -249,12 +232,12 @@ def main():
     write_tsv(CROSS_OUT, cross_rows)
     log(f"crossvirus_target_manifest: {len(cross_rows)} 行 → {CROSS_OUT}")
 
-    # ---- 统计 ----
+
     stats = {}
     for r in merged:
         key = (r["virus"], r["sequence_source"])
         stats[key] = stats.get(key, 0) + 1
-    # other（FCoV/CCoV 等）cov_existing 单独统计
+
     other_local = sum(1 for k, r in existing.items() if r["virus_group"] == "other")
     stats[("other_alphacoronavirus1_members(cov_existing)", "cov_existing")] = other_local
     with open(WORK / "logs/phase2_step3_run_stats.json", "w", encoding="utf-8") as f:

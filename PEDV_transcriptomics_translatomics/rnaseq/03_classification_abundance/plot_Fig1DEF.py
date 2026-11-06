@@ -1,19 +1,15 @@
 #!/usr/bin/env python3
-"""Fig.1D-F: RNA-seq病毒RNA积累动力学。
-输入: figdata/fig1_counts.tsv, figdata/fig1_depth/{sample}.{raw,dedup}.depth.tsv, sample_manifest_GIb.tsv"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os
 import numpy as np, pandas as pd, matplotlib
@@ -30,13 +26,13 @@ cnt = pd.read_csv(f"{D}/figdata/fig1_counts.tsv", sep="\t",
                   names=["sample_id", "ver", "total_mapped", "pedv_mapped", "r1_fwd", "r1_rev"])
 qc = pd.read_csv(f"{D}/figures/RNA00S_read_composition_by_sample.csv")[["sample_id", "total_pairs"]]
 
-# ---- 窗口 (1-based闭区间, refdata_GIb_v1.1坐标) ----
-DEL1 = (3298, 3499)    # ORF1a 24 nt缺失(3398|3399)两侧各100 nt
-DEL2 = (24901, 25100)  # ORF3 49 nt缺失(25000|25001)两侧各100 nt
-W = {"5p_main": (1101, 20613, [DEL1]),   # ORF1a+ORF1b, 排除leader及其下游至~1 kb(1-1100)
+
+DEL1 = (3298, 3499)
+DEL2 = (24901, 25100)
+W = {"5p_main": (1101, 20613, [DEL1]),
      "5p_sens": (12592, 20613, []),      # ORF1b
-     "3p_main": (20610, 27625, [DEL2]),  # S起点-N终点
-     "3p_sens": (24759, 27625, [DEL2])}  # S终点之后(ORF3-N)
+     "3p_main": (20610, 27625, [DEL2]),
+     "3p_sens": (24759, 27625, [DEL2])}
 REG = {"Leader": (10, 72, []), "ORF1a": (293, 12591, [DEL1]), "ORF1b": (12592, 20609, []),
        "S": (20610, 24757, []), "ORF3/E/M": (24758, 26288, [DEL2]), "N/3′UTR": (26300, 27959, [])}
 

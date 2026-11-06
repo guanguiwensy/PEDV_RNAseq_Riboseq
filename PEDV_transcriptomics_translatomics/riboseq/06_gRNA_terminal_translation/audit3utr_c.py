@@ -1,27 +1,25 @@
 # -*- coding: utf-8 -*-
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import io, contextlib
 with contextlib.redirect_stdout(io.StringIO()):
     exec(open(__import__('os').path.join(__import__('os').path.dirname(__REPO_FILE__), 'audit3utr_b.py'), encoding="utf-8").read())
 
-# ---- N 读框内起始标注 ----
+
 cd2["in_frame_with_N_CDS(same_stop)"] = [(r.start_region == "N_terminal60" and r.frame_rel_N == 0) for r in cd2.itertuples()]
 cd2.to_csv(T + r"/3UTR_candidate_ORFs.tsv", sep="\t", index=False, float_format="%.4g")
 
-# ---- 区域汇总（逐库）----
+
 def region_row(name, lo, hi, sid, dr, t):
     a = S_FORMAL[sid]; seg = a[lo:hi + 1]; ra = RNA[(dr, t)][lo:hi + 1]
     return dict(region=name, library=LAB[sid], drug=dr, time_h=t, length_nt=hi - lo + 1, psites=seg.sum(), density_fold_of_library_mean=seg.mean() / MEAN_DEN[sid], CPM_per_nt=seg.mean() / CPM_DEN[sid],
@@ -30,15 +28,15 @@ TREGS = {k: REG[k] for k in ["N_CDS_body", "N_stop_pm30", "UTR3_P(27626-27685)",
 TREGS["UTR5_all(1-292)"] = (1, 292)
 tc = pd.DataFrame([region_row(n, lo, hi, sid, dr, t) for n, (lo, hi) in TREGS.items() for (dr, t), sid in LIBS.items()])
 tc["RPF_over_RNA_descriptive"] = tc.density_fold_of_library_mean / tc.RNA_depth_fold_of_library_mean
-# HAR/CHX 归一化比（同时间点）
+
 pv = tc.pivot_table(index=["region", "time_h"], columns="drug", values="density_fold_of_library_mean").reset_index()
 pv["HAR_over_CHX_norm_density"] = pv.HAR / pv.CHX
 tc = tc.merge(pv[["region", "time_h", "HAR_over_CHX_norm_density"]], on=["region", "time_h"])
 tc.insert(0, "level", "region")
-# 候选级：HAR 起始窗口与 CHX 体
+
 cand_tc = HR.merge(CR[["candidate_id", "time_h", "body_psites", "cand_frame_frac", "evidence_class"]], on=["candidate_id", "time_h"])
 cand_tc = cand_tc.rename(columns={"evidence_class": "CHX_body_evidence_class"}); cand_tc.insert(0, "level", "candidate")
-# RNA-only 时间过程（3/5/8/12/16 hpi，最终样本表中的 20 个 Vero RNA 文库，未去重深度）
+
 man = pd.read_csv(ROOT + r"/GIb_rnaseq_reanalysis/sample_manifest_GIb.tsv", sep="\t")
 man = man[man.sample_id.isin(SR.WHITELIST_LIBRARIES)]; SR.assert_exactly(man.sample_id, SR.RNA_VERO_ALIASES, "audit3utr_c RNA time course")
 rr = []
@@ -54,7 +52,7 @@ pd.concat([tc, cand_tc, rdf], ignore_index=True).to_csv(T + r"/3UTR_timecourse.t
 print(tc[tc.region.isin(["N_CDS_body", "UTR3_all", "UTR5_all(1-292)"])].pivot_table(index=["region", "drug"], columns="time_h", values="density_fold_of_library_mean").round(3).to_string())
 print(tc[tc.region.isin(["N_CDS_body", "UTR3_all", "UTR5_all(1-292)"])].pivot_table(index=["region", "drug"], columns="time_h", values="RPF_over_RNA_descriptive").round(3).to_string())
 
-# ---- 5′UTR 同口径（用于比较）----
+
 c5 = pd.DataFrame(enum_cands(1, 292, minaa=8)); c5.insert(0, "candidate_id", [f"U5-{i + 1:02d}" for i in range(len(c5))])
 c5["start_region"] = "5UTR"
 HR5, CR5 = evaluate(c5)
@@ -102,7 +100,7 @@ pd.concat([cmpdf, extra], ignore_index=True).to_csv(T + r"/5UTR_vs_3UTR_comparis
 print(pd.concat([cmpdf, extra], ignore_index=True).to_string())
 HR5.to_csv(W + r"/HR5.tsv", sep="\t", index=False)
 pickle.dump(dict(pk=pk, pk5=pk5, tc=tc, c5=c5, HR5=HR5, cmp=cmpdf), open(W + r"/audit_c.pkl", "wb"))
-# 峰集中度：3′UTR 局部峰在各分区
+
 pp = pk[pk.region == "3UTR"].copy()
 pp["zone"] = pd.cut(pp.position, [27625, 27685, 27776, 27867, 27959], labels=["P", "Z1", "Z2", "Z3"])
 print(pp.groupby(["zone", "drug"], observed=True).position.nunique().unstack())

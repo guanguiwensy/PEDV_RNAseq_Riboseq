@@ -1,32 +1,15 @@
 # -*- coding: utf-8 -*-
-"""HARTIS_v3 · PEDV +1 / +2 框候选起点的起始相关占据（initiation-associated occupancy）。
-规则全部按 PREREGISTRATION_HARTIS_v3_rev3_G2_FINAL.md 冻结版执行，本脚本不调任何参数：
-  候选：每个父 canonical ORF 内，候选框（+1 或 +2，相对父读框）上的 AUG / near-cognate{CUG,GUG,UUG,AUA,AUU,AUC,ACG}，
-        延伸到该框第一个终止，ORF > 40 aa（与 plus1_orf_capacity/s15 相同规则；+1 框应复现 567 起点 / 69 家族）；
-        家族 = 同父 ORF、同候选框、同终止。
-  尺度：W1 = 起始密码子所在密码子单元 j（候选框计数为 n1(+1) 或 n2(+2)）；W5 = j..j+4（候选框位点 s, s+3, …, s+12）。
-  统计：EMP_Zs（宿主端点上下文期望、φ̂(m) 标准化、按 log2 m 与 log2 F0 密度局部匹配，K ≥ 100），各库×读长独立；
-        +1 框取 z 的上尾，+2 框取下尾（= F2 富集，宿主对调检验已认证）；Z_cand 为符号调整后的 z_s（正 = 候选框富集）。
-  支持：K ≥ 100 且半径 ≤ 3 格、φ̂ 不外推、有效基因数 ≥ 30、m < 300、深度档已认证 → in_support（给 p_emp、Z_cand）；
-        m ≥ 认证上限 → capped_reference（探索性 Z_cap、p_cap）；其余 → out_of_host_support；m < 10 → not_assessable_low_m；
-        窗口触及排除区（12,586–12,622；26,702 ± 15；ORF 重叠区；父 ORF 起始后 30 nt；终止前 30 nt）→ not_assessable_excluded。
-  多读长：各读长独立；W5 另给 J_POOL（读长计数合并，各读长自己的上下文期望；J_POOL 宿主认证区间单独）。
-  迁移标记（不阻断计算，只标记；迁移闸标准未定）：periodicity_ok = 父 ORF 非候选区 F0 ≥ 宿主 F0 − 0.10；context_ok = 该库×读长端点上下文相关 ≥ 0.5。
-  证据类别：initiation_associated_occupancy。**不使用、不报告任何下游延伸证据。**
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import os, sys, numpy as np, pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__)); V3 = os.path.abspath(os.path.join(HERE, '..', '..'))
 sys.path.insert(0, os.path.join(V3, 'G2b_host_background', 'scripts'))
@@ -45,7 +28,7 @@ CAP = {'none': 0, '10-29': 30, '10-99': 100, '10-299': 300}; REFBIN = {'10-29': 
 CTXC = pd.read_csv(os.path.join(G2B, 'G2d_round5', 'transfer_Q1_context_comparability.tsv'), sep='\t').set_index(['sid', 'L']).weighted_corr_host_vs_viral
 PER = pd.read_csv(os.path.join(G2B, 'G2d_round5', 'transfer_Q4_periodicity.tsv'), sep='\t').set_index(['sid', 'L', 'ORF'])
 
-# ---------------- 1. 候选枚举 ----------------
+
 frames = {}
 for nm, s, e in ORFS:
     gfp = (s - 1) % 3; frames[nm] = (gfp, s, e)
@@ -73,7 +56,7 @@ print('候选枚举复核', chk, '| +2 起点', (CAND.frame == '+2').sum(), '家
 CAND.to_csv(os.path.join(TB, 'candidates_plus1_plus2.tsv'), sep='\t', index=False)
 pd.Series(chk).to_csv(os.path.join(TB, 'candidate_enumeration_check.tsv'), sep='\t', header=['value'])
 
-# 排除区（与宿主训练同口径的起止近端 + 设计排除区）
+
 cover = np.zeros(GL + 80, int)
 for _, a, b in ORFS: cover[a:b + 1] += 1
 excl = np.zeros(GL + 80, bool); excl[12586:12623] = True; excl[26702 - 15:26702 + 16] = True; excl[cover != 1] = True
@@ -82,7 +65,6 @@ CAND['j'] = (CAND.start_position - CAND.o0 - CAND.frame.str[1].astype(int)) // 3
 
 
 def viral_codon_table(sid, L):
-    """父 ORF 全部密码子（不遮蔽候选），含端点上下文；与 TF.viral_codons 相同的计数与上下文定义。"""
     a = TF.viral_counts(sid, L); off = G.SPEC[sid][L]; out = {}
     for nm, o0, o1 in ORFS:
         N = (o1 - o0 + 1) // 3; js = np.arange(0, N); p = o0 + 3 * js; t = p + 1 - off
@@ -93,7 +75,6 @@ def viral_codon_table(sid, L):
 
 
 def host_null(sid, L, w):
-    """宿主训练窗口（全部基因；样本外上下文期望）→ φ̂、匹配所需数组、capped 参照。"""
     C, pj, pc_all, p0 = TF.host_reference(sid, L)
     W = G.windows(C, w, pj); W = W[W.m >= 5].copy()
     W['z'] = (W.n1 - W.E1) / np.sqrt(W.V.clip(lower=1e-9)); W['lm'] = np.log2(W.m); W['ld'] = np.log2(W.dens + 1 / (3 * w))
@@ -105,7 +86,6 @@ def host_null(sid, L, w):
 
 
 def window_stats(VC, cand, w, mu_fn):
-    """对每个候选：窗口内 n0/n1/n2、E1、V（候选框计数在 n1 或 n2）。"""
     rec = []
     for r in cand.itertuples():
         d = VC[r.parent]; jj = np.arange(r.j, r.j + w)
@@ -119,7 +99,6 @@ def window_stats(VC, cand, w, mu_fn):
 
 
 def evaluate(S, cand, null, cert, w, method):
-    """S：窗口统计；返回逐候选的状态与统计量（+2 框用下尾）。"""
     W = null['W']; S = S.copy(); S['m'] = S.n1 + S.n2
     S['sign'] = np.where(cand.frame == '+1', 1.0, -1.0)
     S['n_cand'] = np.where(cand.frame == '+1', S.n1, S.n2)
@@ -142,8 +121,8 @@ def evaluate(S, cand, null, cert, w, method):
         ins = (e.K >= 100) & (e.radius <= 3) & (e.eff_genes >= 30) & ~e.phi_extrapolated & (e.m < 300)
         S.loc[pend, 'status'] = np.where(ins, 'in_support', 'out_of_host_support')
         S.loc[S.status != 'in_support', 'p_emp'] = np.nan
-    S.loc[S.status != 'in_support', 'Z_cand'] = np.nan          # 支持范围外不报告 Z_s（capped 另给 Z_cap）
-    # capped_reference：份额残差 d，相对最高认证档
+    S.loc[S.status != 'in_support', 'Z_cand'] = np.nan
+
     capm = S.status == 'capped_reference'
     for c in ('Z_cap', 'p_cap', 'K_ref'): S[c] = np.nan
     if capm.any():
@@ -175,7 +154,7 @@ for sid, Ls in G.SPEC.items():
             ev['context_ok'] = bool(CTXC.get((sid, L), np.nan) >= 0.5)
             res.append(pd.concat([CAND, ev], axis=1))
         print(sid, L, flush=True)
-    # J_POOL（W5，≥ 2 个合格读长）
+
     if len(qual) >= 2:
         Ws = []
         for L in qual:

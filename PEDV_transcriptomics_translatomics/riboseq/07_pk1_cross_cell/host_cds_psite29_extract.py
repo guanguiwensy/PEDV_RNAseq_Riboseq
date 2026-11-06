@@ -1,44 +1,28 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""HARTIS_v3 G1：宿主全长 CDS 逐位点 29 nt P-site 抽取（只读 BAM）。
-
-口径（与 host_psite_pass.py / extract_host_startprox.py 一致，冻结，不重估）：
-  - 只取比对长度 L0 == 29（L0 = CIGAR 中 M/=/X/D 之和，跳过 N）；offset = PK1 实测值（offset_table_PK1.json，29 nt）。
-  - [PK1 版] 注释改为猪 Sscrofa11.1.110 GTF（命令行第 3 个参数）；原 ChlSab1.1.116 的描述不再适用。
-  - P-site = 从 5′ 端数第 13 个比对参考碱基（沿比对坐标走，跨 N 正确处理）；+ 链 5′ 端 = reference_start+1，− 链 = reference_end。
-  - primary、mapped；记录 NH>1（预期 0，STAR --outFilterMultimapNmax 1），NH>1 不计入。
-  - 注释：ChlSab1.1.116 GTF 中 Ensembl_canonical 且 transcript_biotype=protein_coding 的转录本；转录本坐标 = 外显子按 5′→3′ 拼接后的 0-based 下标。
-  - 归属：P-site 落在某 canonical 转录本外显子内且 read 与转录本同链 → sense；反链 → antisense（只计数做 QC）。
-    同一 P-site 位置被 ≥2 条同链 canonical 转录本覆盖时，对每条都记录，并在 n_sense_tx 列写覆盖条数（下游据此剔除）。
-  - 输出 rel = P-site 转录本坐标 − CDS 起点转录本坐标（rel 0 = 起始密码子第 1 位），只保留 [−60, CDS 长 + 59]。
-  - sc5：该 read 是否有 5′ soft-clip（1/0），单列计数，不丢弃。
-用法: host_cds_psite29_extract.py <sid> <bam> <gtf> <outdir>
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sys, os, re, json, time, gzip, collections
 import numpy as np, pysam
 
 sid, bam_path, gtf, outroot = sys.argv[1:5]
 OUT = os.path.join(outroot, sid); os.makedirs(OUT, exist_ok=True)
-# PK1 改动：offset 取自 PK1 实测的 offset_table_PK1.json（第 5 个参数），不再硬编码 Vero 的 12；找不到则报错
+
 offtab = json.load(open(sys.argv[5]))
 OFF = int(offtab[sid]["29"])
 REFC = (0, 2, 7, 8); L_KEEP = 29; FLANK = 60; GAP_MAX = 10
 t0 = time.time()
 
-# ---------- 注释 ----------
+
 rx = re.compile(r'(\S+) "([^"]*)"')
 ex = collections.defaultdict(list); cds = collections.defaultdict(list); tinfo = {}
 for line in open(gtf):
@@ -67,7 +51,7 @@ for t, el in ex.items():
     ce_g = max(e for b, e in cl) if strand == '+' else min(b for b, e in cl)
     cs, ce = tx(cs_g), tx(ce_g)
     if cs is None or ce is None: continue
-    # CDS 内部短缺口（≤10 nt 的"内含子"，如 OAZ1/OAZ2 的程序性移码建模）
+
     sc = sorted(cl); gaps = [sc[i + 1][0] - sc[i][1] - 1 for i in range(len(sc) - 1)]
     k = len(TID); TID.append((t, g, gn)); CS.append(cs); CE.append(ce); STR.append(strand); CHR.append(chrom)
     TL.append(sum(e - b + 1 for b, e in el)); SPLIT.append(int(any(0 < x <= GAP_MAX for x in gaps)))
@@ -75,18 +59,17 @@ for t, el in ex.items():
     for b, e in el:
         blocks[(chrom, strand)].append((b, e, c, k)); c += e - b + 1
 HB = {kk: np.array(sorted(v), dtype=np.int64) for kk, v in blocks.items()}
-CMX = {kk: np.maximum.accumulate(a[:, 1]) for kk, a in HB.items()}   # 起点排序后的累计最大终点，用于精确回看
+CMX = {kk: np.maximum.accumulate(a[:, 1]) for kk, a in HB.items()}
 NT = len(TID)
 
 
 def hits(chrom, strand, p):
-    """返回覆盖基因组位置 p 的该链 canonical 转录本 [(k, txcoord)]（外显子可能重叠，逐个检查）。"""
     a = HB.get((chrom, strand))
     if a is None: return []
     i = np.searchsorted(a[:, 0], p, side='right'); cm = CMX[(chrom, strand)]
     out = []
     j = i - 1
-    while j >= 0 and cm[j] >= p:                      # 累计最大终点 < p 时，更左的区块不可能覆盖 p
+    while j >= 0 and cm[j] >= p:
         gs, ge, cb, k = a[j]
         if gs <= p <= ge:
             out.append((int(k), int(cb + (p - gs) if strand == '+' else cb + (ge - p))))

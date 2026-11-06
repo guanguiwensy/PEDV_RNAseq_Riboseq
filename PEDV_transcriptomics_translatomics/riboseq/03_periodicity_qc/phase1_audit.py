@@ -1,21 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Sup Fig 13 Phase 1 可行性审计（纯本地；只读 RGP_v1.3 / stats / psite 表）。
-CHX 16 h = RIBO_VERO_CHX_1MOI_16h（最终样本表中的 CHX 16 h 文库）。
-输出 phase1/tables/*.csv，供 PHASE1_AUDIT_REPORT.md 引用。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, gzip, csv, json, collections, math
 import numpy as np, pandas as pd
@@ -49,20 +44,20 @@ def derive_offsets(sid):
     return off, conf
 OFF, CONF = {}, {}
 for s in IDS: OFF[s], CONF[s] = derive_offsets(s)
-# 与已交付 psite_offset_GIb 比对（五个库）
+
 po = rdt(f"{RGP}/psite_offset_GIb.tsv"); mism = 0; tot = 0
 for _, r in po.iterrows():
     if r.sample_id in OFF and not pd.isna(r.offset):
         tot += 1; mism += int(OFF[r.sample_id].get(int(r.read_length)) != int(r.offset))
 print(f"offset re-derivation vs psite_offset_GIb: {tot - mism}/{tot} identical")
 
-# ---------- 逐 ORF 周期性（frame5 口径，与 periodicity_virus.tsv 同）----------
+
 def frame5(sid):
     F = collections.defaultdict(lambda: np.zeros(3, np.int64))
     for r in csv.DictReader(open(f"{WORK}/stats/{sid}/frame5.tsv"), delimiter="\t"): F[(r["domain"], int(r["L"]))] += [int(r["f0"]), int(r["f1"]), int(r["f2"])]
     return F
 pf = lambda f, off: np.array([f[(k - off) % 3] for k in range(3)])
-# 读长集合：strict_core（冻结）、host_criteria（新）、all、29-31
+
 cs = pd.read_csv(f"{TASK}/read_length_frame_periodicity/read_length_frame_counts_and_fractions.csv", comment="#")
 SR.assert_table_whitelisted(cs, "sample", "read_length_frame_counts"); SR.assert_exactly(set(cs["sample"]), SR.RIBO_VERO_ALIASES, "read_length_frame_counts")
 body = cs[cs.region == "CDS_body_45_45"].copy()
@@ -91,7 +86,7 @@ for s in IDS:
             rows.append(dict(sample=s, label=LAB[s], read_set=setname, lengths=";".join(map(str, Ls)), orf=nm, n_psites=n, N0=int(p[0]), N1=int(p[1]), N2=int(p[2]),
                              frame0=f0, f_ribosome=(f0 - 1 / 3) / (0.80 - 1 / 3) if n else np.nan))
 P = pd.DataFrame(rows); P.to_csv(f"{TAB}/orf_frame0_by_set.csv", index=False, float_format="%.5g")
-# 复核任务书给出的 strict_core 表（五个库）
+
 told = {"ORF1a": [38.9, 40.3, 67.6, 39.7, 35.9, 48.6], "ORF1b": [33.0, 32.7, 53.2, 34.6, 44.0, 37.4], "S": [64.3, 55.9, 78.2, 59.8, 48.0, 82.9],
         "ORF3": [25.2, 14.4, 77.9, 18.6, 13.8, 54.4], "E": [74.3, 57.6, 76.1, 60.1, 46.7, 89.8], "M": [70.2, 77.0, 79.3, 59.2, 48.2, 83.0],
         "N": [80.5, 77.0, 83.9, 68.8, 65.5, 86.0], "all_7ORF": [67.8, 50.3, 82.2, 56.0, 55.0, 81.3]}
@@ -106,7 +101,7 @@ for orf, vals in told.items():
 C = pd.DataFrame(chk); C.to_csv(f"{TAB}/periodicity_table_recheck.csv", index=False)
 print("task text vs delivered periodicity_virus: max |diff| =", (C.task_text - C.delivered_table).abs().max(), "; recomputed vs delivered:", (C.recomputed - C.delivered_table).abs().max())
 
-# ---------- 链向 ----------
+
 al = rdt(f"{RGP}/riboseq_GIb_alignment_summary.tsv").set_index("sample_id")
 strand = []
 for s in IDS:
@@ -131,13 +126,13 @@ for s in IDS:
                        dup_frac_minus=1 - int(dup["pedv_minus"]["distinct_5p_keys"]) / mi, dup_frac_plus=1 - int(dup["pedv_plus"]["distinct_5p_keys"]) / pl,
                        spliced_frac_minus=int(am["pedv_minus"]["spliced_reads"]) / mi, spliced_frac_plus=int(am["pedv_plus"]["spliced_reads"]) / pl))
 S = pd.DataFrame(strand); S.to_csv(f"{TAB}/strand_overview.csv", index=False, float_format="%.5g")
-# 与 alignment_summary 对账
+
 for s in IDS:
     if s in al.index:
         assert int(al.loc[s, "PEDV_plus_reads"]) == int(S[S["sample"] == s].plus_reads.iloc[0]) and int(al.loc[s, "PEDV_minus_reads"]) == int(S[S["sample"] == s].minus_reads.iloc[0])
 print("strand counts match riboseq_GIb_alignment_summary for the 5 libraries in it")
 
-# − 链读框：用 5′ 端矩阵 + offset，在 ORF 唯一区内统计 (P-site 坐标 mod 3) 的最大帧占比（方向无关，与 + 链同一口径比较）
+
 def trimmed_regions():
     regs = []
     for nm, a, b in ORFS:
@@ -170,14 +165,14 @@ for s in IDS:
                                  dominant_frame_fraction=max(fr) if t else np.nan))
 MF = pd.DataFrame(minus_frames); MF.to_csv(f"{TAB}/minus_vs_plus_frame_dominance.csv", index=False, float_format="%.5g")
 
-# 共变（n=6，Spearman）
+
 from scipy.stats import spearmanr
 cov = []
 for col in ("softclip_frac_minus", "mismatch_per100_minus", "dup_frac_minus", "spliced_frac_minus", "PEDV_pct_of_unique", "median_len_minus", "f2931_minus"):
     r = spearmanr(S.minus_fraction, S[col]); cov.append(dict(variable=col, spearman_rho=r.correlation, p=r.pvalue))
 pd.DataFrame(cov).to_csv(f"{TAB}/minus_fraction_covariation_n6.csv", index=False, float_format="%.4g")
 
-# ---------- 坐标核对 ----------
+
 oc = pd.read_csv(f"{TASK}/refbuild_GIb/v1.1/virus/PEDV_GIb.orf_check.tsv", sep="\t")
 oc[["orf", "GIb_start", "GIb_end"]].to_csv(f"{TAB}/orf_coordinates_refbuild.csv", index=False)
 fa = "".join(l.strip() for l in open(f"{TASK}/refbuild_GIb/v1.1/virus/PEDV_GIb.fa") if not l.startswith(">"))

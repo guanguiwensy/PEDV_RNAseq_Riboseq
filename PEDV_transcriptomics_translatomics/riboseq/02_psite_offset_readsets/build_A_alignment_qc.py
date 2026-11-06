@@ -1,20 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""§3–§4：比对汇总、新旧参考对比、读长分布（宿主/病毒分开）、LPF、rRNA 残留、重复率、支原体污染。
-只读 _work/server/ 下从 R1 同步回来的统计；不删除、不过滤任何 PEDV reads。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import os, sys, csv, collections
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import *
@@ -83,7 +79,7 @@ for sid in IDS:
            "bam_size_bytes": Q["bam_size"]}
     summ.append(row)
 
-    # ---- 新旧参考对比（旧参考数字取既有交付 + 旧 BAM 只读统计；不重跑旧流程） ----
+
     o = OLD_SUM[sid]; ofin = star_final(f"{W}/oldref/{sid}.Log.final.out"); OA = aln(f"{W}/stats_oldref/{sid}/aln_metrics.tsv")["pedv_all"]
     old_v = int(o["pedv_mapped_reads"]); old_h = int(o["host_mapped_reads"]); old_u = int(o["star_uniquely_mapped_reads"])
     assert OA["reads"] == old_v, (sid, OA["reads"], old_v)
@@ -112,7 +108,7 @@ for sid in IDS:
             c["refbuild_subsample_3M_host_ratio_new_over_old"] = f4(int(vn["host_unique_fragments"]) / int(vo["host_unique_fragments"]))
     comp.append(c)
 
-    # ---- 读长分布（宿主 / PEDV+ / PEDV− 分开） ----
+
     R = rd(f"{W}/stats/{sid}/readlen_aln.tsv")
     ht = sum(int(r["host_n"]) for r in R); vt = sum(int(r["pedv_plus_n"]) for r in R); mt = sum(int(r["pedv_minus_n"]) for r in R)
     for r in R:
@@ -132,7 +128,7 @@ for sid in IDS:
                 **{f"PEDV_plus_zone_{z}_pct": pct(sm("pedv_plus_n", lo, hi), vt) for z, lo, hi in (("lt23", 0, 22), ("23_28", 23, 28), ("29_30", 29, 30), ("31_34", 31, 34))},
                 "status": "LPF 全部保留、不删除，只统计"})
 
-    # ---- 污染 / rRNA 残留 / 重复 ----
+
     bt = open(f"{W}/myco/{sid}.bt2.log", encoding="utf-8").read().split("\n")
     nin = int(bt[0].split()[0]); n0 = int(bt[2].split()[0]); nal = nin - n0
     idx = {l.split("\t")[0]: int(l.split("\t")[2]) for l in open(f"{W}/myco/{sid}.idxstats.tsv") if l.split("\t")[0] != "*"}

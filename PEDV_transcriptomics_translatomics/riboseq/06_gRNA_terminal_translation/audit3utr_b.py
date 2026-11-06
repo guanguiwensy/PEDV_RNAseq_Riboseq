@@ -1,29 +1,27 @@
 # -*- coding: utf-8 -*-
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import io, contextlib
 with contextlib.redirect_stdout(io.StringIO()):
     exec(open(__import__('os').path.join(__import__('os').path.dirname(__REPO_FILE__), 'audit3utr.py'), encoding="utf-8").read())
 
-# ---------- 已知翻译 ORF 的 frame0 中位数（逐库，判据 θ 参考）----------
+
 KNOWN = {"S": (20655, 24713, 20610), "E": (25406, 25555, 25361), "M": (25653, 26243, 25608), "N": (26345, 27562, 26300)}
 def frame0_of(a, lo, hi, ref):
     idx = np.arange(lo, hi + 1); seg = a[lo:hi + 1]; return seg[(idx - ref) % 3 == 0].sum() / seg.sum()
 KF0 = {sid: float(np.median([frame0_of(S_FORMAL[sid], *v) for v in KNOWN.values()])) for sid in S_FORMAL}
 print("known-ORF frame0 medians", {LAB[k]: round(v, 3) for k, v in KF0.items()})
 
-# ---------- 候选逐库评价 ----------
+
 def evaluate(cd_df, lo_note=""):
     hr, cr = [], []
     for c in cd_df.itertuples():
@@ -65,7 +63,7 @@ def evaluate(cd_df, lo_note=""):
                            cand_frame_frac_after_top1_removed=inf1 / b1.sum() if b1.sum() else np.nan, cand_frame_frac_after_top3_removed=inf3 / b3.sum() if b3.sum() else np.nan, theta_0p8x_known_ORF_frame0=th, evidence_class=cl))
     return pd.DataFrame(hr), pd.DataFrame(cr)
 HR, CR = evaluate(cd)
-# 起始 → HAR 响应区聚类（相距 ≤6 nt 的 HAR 局部峰合并，区间 27,566-27,959）
+
 harpk = pk[(pk.drug == "HAR") & (pk.position >= 27566)].position.sort_values().unique()
 regions = []
 for p in harpk:
@@ -87,7 +85,7 @@ cd2 = cd.merge(sumc, on="candidate_id")
 cd2["rank_key"] = list(zip(-cd2.n_start_attributable_libs, -cd2.n_CHX_candidate_periodicity_libs, -cd2.best_SWE.replace(np.inf, 1e9).fillna(0)))
 cd2["rank_by_(attributable_HAR_timepoints,CHX_periodic_timepoints,best_SWE)"] = cd2.rank_key.rank(method="min").astype(int)
 cd2 = cd2.drop(columns="rank_key").sort_values("rank_by_(attributable_HAR_timepoints,CHX_periodic_timepoints,best_SWE)")
-# 与先前 3′ 末端目录交叉
+
 prev = pd.read_csv(ROOT + r"/fig5_terminal_ORF/PEDV_terminal_ORF_candidates.tsv", sep="\t", comment="#")
 print(prev.columns.tolist()[:25])
 cd2.to_csv(T + r"/3UTR_candidate_ORFs.tsv", sep="\t", index=False, float_format="%.4g")

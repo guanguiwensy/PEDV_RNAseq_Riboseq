@@ -1,21 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""补充图（v2，面板 A–C）：reads 去向 + 支原体、中位长度、29–31 nt 占比。CHX 16 h = RIBO_VERO_CHX_1MOI_16h（第二批）；原 D、E 面板不再保留。
-五个库取自 shared_riboseq_metrics（RGP_v1.3 冻结表）；RIBO_VERO_CHX_1MOI_16h 取自 batch23 QC 汇总表（raw/trimmed/non_rRNA）与 GI-b 统计（stats/、align/、myco/）。
-分母链条与主分析相同并逐项断言：non_rRNA == STAR input；host + PEDV == uniquely mapped；七类之和 == raw。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, csv, datetime
 import numpy as np, pandas as pd
@@ -41,7 +36,7 @@ plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 8, "axes.linewid
                      "axes.spines.top": False, "axes.spines.right": False, "xtick.major.width": 0.7, "ytick.major.width": 0.7,
                      "xtick.labelsize": 7, "ytick.labelsize": 7})
 
-# ---------------- Panel A 数据 ----------------
+
 F5 = rd(f"{SH}/sample_funnel.tsv").set_index("sample_id")
 rowsA = []
 for s in IDS:
@@ -64,7 +59,7 @@ for s in IDS:
         assert inp == nonr, (inp, nonr); assert host + pedv == uniq, (host, pedv, uniq)
         assert uniq + mm_ + short + other == inp, (uniq, mm_, short, other, inp)
         n = dict(adapter=raw - trim, rRNA=trim - nonr, host=host, pedv=pedv, multi=mm_, short=short, other=other)
-        # 支原体：bowtie2 2.5.4，分母 = 去 rRNA 后 reads（与其余库同口径）
+
         bt = open(f"{WORK}/myco/{s}.bt2.log", encoding="utf-8").read()
         one = int([l for l in bt.splitlines() if "aligned exactly 1 time" in l][0].split()[0]); more = int([l for l in bt.splitlines() if "aligned >1 times" in l][0].split()[0])
         myco = 100 * (one + more) / nonr
@@ -73,7 +68,7 @@ for s in IDS:
     rowsA.append(dict(sample=s, treatment=DRUG[s], time_hpi=TIME[s], category="Mycoplasma (% of non-rRNA reads, bowtie2 all alignments)", reads=np.nan, raw_r1_reads=int(raw), fraction_of_raw=myco / 100))
 A = pd.DataFrame(rowsA)
 
-# ---------------- Panel B/C 数据 ----------------
+
 LS = rd(f"{SH}/length_summary.tsv")
 rows = []
 for s in IDS:
@@ -97,7 +92,7 @@ def wr(name, df, title):
 wr("panelA_read_fate_source_data.csv", A, "Panel A: fate of raw R1 reads and mycoplasma estimate")
 wr("panelBC_length_summary_source_data.csv", BC, "Panels B/C: median aligned length and fraction of footprints at 29-31 nt, host vs PEDV (+)")
 
-# ---------------- 作图 ----------------
+
 W, H = 180.0, 142.0
 fig = plt.figure(figsize=(W * MM, H * MM))
 def axmm(l, t, w, h): return fig.add_axes([l / W, 1 - (t + h) / H, w / W, h / H])

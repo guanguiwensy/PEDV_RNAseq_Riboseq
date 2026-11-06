@@ -1,19 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""图 1（全病毒 PK1–Vero P-site 对照）与图 2（相关性散点 + 分区域相关性热图）；只含 16 h 两对：PK1 CHX 16 h vs Vero CHX 16 h、PK1 HAR 16 h vs Vero HAR 16 h。全部为真实数据。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, sys, csv
 import numpy as np
@@ -43,7 +40,7 @@ CV, CPK = "#0072B2", "#D55E00"
 FOOT = (f"29-nt RPF; P-site = 5' end + 12 nt, + strand; PEDV_GIb (refdata_GIb_v1.1); unit = P-sites per million 29-nt PEDV(+) P-sites (CPM29); Vero host ChlSab1.1 ({SR.lib('RIBO_VERO_CHX_1MOI_16h')} CHX 16 h, {SR.lib('RIBO_VERO_HAR_1MOI_16h')} HAR 16 h), "
         f"PK1 host Sscrofa11.1 ({SR.lib('RIBO_PK1_CHX_1MOI_16h')}, {SR.lib('RIBO_PK1_HAR_1MOI_16h')}). MOI = 1 (PK1; confirmed by the user, not read from the data) / 1 (Vero). PK1 CHX 29-nt periodicity is weak (C2 fail). The two pairs share no PK1-internal comparison.")
 
-# ---------- 图 1 ----------
+
 fig, axs = plt.subplots(2, 1, figsize=(16, 7.5), sharex=True)
 pos = np.arange(len(VERO[COND[0]]))
 for ax, c in zip(axs, COND):
@@ -68,7 +65,7 @@ fig.subplots_adjust(top=0.92, bottom=0.12, hspace=0.12, left=0.07, right=0.99)
 for ext in ("pdf", "svg"): fig.savefig(f"{OUT}/figures_editable/Fig1_PK1_Vero_whole_virus_Psite_16h.{ext}", dpi=220 if ext == "png" else None)
 plt.close(fig)
 
-# ---------- 图 2 ----------
+
 fig = plt.figure(figsize=(14, 12))
 gs = fig.add_gridspec(2, 2, height_ratios=[1, 1.05], hspace=0.4, wspace=0.25)
 for k, c in enumerate(COND):

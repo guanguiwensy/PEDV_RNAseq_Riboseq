@@ -1,18 +1,11 @@
-"""Low-memory / low-process runner for the FULL Fig 3 span-stratified permutation analysis (s4_new.py).
+"""Low-memory runner for the Fig. 3 span-stratified permutation analysis.
 
-Added during release curation (NOT part of the original analysis code).  Motivation: the original s4_new.py opens
-`Pool(26)`; on a 16 GB Windows laptop this exhausted memory / handles (multiprocessing pickling error) and the run crashed.
+The runner replaces the large process pool in ``s4_new.py`` with a serial pool
+or a pool of at most four workers. The statistical model, seed, and 10,000
+permutation draws are unchanged.
 
-What this runner changes: ONLY the process model.  `multiprocessing.Pool` is replaced by an in-process (serial) pool or,
-with --workers N (N<=4), a small real pool.  Nothing else is touched: background model (span-quartile-stratified pair-swap
-chain, 'sweeps=2, burn=30'), random seed (SEED=42 from common.py), number of retained permutation draws (NPERM=10,000)
-and all statistics are executed by the unmodified s4_new.py / metrics_mfe.py.  The runner asserts SEED==42 and NPERM==10000
-and prints them, so a changed configuration cannot go unnoticed.
-
-Cost (measured on the dev laptop, ~0.17 ms per RNA.duplexfold call): ~1.1 M donor x acceptor pairs x 2 modes -> a few minutes
-for the energy matrices, plus the swap chains; peak memory < 1 GB with the default --workers 1.
-Usage:  python run_s4_new_lowmem.py [--workers 1]
-Requires ViennaRNA python bindings (import RNA, 2.7.2 used for the submitted numbers).
+Usage: python run_s4_new_lowmem.py [--workers 1]
+Requires ViennaRNA Python bindings.
 """
 import os, sys
 for _k in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):

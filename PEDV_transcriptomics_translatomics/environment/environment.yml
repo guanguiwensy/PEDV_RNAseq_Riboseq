@@ -15,4 +15,5 @@ dependencies:
   - numpy
   - pandas
   - pysam
-# PRICE 1.0.5 / Gedi 1.0.6f must be built from source with OpenJDK 11 (not available as a conda package); see docs/SERVER_SCRIPTS_REQUIRED.md
+  - statsmodels
+# PRICE 1.0.5 / Gedi 1.0.6f must be built from source with OpenJDK 11; neither tool is available as a conda package.

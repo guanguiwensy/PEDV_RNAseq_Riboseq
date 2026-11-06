@@ -1,30 +1,15 @@
 # -*- coding: utf-8 -*-
-"""阶段2 步骤1：逐一核实已有 54 物种数据中 PEDV/TGEV/PRCV/PDCoV 的存在情况并留痕。
-
-输入（只读）：
-  $PEDV_COV/coronavirus_fasta_download/fasta_final/all_54_species_genomes.fasta
-  $PEDV_COV/coronavirus_fasta_download/fasta_final/final_accession_list.txt
-  $PEDV_COV/coronavirus_accession_selection/selected_metadata/{3个目标物种}.tsv
-  $PEDV_COV/coronavirus_accession_selection/all_54_species_selected_accessions.tsv
-  $PEDV_COV/orf_analysis/tables/representative_54_genomes.tsv
-
-输出：
-  results/phase2_existing_target_seqs.tsv   （分类+QC 后的本地位目标序列表）
-  logs/phase2_step1_verify_existing.log     （逐项核查留痕）
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sys, io, os, re
 from pathlib import Path
 
@@ -54,7 +39,6 @@ def log(msg):
     logf.write(line + "\n"); logf.flush()
 
 def classify(virus_name: str):
-    """返回 (virus, virus_group)。病毒名规则基于 virus_name 字段，不看文件名。"""
     v = (virus_name or "").strip()
     vl = v.lower()
     if "epidemic diarrhea" in vl:
@@ -63,10 +47,10 @@ def classify(virus_name: str):
         return "PRCV", "PRCV_comparator"
     if "transmissible gastroenteritis" in vl or vl.startswith("tgev"):
         return "TGEV", "TGEV_main"
-    # PDCoV 曾用名：Porcine coronavirus HKU15 / Coronavirus HKU15 / Swine deltacoronavirus
+
     if ("deltacoronavirus" in vl) or ("hku15" in vl) or ("pdcov" in vl):
         return "PDCoV", "PDCoV_main"
-    # species suis 中的其他成员（CCoV/FCoV/FIPV/Alphacoronavirus 1/SeCoV）
+
     if any(k in vl for k in ("feline coronavirus", "feline infectious peritonitis",
                              "canine coronavirus", "alphacoronavirus 1",
                              "swine enteric coronavirus")):
@@ -78,7 +62,7 @@ def parse_strain(virus_name: str):
     m = re.search(r"(?:strain|isolate)\s+(.+)$", v, re.I)
     if m:
         return m.group(1).strip()
-    # 形如 "Porcine epidemic diarrhea virus L00721/GER/2014"：尾巴当作株系线索
+
     for pref in ("Porcine epidemic diarrhea virus", "Porcine deltacoronavirus",
                  "Deltacoronavirus PDCoV", "Swine deltacoronavirus",
                  "Porcine coronavirus HKU15", "TGEV", "Porcine respiratory coronavirus"):
@@ -92,7 +76,7 @@ def main():
     log(f"筛选关键字（病毒名层面）：epidemic diarrhea / transmissible gastroenteritis / "
         f"porcine respiratory coronavirus / deltacoronavirus / HKU15 / PDCoV / TGEV")
 
-    # 1) FASTA 头核查（病毒全名关键词；头格式为 ">ACCESSION.VERSION 物种名"）
+
     headers = []
     with open(FINAL_FASTA, encoding="utf-8", errors="replace") as fh:
         for line in fh:
@@ -101,11 +85,11 @@ def main():
     log(f"FASTA 序列总数（去重后唯一基因组）：{len(headers)}")
     kw = re.compile(r"epidemic diarrhea|gastroenteritis|respiratory coronavirus|"
                     r"deltacoronavirus|porci|suis", re.I)
-    # 头部只有物种拉丁名，需要结合 accession 清单与 metadata 判断
+
     hit_headers = [h for h in headers if kw.search(h)]
     log(f"头部含 porci/suis/deltacoronavirus 等物种名的序列数：{len(hit_headers)}")
 
-    # 2) 最终 accession 清单
+
     final_set = set()
     with open(FINAL_LIST, encoding="utf-8") as fh:
         for line in fh:
@@ -114,7 +98,7 @@ def main():
                 final_set.add(a)
     log(f"final_accession_list.txt 条目数：{len(final_set)}")
 
-    # 3) 三个目标物种：已选 accession vs 最终保留
+
     rows = []
     for sid, (sp, meta_path) in SPECIES_FILES.items():
         sel_acc = []
@@ -151,7 +135,7 @@ def main():
                 })
     log(f"三个目标物种 metadata 记录合计：{len(rows)}")
 
-    # 4) 病毒名分类
+
     cls_count = {}
     for r in rows:
         v, g = classify(r["virus_name"])
@@ -160,7 +144,7 @@ def main():
     for (v, g), c in sorted(cls_count.items(), key=lambda x: -x[1]):
         log(f"  病毒名分类: {v} [{g}] = {c} 条（metadata 层面，含未进入最终库者）")
 
-    # 5) FASTA 序列级 QC（长度 25–34 kb、N 比例）
+
     seqinfo = {}
     cur_h, cur_len, cur_n = None, 0, 0
     want = {r["accession"] for r in rows}
@@ -179,7 +163,7 @@ def main():
             seqinfo[cur_h] = (cur_len, cur_n)
     log(f"成功从 FASTA 取回序列信息的目标 accession 数：{len(seqinfo)} / {len(want)}")
 
-    # 6) rep-54 代表基因组（判断 n1_status 可用的注释）
+
     rep_acc = {}
     if REP54.exists():
         with open(REP54, encoding="utf-8") as fh:
@@ -196,7 +180,7 @@ def main():
                 log(f"  目标物种代表基因组：{a} ({sp})")
     log(f"rep-54 代表基因组总数：{len(rep_acc)}")
 
-    # 7) 输出 TSV
+
     cols = ["virus", "virus_group", "species", "virus_name", "strain", "accession",
             "genome_length", "n_count", "n_fraction", "qc_status", "host",
             "collection_date", "geo_location", "is_lab_host", "is_vaccine_strain",

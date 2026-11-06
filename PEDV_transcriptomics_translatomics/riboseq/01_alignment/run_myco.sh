@@ -1,6 +1,4 @@
 #!/bin/bash
-# 支原体污染复核：与 2026-06 批2 检测同一方法（bowtie2 默认参数 --no-unal 比对去 rRNA 后 reads 到 8 物种 panel；
-# 分母 = 去 rRNA 后 reads；另报 MAPQ≥20 严格复核与物种分解）。10 个样本全部复核，不因污染剔除样本。
 set -eu
 R=${PEDV_SERVER_ROOT:?set PEDV_SERVER_ROOT}/analysis_GIb/Riboseq_GIb_psite
 BT=${BOWTIE2_BIN_DIR:?set BOWTIE2_BIN_DIR}

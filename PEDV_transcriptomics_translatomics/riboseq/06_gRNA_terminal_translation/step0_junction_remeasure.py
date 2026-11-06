@@ -1,19 +1,17 @@
 """Step 0: re-measure canonical leader-body junctions on GI-b (refdata_GIb_v1.1).
 Input: GIb_rnaseq_reanalysis/junction_atlas/junction_events_raw.tsv.gz (STAR split reads on GI-b), PEDV_GIb.fa
 Convention: leader_end = last leader base (1-based), body_start = first body base (1-based), as reported by STAR (left-flush)."""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import pandas as pd, numpy as np, gzip, sys, collections
 B=PEDV_P+''
@@ -93,10 +91,10 @@ for _,r in res.iterrows():
     lo=b-6; hi=b+wr+30
     bc=best_core(b+wr-5,b+wr+40)  # 6-mers starting at/after right-most junction
     note=''
-    if g=='ORF3': note='junction坐标实测(97.4%读段,23/23样本一致);TRS-B核心(CTAAAC<=1错配)在junction下游仍未找到,最佳6-mer见best_downstream_core_*;TRS-B序列身份待确认,不影响转录本嵌合序列'
-    if g=='M': note='三峰microheterogeneity(同一gap=25531,donor 63/66/67对body 25594/25597/25598);众数66|25597占约42%,三峰嵌合序列互不相同(差3nt);下游以众数建模,其余两峰作敏感性'
-    if g=='E': note='旧TRS.tsv写55|25340(实为次峰,约2.5%);实测众数57|25342(约97%)'
-    fin.append(dict(sgRNA=g,junction_status='实测(GIb v1.1, STAR split reads)' if g!='ORF3' else '坐标实测;TRS-B身份待确认',
+    if g=='ORF3': note='Measured junction coordinates (97.4% of reads; consistent in 23/23 samples). No downstream TRS-B core with <=1 mismatch to CTAAAC was found; see best_downstream_core_*. TRS-B sequence identity is unresolved but does not change the chimeric transcript sequence.'
+    if g=='M': note='Three-peak microheterogeneity for gap 25531: donor 63/66/67 paired with body 25594/25597/25598. The 66|25597 mode accounts for approximately 42%; downstream analysis uses this mode and treats the other peaks as sensitivity cases.'
+    if g=='E': note='The 55|25340 pair is a minor peak (approximately 2.5%); the measured mode is 57|25342 (approximately 97%).'
+    fin.append(dict(sgRNA=g,junction_status='measured (GI-b v1.1, STAR split reads)' if g!='ORF3' else 'coordinates measured; TRS-B identity unresolved',
         leader_end_donor_left_aligned=d,body_start_acceptor_left_aligned=b,gap_nt=b-d-1,
         reads_total=int(r.reads_total),reads_modal_pair=int(r.reads_modal_pair),modal_pair_frac=r.modal_pair_frac,
         n_samples=23,n_samples_modal_pair_is_sample_mode=int(r.n_samples_body_mode_equal),

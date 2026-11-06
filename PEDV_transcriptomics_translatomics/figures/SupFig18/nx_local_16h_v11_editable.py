@@ -1,22 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""PK1_VERO_ORF_VALIDATION_v1 第二步：N-x1、N-x2 的 Vero/PK1 局部真实数据对照（图 3）与描述性证据表。
-底层数据处理与既有口径一致：29 nt P-site（5′端 + 12 nt）、+ 链、frame(p) = (p - ORF_start) mod 3（ORF_start = 父 ORF N 起点 26300）、PEDV_GIb（refdata_GIb_v1.1）坐标。
-Vero 数据：SupM_alt_ORF_evidence/cache/psite_by_length.pkl（Fig5/6 审计用的同一缓存，含 RIBO_VERO_CHX_1MOI_16h）；PK1 数据：PK1_psite 交付的长表（29 nt 子集）。
-不计算任何 P 值；表中全是计数、份额和比值（描述性）。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, sys, gzip, csv, pickle, collections, json
 import numpy as np
@@ -34,13 +28,13 @@ DATA = HERE + "/data"
 OUT = sys.argv[1]; os.makedirs(OUT + "/figures_editable", exist_ok=True)
 VLEN = 27959; NSTART = 26300
 FC = {0: "#7B3294", 1: "#56B4E9", 2: "#999999"}
-COND = [("CHX", 16), ("HAR", 16)]   # 用户指示：只用 16 h
+COND = [("CHX", 16), ("HAR", 16)]
 VERO_SID = {("CHX", 16): SR.lib("RIBO_VERO_CHX_1MOI_16h"), ("HAR", 16): SR.lib("RIBO_VERO_HAR_1MOI_16h")}
 PK1_SID = {("CHX", 16): SR.lib("RIBO_PK1_CHX_1MOI_16h"), ("HAR", 16): SR.lib("RIBO_PK1_HAR_1MOI_16h")}
-VERO_RNA = {("CHX", 16): SR.lib("RNA_VERO_CHX_1MOI_16h"), ("HAR", 16): SR.lib("RNA_VERO_HAR_1MOI_16h")}   # v1.1：按用户样本表配对（）
+VERO_RNA = {("CHX", 16): SR.lib("RNA_VERO_CHX_1MOI_16h"), ("HAR", 16): SR.lib("RNA_VERO_HAR_1MOI_16h")}
 PK1_RNA = {("CHX", 16): SR.lib("RNA_PK1_CHX_1MOI_16h"), ("HAR", 16): SR.lib("RNA_PK1_HAR_1MOI_16h")}
 
-# ---------- 候选（取自上一任务冻结的 candidate_list_frozen.tsv，即 Vero 既有结果）----------
+
 cl = [l for l in open(f"{ROOT}/PK1_orf_evidence/candidate_list_frozen.tsv", encoding="utf-8") if not l.startswith("#")]
 CAND = {}
 for r in csv.DictReader(cl, delimiter="\t"):
@@ -50,7 +44,7 @@ for r in csv.DictReader(cl, delimiter="\t"):
                                      length_aa=r["length_aa"], evidence=r["vero_strongest_evidence_type"], detail=r["vero_evidence_detail"])
 print({k: (v["starts"], v["stop"]) for k, v in CAND.items()})
 
-# ---------- 数据 ----------
+
 cache = pickle.load(open(f"{ROOT}/SupM_alt_ORF_evidence/cache/psite_by_length.pkl", "rb"))
 VERO = {c: np.asarray(cache["A"][VERO_SID[c]][29], float) for c in COND}
 PK1 = {c: np.zeros(VLEN + 2) for c in COND}
@@ -71,14 +65,14 @@ def load_depth(path):
             if len(c) == 3: a[int(c[1])] = float(c[2])   # contig pos depth
             elif len(c) == 2: a[int(c[0])] = float(c[1])  # pos depth
     return a
-RNA_V = {c: load_depth(f"{DATA}/vero_rna_depth_samecond_{VERO_RNA[c]}.tsv.gz") for c in COND}   # v1.1：与 PK1 同条件重算（唯一比对、未去重）
+RNA_V = {c: load_depth(f"{DATA}/vero_rna_depth_samecond_{VERO_RNA[c]}.tsv.gz") for c in COND}
 RNA_P = {c: load_depth(f"{DATA}/rna_depth_{PK1_RNA[c]}.tsv.gz") for c in COND}
 HOST_V = {SR.lib("RIBO_VERO_CHX_1MOI_8h"): (0.841, 0.0775, 0.0815), SR.lib("RIBO_VERO_CHX_1MOI_16h"): (0.8454, 0.099, 0.0555), SR.lib("RIBO_VERO_HAR_1MOI_8h"): (0.6701, 0.1714, 0.1585), SR.lib("RIBO_VERO_HAR_1MOI_16h"): (0.8637, 0.0815, 0.0548)}  # QC_summary.tsv body_F0/F1/F2
 HOST_P = {}
 for r in csv.DictReader(open(f"{DATA}/pk1_host_body_frame_shares_29nt.tsv"), delimiter="\t"): HOST_P[r["sample_id"]] = (float(r["F0"]), float(r["F1"]), float(r["F2"]), int(r["body_n"]))
 frame = lambda p: (p - NSTART) % 3
 
-# ---------- 描述性证据表 ----------
+
 rows = []
 def region_frames(a, lo, hi):
     n = [0.0, 0.0, 0.0]; pos1 = []
@@ -93,7 +87,7 @@ for name, c in CAND.items():
         for cond in COND:
             a = D[cond]; T = a.sum()
             n, f1 = region_frames(a, lo, hi); tot = sum(n)
-            # N 主 ORF 内、不含两个候选区的 F1 份额（病毒内部对照）
+
             n_ref, _ = region_frames(a, 26991, 27580)
             tr = sum(n_ref)
             sid = VERO_SID[cond] if cell == "Vero" else PK1_SID[cond]
@@ -110,7 +104,7 @@ for name, c in CAND.items():
                      F1_share_without_top3_positions=round((n[1] - top3) / (tot - top3), 4) if tot - top3 > 0 else "NA",
                      CPM29_body=round(tot / T * 1e6, 1) if T else "NA")
             rows.append(r)
-# HAR/CHX 起始邻域（描述性；每个起点变体一行）
+
 srows = []
 for name, c in CAND.items():
     for s, codon in c["starts"]:
@@ -132,14 +126,14 @@ def wtsv(name, rr):
         w = csv.DictWriter(f, fieldnames=list(rr[0].keys()), delimiter="\t"); w.writeheader(); w.writerows(rr)
 wtsv("Nx_body_frame_summary_16h.tsv", rows); wtsv("Nx_start_window_summary_16h.tsv", srows)
 
-# ---------- 图 3 ----------
+
 def draw_candidate(name):
     c = CAND[name]; s0 = min(s for s, _ in c["starts"]); stop = c["stop"]
     lo, hi = s0 - 40, stop + 40
     pos = np.arange(lo, hi + 1)
     fig = plt.figure(figsize=(17, 11), dpi=150)
     gs = fig.add_gridspec(5, 2, height_ratios=[0.7, 2.2, 2.2, 0.35, 2.4], hspace=0.55, wspace=0.12)
-    # 基因模型
+
     ax = fig.add_subplot(gs[0, :]); ax.set_xlim(lo, hi); ax.set_ylim(0, 4); ax.axis("off")
     ax.add_patch(plt.Rectangle((max(lo, 26300), 2.6), min(hi, 27625) - max(lo, 26300), 0.7, fc="#dddddd", ec="k", lw=0.5)); ax.text(lo + 3, 3.65, "N canonical ORF (26300-27625), frame 0", fontsize=8)
     for k, (s, codon) in enumerate(c["starts"]):
@@ -174,7 +168,7 @@ def draw_candidate(name):
             from matplotlib.lines import Line2D
             a1.legend([Line2D([], [], color=FC[k], lw=2) for k in range(3)], ["frame 0 (N frame)", "frame +1 (candidate)", "frame +2"], fontsize=6, loc="upper left", ncol=3, frameon=False)
         a1.set_ylabel("P-sites / 10^6", fontsize=7)
-    # HAR 起始区放大
+
     ax = fig.add_subplot(gs[3, :]); ax.axis("off"); ax.text(0, 0.2, "HAR start-region zoom: positions %d to %d (first start variant -15 to +45); dotted lines = start variants" % (s0 - 15, s0 + 45), fontsize=8)
     for k, cond in enumerate([("HAR", 16)]):
         lab = "%s %d h" % cond

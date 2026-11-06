@@ -1,21 +1,19 @@
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sys,csv,json,collections,math,numpy as np
 from scipy import stats
 B=PEDV_K+r""; O=B+"Supplementary_Figure_L/"; W=O+"work/"
 pool=json.load(open(W+"refpool.json"))['fams']; fm={F['fid']:F for F in pool}
-feat=json.load(open(W+"featured.json")); from pedv_paths import check_sup16_featured; check_sup16_featured(feat); FEAT=feat['featured']; NAME=feat['names']; ORIG=set(feat['orig_AC']+feat['orig_D']); REV=set(feat['rev_rule'])
+feat=json.load(open(W+"featured.json")); from pedv_paths import check_sup16_featured; check_sup16_featured(feat); FEAT=feat['featured']; NAME=feat['names']
 typing={r['accession']:r for r in csv.DictReader(open(W+"typing_S_based.tsv",encoding='utf-8'),delimiter='\t')}
 lin=list(csv.DictReader(open(O+"PEDV_ORF_conservation_by_lineage.csv",encoding='utf-8-sig')))
 L={(r['family_id'],r['lineage_group']):r for r in lin}
@@ -37,7 +35,7 @@ for F in sorted(G40,key=lambda F:F['isos'][0]['start']):
         stop_position=F['stop'],n_start_variants_gt40=len(st),n_AUG=sum(1 for x in st if x['aug']=='yes'),n_near_cognate=sum(1 for x in st if x['aug']=='no'),
         contains_AUG='yes' if any(x['aug']=='yes' for x in st) else 'no',max_aa=max(x['aa'] for x in st),
         parent=f0['parent'],relative_frame=f0['relative_frame'],category=f0['category'],canonical_frame_family='yes' if F['inframe'] else 'no',
-        featured='yes' if F['fid'] in FEAT else 'no',fig6_original_featured_provisional='yes' if F['fid'] in ORIG else 'no',fig6_revised_rule_pending='yes' if F['fid'] in REV else 'no',overlaps_PRF_or_ORF1ab_overlap='yes' if any(x['prf_overlap']=='yes' for x in F['isos']) else 'no'))
+        featured='yes' if F['fid'] in FEAT else 'no',overlaps_PRF_or_ORF1ab_overlap='yes' if any(x['prf_overlap']=='yes' for x in F['isos']) else 'no'))
 wr("SourceData_PanelA_families_gt40.csv",A)
 # density tracks (non-canonical-frame families only), window 1000 / step 100
 isoall=[(x['start'],F['fid']) for F in G40 if not F['inframe'] for x in F['isos'] if x['aa']>40]

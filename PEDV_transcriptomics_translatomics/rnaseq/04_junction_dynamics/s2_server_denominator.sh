@@ -1,6 +1,6 @@
 #!/bin/bash
-# 在 R1 上从 minimap2 BAM(与 junction calling 同一比对)统计每样本病毒 fragment 数, 作为 junction reads per million 的分母。
-# 只读原始 BAM; 输出写到 data1 下新目录; sort 临时目录也在 data1(不写根分区)。
+
+
 set -euo pipefail
 R=${PEDV_SERVER_ROOT:?set PEDV_SERVER_ROOT}/analysis_GIb/RNAseq
 O=$R/fig2supp_denominator; mkdir -p $O/tmp

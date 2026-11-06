@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 # Figure 2 plotting (PEDV junction landscape). Input: figures/Fig2_work/events_main.tsv (from fig2_classify.py)
 import numpy as np, pandas as pd, json, sys
@@ -77,7 +75,7 @@ def hot_list():
     ind = pd.concat([ind[(ind.donor == HOT[0]) & (ind.acceptor == HOT[1])], ind[~((ind.donor == HOT[0]) & (ind.acceptor == HOT[1]))].head(2)])
     h = pd.concat([dep, ind]).reset_index(drop=True)
     h['label'] = list('abcdef')
-    h['note'] = ['TRS-L-dep noncanonical'] * 3 + ['TRS-L-indep, authenticity pending (audit in progress)'] + ['TRS-L-indep'] * 2
+    h['note'] = ['TRS-L-dep noncanonical'] * 3 + ['TRS-L-indep, low-confidence'] + ['TRS-L-indep'] * 2
     return h[['label', 'donor', 'acceptor', 'reads', 'n_samples', 'cls', 'category', 'note']]
 
 
@@ -124,7 +122,7 @@ def panel_A(fig, ox, oy, size):
     cb.outline.set_linewidth(0.4)
     fig.text((ox + 79) / size[0], (oy + 53) / size[1], 'Junction-spanning reads per bin\n(log$_2$; 100-nt bins; clipped at 2$^{16}$)',
              fontsize=FS_K, ha='center', va='bottom', linespacing=1.15)
-    fig.text((ox + 60) / size[0], (oy + 43.0) / size[1], 'Orange markers a\u2013f:\nhotspots (source data);\ndiamond d: authenticity\npending',
+    fig.text((ox + 60) / size[0], (oy + 43.0) / size[1], 'Orange markers a\u2013f:\nhotspots (source data);\ndiamond d: low-confidence',
              fontsize=FS_K, ha='left', va='top', color='#D55E00', linespacing=1.15)
     # left marginal: acceptor frequency
     ml = A(13, 31, 10, 76)
@@ -314,7 +312,7 @@ def dg_panel(fig, ox, oy, size, title1, title2, sub, color_fn, letter_s, n2, row
     for s_ in ['top', 'right', 'left']: ax.spines[s_].set_visible(False)
     if hot:
         ax.plot(HOT[0] / 1000, 0.13, marker='D', ms=4, mfc='none', mec='#D55E00', mew=0.8)
-        ax.annotate('d (authenticity pending)', (HOT[0] / 1000, 0.13), xytext=(HOT[0] / 1000 - 4.0, 0.75), fontsize=FS_K, color='#D55E00',
+        ax.annotate('d (low-confidence)', (HOT[0] / 1000, 0.13), xytext=(HOT[0] / 1000 - 4.0, 0.75), fontsize=FS_K, color='#D55E00',
                     ha='right', va='bottom', arrowprops=dict(arrowstyle='-', color='#D55E00', lw=0.5))
     tr = axmm(fig, ox + 2, oy + 4.0 + extra, 60, 3.5, size); tr.set_xlim(0, GL / 1000); tr.set_ylim(0, 1); tr.axis('off')
     gene_bar(tr, 0, 1)

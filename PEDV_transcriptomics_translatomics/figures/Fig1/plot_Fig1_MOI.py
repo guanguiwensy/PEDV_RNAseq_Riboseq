@@ -1,20 +1,15 @@
 #!/usr/bin/env python3
-"""Figure 1 B/C/D/F 按 MOI 重绘(复用 plot_RNA00_read_composition.py / plot_Fig1DEF.py / plot_figures_GIb.py 的数据口径与配色,
-版式与现有 Fig.1 拼图一致: Arial、面板粗体标题、HAR 粉、F 不标格内数字、colorbar ±4)。
-零生物学重复(每个 MOI×处理×hpi n=1): 不画误差棒、不做推断统计、不跨 MOI 平均。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import os
 import numpy as np
 import pandas as pd
@@ -32,10 +27,10 @@ MM = 1 / 25.4
 plt.rcParams.update({"font.family": "Arial", "pdf.fonttype": 42, "svg.fonttype": "none", "font.size": 8,
                      "axes.linewidth": 0.8, "xtick.major.width": 0.8, "ytick.major.width": 0.8})
 
-# ---- 配色(与现有拼图一致) ----
+
 PEDV_C, HOST_C, OTHER_C = "#0072B2", "#009E73", "#BDBDBD"
-CHX_C, HAR_C = "#000000", "#ED8F98"          # HAR 粉: 量自现有拼图(JPEG, ±3); 脚本里原为 #D55E00, 一行可改
-CHX_TIME = {3: "#AF9CE0", 5: "#E84271", 8: "#000000", 12: "#236EB0", 16: "#608713"}   # C: 用户指定10色
+CHX_C, HAR_C = "#000000", "#ED8F98"
+CHX_TIME = {3: "#AF9CE0", 5: "#E84271", 8: "#000000", 12: "#236EB0", 16: "#608713"}
 HAR_TIME = {3: "#FEC29B", 5: "#4BFC84", 8: "#AFAFAF", 12: "#D0801B", 16: "#9D320E"}
 BAND = {"ORF1a": "#E1EFFA", "ORF1b": "#E5F2E1", "S": "#F9DEE5", "ORF3": "#FBE3C7", "E": "#E6DAE8",
         "M": "#E4F1DF", "N": "#D5E7F3", "3′UTR": "#ECEBE9"}
@@ -177,7 +172,7 @@ def covC(ax, moi, ver):
         dep = pd.read_csv(f"{SRC}/figdata/fig1_depth/{r.sample_id}.{ver}.depth.tsv", sep="\t", header=None)[2].values.astype(float)
         rel = smooth(dep / dep.sum() * 1e6)
         tot = {"raw": r.D_total_mapped_fragments, "dedup": r.D_total_mapped_fragments}[ver]
-        absd = dep / (r.D_total_mapped_fragments / 1e6)     # 共同分母: 未去重 MAPQ=255 全库唯一 fragment
+        absd = dep / (r.D_total_mapped_fragments / 1e6)
         col = (CHX_TIME if r.treatment == "CHX" else HAR_TIME)[r.hpi]
         ax.plot(x, np.where(rel > 0, rel, np.nan), color=col, lw=1.0, ls="-" if r.treatment == "CHX" else "--", zorder=3)
         ymin, ymax = min(ymin, rel[rel > 0].min()), max(ymax, rel.max())
@@ -222,7 +217,7 @@ def figC():
         fig.tight_layout()
         save(fig, name, 180, 78, f"{moi_tag(moi)}; {ver} BAM, MAPQ=255; log y; 10 lines = 10 single samples")
         df.to_csv(f"{FIG}/{name}_source_data.csv", index=False)
-    # dedup 对照: 两个 MOI 上下排列
+
     fig, axes = plt.subplots(2, 1, figsize=(180 * MM, 140 * MM), sharex=True)
     dfs = []
     for ax, moi in zip(axes, (1.0, 0.1)):
@@ -289,7 +284,7 @@ def Fmatrix(moi):
     d = S[S.MOI == moi]
     m = np.array([[d[d.hpi == t][f"F_{g}_cov_per_M_mapped"].mean() for t in TIMES] for g in REGS])
     L = np.log2(m)
-    return m, L - L.mean(axis=1, keepdims=True)      # 同一 MOI 内部行中心化
+    return m, L - L.mean(axis=1, keepdims=True)
 
 
 def heat(ax, Lc, show_y=True):
@@ -350,8 +345,7 @@ if __name__ == "__main__":
     with open(f"{FIG}/Fig1_MOI_style_compliance_note.md", "w", encoding="utf-8") as f:
         f.write("# Fig.1 B/C/D/F (MOI-regrouped) style compliance note\n\n")
         f.write("- Font Arial (≥7 pt), 300 dpi PNG + PDF (fonttype 42) + SVG (editable text); white background; sizes ≤180 mm wide.\n")
-        f.write("- Colours: PEDV #0072B2 / Host #009E73 / Other #BDBDBD; CHX #000000, HAR #ED8F98 (sampled from the current composite figure; "
-                "scripts previously used #D55E00); C uses the user-specified 10-colour palette; diverging heatmap #2166AC/#F7F7F7/#B2182B, centred at 0, range -4..4.\n")
+        f.write("- Colours: PEDV #0072B2 / Host #009E73 / Other #BDBDBD; CHX #000000, HAR #ED8F98; C uses a fixed 10-colour palette; diverging heatmap #2166AC/#F7F7F7/#B2182B, centred at 0, range -4..4.\n")
         f.write("- No error bars anywhere (n = 1 per MOI × treatment × hpi, no biological replicates); no inferential statistics.\n")
         f.write("- Log axes: D y 0.3–100 (covers all values 0.85–38.9); C y spans all plotted data; no truncated axes; no insets.\n\n")
         f.write("| file | width mm | height mm | note |\n|---|---|---|---|\n")

@@ -1,6 +1,4 @@
 #!/bin/bash
-# 跨宿主/病毒多重比对诊断（仅统计，不改变主结果）：把主比对的未比对 reads（含"mapped to too many loci"）
-# 用相同参数、仅放宽 --outFilterMultimapNmax 100 再比对一次，按 read 统计其全部比对是否同时落在宿主与 PEDV_GIb。
 set -euo pipefail
 id=$1
 R=${PEDV_SERVER_ROOT:?set PEDV_SERVER_ROOT}/analysis_GIb/Riboseq_GIb_psite

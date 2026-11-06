@@ -1,6 +1,6 @@
 #!/bin/bash
-# GI-b新参考RNA-seq重比对(23样本,批2+批3合并聚类,不分株)
-# STAR参数沿用analysis_sgRNA_junction/scripts/run_qc_align.sh的junction友好参数,索引改为merged host+virus GI-b oh149
+
+
 set -uo pipefail
 
 BASE=${PEDV_SERVER_ROOT:?set PEDV_SERVER_ROOT}/analysis_GIb/RNAseq
@@ -46,11 +46,11 @@ run_one() {
     >> $logf 2>&1
   echo "[$(date)] STAR_DONE $sample" >> $logf
 
-  # 排序+索引(供病毒占比/错配率统计用,STAR原始比对,未去重)
+
   $SAMTOOLS sort -@ 6 -o $outdir/Aligned.sorted.bam $outdir/Aligned.out.bam >> $logf 2>&1
   $SAMTOOLS index $outdir/Aligned.sorted.bam >> $logf 2>&1
 
-  # 去重流程(坐标法,非UMI建库),去重后BAM供覆盖度使用
+
   $SAMTOOLS sort -n -@ 6 -o $outdir/nsort.bam $outdir/Aligned.out.bam >> $logf 2>&1
   $SAMTOOLS fixmate -m -@ 6 $outdir/nsort.bam $outdir/fixmate.bam >> $logf 2>&1
   $SAMTOOLS sort -@ 6 -o $outdir/csort.bam $outdir/fixmate.bam >> $logf 2>&1
@@ -59,10 +59,10 @@ run_one() {
   rm -f $outdir/nsort.bam $outdir/fixmate.bam $outdir/csort.bam $outdir/Aligned.out.bam
   echo "[$(date)] DEDUP_DONE $sample" >> $logf
 
-  # 病毒全基因组逐碱基覆盖度(去重后)
+
   $SAMTOOLS depth -a -r PEDV_GIb $outdir/dedup.bam > $BASE/coverage/${sample}.depth.tsv 2>> $logf
 
-  # minimap2 splice比对(独立交叉验证,病毒单独索引,未去重原始reads)
+
   $MM2 -t 8 -ax splice -un -G 30000 -k 13 -w 5 --secondary=no \
     $REF/virus/minimap2/PEDV_GIb.splice.mmi $QC/${sample}_1.trim.fq.gz $QC/${sample}_2.trim.fq.gz 2>> $logf \
     | $SAMTOOLS sort -@ 4 -o $BASE/mm2/${sample}_mm2.sorted.bam -

@@ -1,32 +1,15 @@
 # -*- coding: utf-8 -*-
-"""Figure 6 数据整合：HARTIS_v3（起始相关占据）× PRICE 29 nt（CHX，ORF 级翻译证据）。只读已有输出，不改任何模型或原始文件。
-输入：
-  HARTIS_v3/G3_pedv_initiation/tables/HARTIS_v3_PEDV_start_level.tsv.gz、candidates_plus1_plus2.tsv
-  global_perturbation_screen/plus1_orf_capacity/panelC_family_name_mapping.tsv（69 个 +1 家族名称）
-  orf_calling_GIb/_price_final/annotated_29nt_resultlevel_merge_of_3_samples_named.tsv（3 个 CHX 库按终止位点合并）
-  orf_calling_GIb/_price_final/annotated_29nt_named/{RIBO_VERO_CHX_1MOI_5h,RIBO_VERO_CHX_1MOI_8h,RIBO_VERO_CHX_1MOI_16h,merged_CHX}.plus.orfs.annotated.tsv（逐库 PRICE，用于文件内 BH q）
-口径（全部写入输出表的说明列）：
-  HARTIS：只用 W1（W5 作补充列）；CHX 与 HAR 分开；in_support 的 p_emp 与 capped_reference 的 p_cap 分列，绝不合并；
-          同一起点多个库×读长 → "最小名义 P"（minimum nominal P，未校准、非联合 P），并给出取得该值的库×读长与有效/支持文库数；
-          文库计数：同一文库的多个读长只计一次（读长不是独立重复）。
-  PRICE：每个库一个原始 p（PRICE 输出）；最佳 = 3 个 CHX 库中的最小原始 p（名义）；校正 = 该库 PRICE 输出文件内全部 ORF 的 BH q；
-         merged_CHX（三库合并 reads 的单次 PRICE）作为独立的敏感性列；PRICE 输出的 p = 0 记为 p_reported_zero（数值下限，不替换为任意值）；
-         PRICE 结果是 ORF（终止位点）级，按共同终止位点映射到家族，不复制到各起点作为起点级 P。
-  家族：同父 ORF、同框、同终止（69 个 +1 家族用已核对的显示名；+2 家族用 family_id）。
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, numpy as np, pandas as pd
 H = os.path.dirname(os.path.abspath(__file__)); OUT = os.path.abspath(os.path.join(H, '..')); TB = os.path.join(OUT, 'tables'); os.makedirs(TB, exist_ok=True)
@@ -40,7 +23,7 @@ PL = {'CHX5': SR.lib("RIBO_VERO_CHX_1MOI_5h"), 'CHX8': SR.lib("RIBO_VERO_CHX_1MO
 CANON = [('ORF1a', 293, 12622), ('ORF1b', 12592, 20613), ('S', 20610, 24758), ('ORF3', 24758, 25033), ('E', 25361, 25600), ('M', 25608, 26288), ('N', 26300, 27625)]
 checks = []
 
-# ---------- 0. 映射核对 ----------
+
 fam_name = dict(zip(NM.original_family_id, NM.displayed_name))
 checks.append(('69 个 +1 家族显示名唯一', NM.displayed_name.is_unique))
 checks.append(('家族 id ↔ 共同终止一一对应', NM.shared_stop.is_unique and NM.original_family_id.is_unique))
@@ -51,7 +34,7 @@ checks.append(('每个家族只有一个父 ORF 与一个框', int(C.groupby('fa
 C['family_name'] = C.family_id.map(fam_name).fillna(C.family_id)
 R['family_name'] = R.family_id.map(fam_name).fillna(R.family_id)
 
-# ---------- 1. PRICE：逐库 BH q（文件内全部 ORF）、合并表、merged_CHX ----------
+
 def price_lib(sid):
     d = pd.read_csv(os.path.join(B, 'orf_calling_GIb', '_price_final', 'annotated_29nt_named', f'{sid}.plus.orfs.annotated.tsv'), sep='\t')
     p = d['p value'].values.astype(float); n = len(p); o = np.argsort(p); q = np.empty(n); prev = 1.0
@@ -94,7 +77,7 @@ for fid, se in fam_stop_end.items():
     PRICE_rows.append(r)
 PR = pd.DataFrame(PRICE_rows)
 
-# ---------- 2. HARTIS 起点级汇总 ----------
+
 key = ['frame', 'family_id', 'family_name', 'parent', 'start_position', 'start_codon', 'stop_position', 'ORF_length_aa', 'candidate_frame_equals_canonical']
 S = C.copy()
 def summarize(d, drug, window, prefix):
@@ -129,7 +112,7 @@ ST['PRICE_note'] = 'PRICE 为 ORF（终止位点）级证据，此处仅作家�
 ST['p_value_type'] = 'raw nominal (HARTIS: minimum nominal P across libraries×lengths, uncalibrated, not a joint P; PRICE: family-level, see family table)'
 ST.to_csv(os.path.join(OUT, 'HARTIS_PRICE_start_summary.tsv'), sep='\t', index=False, float_format='%.5g')
 
-# ---------- 3. 家族级汇总 ----------
+
 F = []
 for fid, d in ST.groupby('family_id'):
     r = dict(family_id=fid, family_name=d.family_name.iloc[0], frame=d.frame.iloc[0], parent_region=d.parent.iloc[0], stop_position=int(d.stop_position.iloc[0]),

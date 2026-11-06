@@ -1,27 +1,15 @@
 # -*- coding: utf-8 -*-
-"""G2c 检查 6：多读长联合校准（保留读长间相关），只用宿主，按基因 5 折。
-各读长先独立：各自的上下文份额（交叉拟合）、各自的 φ̂_L(m)。联合统计量的零分布一律来自**同一批宿主训练窗口的同一联合统计量**，
-因此读长间的相关被原样保留，不需要独立性假设：
-  J_POOL  计数合并：n1 = Σ_L n1_L，m = Σ m_L，E1 = Σ E1_L，V = Σ V_L（各读长用自己的上下文期望），z = (n1 − E1)/√V，
-          再用联合训练窗口的 φ̂(m) 标准化，按 (log2 m, log2 F0 密度) 局部匹配取经验上尾（与 EMP_Zs 相同的规则）。
-  J_SUMZ  标准化残差求和：S = Σ_L z_s,L / √k（只计 m_L ≥ 5 的读长，k 为其个数），z_s,L 为各读长 EMP_Zs 的标准化残差；
-          按合并 m 与 F0 密度局部匹配，取 S 的经验上尾。
-对照：FISHER_naive —— 对各读长 EMP_Zs 的 p 做 Fisher 合并（假设独立），只在所有读长都有 p 的窗口上评估。
-评估：留出窗口合并 m ≥ 10；p ≤ 0.05 / 0.01 比例，F1 与 F2 对调两方向。
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import os, sys, numpy as np, pandas as pd
 from scipy.stats import chi2
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -43,7 +31,7 @@ def length_windows(C, f, w):
     W = G.windows(C, w, pj); Wc = G.windows(C, w, pj_cf)[['tx_idx', 'blk', 'E1', 'V']].rename(columns={'E1': 'E1cf', 'V': 'Vcf'})
     W = W.merge(Wc, on=['tx_idx', 'blk'])
     tr = (W.fold != f).values
-    W['E1u'] = np.where(tr, W.E1cf, W.E1); W['Vu'] = np.where(tr, W.Vcf, W.V)     # 训练窗口交叉拟合，留出窗口用训练折
+    W['E1u'] = np.where(tr, W.E1cf, W.E1); W['Vu'] = np.where(tr, W.Vcf, W.V)
     W['z'] = (W.n1 - W.E1u) / np.sqrt(W.Vu.clip(lower=1e-9))
     t = W[tr & (W.m >= TRAIN_MMIN)]; ph = phi_fit(np.log2(t.m.values), t.z.values)
     W['zs'] = np.where(W.m > 0, W.z / np.sqrt(ph(np.log2(W.m.clip(lower=1)))), 0.0)
@@ -76,7 +64,7 @@ for sid, spec in G.SPEC.items():
             tr = J[(J.fold != f) & (J.m >= TRAIN_MMIN)]; te = J[(J.fold == f) & (J.m >= EVAL_MMIN)].copy()
             ph = phi_fit(tr.lm.values, tr.z.values)
             zs_tr = tr.z.values / np.sqrt(ph(tr.lm.values)); zs_te = te.z.values / np.sqrt(ph(te.lm.values))
-            # 第五轮：逐窗口记录支持规则所需诊断（φ̂ 拟合范围、匹配集诊断）
+
             lbv = np.floor(tr.lm.values / 0.25).astype(int); vc = pd.Series(lbv).value_counts(); okb = vc[vc >= 30].index.values
             xmin, xmax = (okb.min() + 0.5) * 0.25, (okb.max() + 0.5) * 0.25
             te['phi_extrapolated'] = ((te.lm.values < xmin) | (te.lm.values > xmax)).astype(int)
@@ -90,7 +78,7 @@ for sid, spec in G.SPEC.items():
                             'J_K', 'J_n_genes', 'J_max_gene_frac', 'J_eff_genes', 'J_radius']])
         T = pd.concat(recs)
         T.assign(sid=sid, w=w, lengths='/'.join(map(str, Ls))).to_csv(os.path.join(G.OUT, 'tables', 'per_window', f'joint_{sid}_w{w}.tsv.gz'), sep='	', index=False, float_format='%.6g')
-        # Fisher 对照：各读长独立运行的 EMP_Zs p（per_window 主口径）
+
         Pl = []
         for L in Ls:
             x = pd.read_csv(os.path.join(PW, f'calib_{sid}_{L}_main.tsv.gz'), sep='\t', usecols=['tx_idx', 'blk', 'w', 'p_EMP_Zs', 'pswap_EMP_Zs'])

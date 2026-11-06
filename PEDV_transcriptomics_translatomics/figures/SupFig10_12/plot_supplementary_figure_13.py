@@ -1,20 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Supplementary Figure 13 — translation-associated features of PEDV footprints (panels A–D).
-全部输入为 source_data/ 中的 CSV；数据在绘图前已落在坐标轴范围内，所有 artist 关闭 clip，热图为 pcolormesh 矢量网格，不栅格化。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, sys
 import numpy as np, pandas as pd
@@ -149,7 +145,7 @@ hl = [Line2D([], [], color=PEDV, lw=1.2, ls="-"), Line2D([], [], color=PEDV, lw=
       Line2D([], [], color=SHADE_P[5], lw=3), Line2D([], [], color=SHADE_P[8], lw=3), Line2D([], [], color=SHADE_P[16], lw=3)]
 fig.legend(hl, ["CHX", "HAR", "5 h", "8 h", "16 h  (shade; PEDV blue, host green)"], loc="upper left", bbox_to_anchor=(20 / W, 1 - 208 / H), ncol=5, frameon=False,
            fontsize=7, handlelength=2.0, columnspacing=1.2)
-# D4：16 hpi 专项（随时间）
+
 fig.text(1 / W, 1 - 243 / H, "", fontsize=7)
 metrics = [("median_length", "Median length (nt)", (27, 32)), ("fraction_29_31", "29–31 nt fraction", (0.3, 0.75)), ("frame0", "Frame-0 fraction", (0.3, 0.9))]
 for k, (m, lab, yl) in enumerate(metrics):
@@ -169,7 +165,7 @@ fig.legend([Line2D([], [], color=PEDV, lw=1.2), Line2D([], [], color=HOST, lw=1.
             Line2D([], [], color="#555555", lw=1.0, ls=(0, (3, 1.6)), marker="s", ms=3.5)], ["PEDV ORF footprints", "host CDS-body footprints", "CHX", "HAR"],
            loc="upper left", bbox_to_anchor=(20 / W, 1 - 217.0 / H), ncol=4, frameon=False, fontsize=7, handlelength=1.8, columnspacing=1.2)
 
-# ---------------- 关闭 clip，导出 ----------------
+
 for ax_ in fig.axes:
     for art in [ax_, *ax_.get_children()]:
         try: art.set_clip_on(False)

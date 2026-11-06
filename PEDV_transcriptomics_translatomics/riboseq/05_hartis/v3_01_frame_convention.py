@@ -1,25 +1,14 @@
-"""v3-01 读框约定验证。约定：frame(p) = (p − ORF_start) mod 3，1-based，+ 链；P-site = 比对 5′ 端 + offset（29 nt = 12，冻结）。
-F0 = 经典框；F1 = +1（frame 1）；F2 = +2 ≡ −1（frame 2）。
-验证：
- A 病毒：从 5′ 端矩阵按约定独立重算 periodicity_virus.tsv（逐样本 × 逐 ORF × 逐读长），逐行比对 n 与三框比例。
- B 宿主：(B1) 由 frame5.tsv 的 5′ 端读框 + offset 重算 periodicity_host.tsv 逐行比对（核对换算算术）；
-         (B2) 由 host_gene_cds_psite.tsv（逐基因 P-site 读框，整段 CDS，未去两端）汇总，与 B1 比较（独立 P-site 路径，差异来自两端 45 nt）；
-         (B3) 按链分开汇总 B2，验证负链基因同一约定成立（负链在转录本坐标下定义，5′→3′）。
- C 已知移码：病毒 ORF1b 主体在 ORF1a 坐标系下应落 F2（−1 移码）；宿主 OAZ1/OAZ2（Ensembl 以 CDS 内缺口建模 +1 移码）移码后 P-site 应落 F1。
-"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, json, gzip, re, collections, numpy as np, pandas as pd
 H = os.path.dirname(os.path.abspath(__file__)); V3 = os.path.join(H, '..'); R = os.path.join(V3, '..')
@@ -36,7 +25,7 @@ def rd(p):
     return pd.read_csv(p, sep='\t', comment='#')
 
 
-# ---------- A 病毒 ----------
+
 cover = np.zeros(GL + 2, int)
 for _, a, b in ORFS: cover[a:b + 1] += 1
 body = {}
@@ -65,7 +54,7 @@ A['match'] = (A.n_recomputed == A.n_table) & (np.abs(A.F0 - A.F0_tab) < 6e-4) & 
 A.to_csv(os.path.join(T, 'frame_check_virus_vs_periodicity_virus.tsv'), sep='\t', index=False)
 print('A virus rows', len(A), 'all match', A.match.all(), 'mismatch', (~A.match).sum())
 
-# ---------- B 宿主 ----------
+
 PH = rd(os.path.join(RG, 'periodicity_host.tsv'))
 rowsB = []
 for s in SAMPLES:
@@ -76,7 +65,7 @@ for s in SAMPLES:
         d = f5[f5.L == L]
         if o is None or d.empty: continue
         c5 = d[['f0', 'f1', 'f2']].values.sum(0)
-        c = np.array([c5[(k - o) % 3] for k in range(3)])     # P-site 框 k ← 5′ 框 (k − o) mod 3
+        c = np.array([c5[(k - o) % 3] for k in range(3)])
         t = c.sum()
         ref = PH[(PH.sample_id == s) & (PH.read_length.astype(str) == str(L))]
         gg = g[g.L == L][['f0', 'f1', 'f2']].values.sum(0); tg = gg.sum()
@@ -95,7 +84,7 @@ print('B host rows', len(B), 'B1 all match', B.B1_match.all())
 pd.set_option('display.width', 250)
 print(B[B.L.isin([28, 29, 30, 31])][['sample_id', 'L', 'F0_tab', 'F0_B1', 'F0_B2', 'F1_over_F1F2_tab', 'F1_over_F1F2_B2', 'B1_match']].to_string())
 
-# B3 按链
+
 gtf = os.path.join(R, '..', 'refdata_vero', 'Chlorocebus_sabaeus.ChlSab1.1.116.gtf.gz')
 strand = {}
 for line in gzip.open(gtf, 'rt'):
@@ -114,7 +103,7 @@ for s in SAMPLES:
                           F1_over_F1F2=round(c[1] / (c[1] + c[2]), 3)))
 S = pd.DataFrame(rowsS); S.to_csv(os.path.join(T, 'frame_check_host_by_strand_29nt.tsv'), sep='\t', index=False); print(S.to_string())
 
-# ---------- C 已知移码 ----------
+
 PS = pd.read_csv(os.path.join(RG, 'psite_counts_PEDV_GIb.tsv.gz'), sep='\t', comment='#',
                  usecols=['sample_id', 'strand', 'position', 'read_length', 'psite_count'])
 PS = PS[(PS.strand == '+') & (PS.read_length == 29)]

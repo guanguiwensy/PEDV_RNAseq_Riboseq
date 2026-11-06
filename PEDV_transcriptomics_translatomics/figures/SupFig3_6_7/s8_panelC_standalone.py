@@ -1,19 +1,15 @@
 #!/usr/bin/env python3
-"""Panel C 单独成图: 画板 670 × 350 (Illustrator 单位 = pt, 72 per inch → 236.4 × 123.5 mm)。
-数据与总图 panel C 完全相同(data/panelC_*.csv), 配色/线型/标记沿用总图。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import shutil
 import pandas as pd
 import matplotlib
@@ -41,7 +37,7 @@ pC = pd.read_csv(D + "panelC_noncanonical_pooled_DESCRIPTIVE.csv")
 fig = plt.figure(figsize=(WPT / 72, HPT / 72))
 
 
-def axp(x, y, w, h):          # 以 pt 为单位, 原点左下
+def axp(x, y, w, h):
     return fig.add_axes([x / WPT, y / HPT, w / WPT, h / HPT])
 
 
@@ -89,7 +85,7 @@ base = OUT + "SuppFig_PanelC_noncanonical_burden_abundance_670x350"
 fig.savefig(base + ".pdf", facecolor="white")
 fig.savefig(base + ".svg", facecolor="white")
 fig.savefig(base + "_300dpi.png", dpi=300 * 1.0, facecolor="white")     # 236 x 123 mm @300 dpi
-fig.savefig(base + "_670x350px.png", dpi=72, facecolor="white")          # 恰好 670 x 350 像素
+fig.savefig(base + "_670x350px.png", dpi=72, facecolor="white")
 plt.close(fig)
 shutil.copy(D + "panelC_noncanonical_per_sample.csv", OUT + "PanelC_source_per_sample.csv")
 shutil.copy(D + "panelC_noncanonical_pooled_DESCRIPTIVE.csv", OUT + "PanelC_trend_line_pooled_DESCRIPTIVE.csv")

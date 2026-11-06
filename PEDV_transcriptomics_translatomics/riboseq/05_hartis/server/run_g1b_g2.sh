@@ -1,5 +1,5 @@
 #!/bin/bash
-# HARTIS_v3 G1b/G2：多读长 + 新旧口径审计（7 库并行）与注释/序列抽取；已完成者跳过
+
 H=${PEDV_SERVER_ROOT:?set PEDV_SERVER_ROOT}/analysis_GIb/HARTIS_v3_hostpos/G1b_G2
 PY=${PYTHON_BIN:-python}
 REF=${PEDV_SERVER_ROOT:?set PEDV_SERVER_ROOT}/refdata_dual_host/vero_ChlSab1.1

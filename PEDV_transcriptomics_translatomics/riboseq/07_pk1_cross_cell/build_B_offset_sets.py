@@ -1,28 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""PK1_psite_v1 §2–§3：猪宿主 + GI-b 病毒上独立计算 P-site offset（Module 1 方法 B）、C1/C2/C3、四套读长集合。
-改自 riboseq_GIb_mapping_psite/scripts/build_B_offset_sets.py（RGP_v1.3）。判定函数 peak_stats / pframe / fmetrics / c2_c3 / 集合规则逐行保持与原脚本一致；
-PK1 改动：（1）不再读取 Module 1 的 Vero 表，改为 Vero 冻结值（29/30 nt = 12）三列对照「Vero 值 / PK1 值 / 是否一致」；（2）加 qc_status（pass / fail / insufficient_depth）；
-（3）31–33 nt 若 offset 半数不一致或宿主 frame0 低于 0.40，标「frame分裂-待确认」；（4）输出每（样本, 读长）的 PEDV reads 数及每 ORF 深度；（5）输出名 *_PK1。
-不删除任何 reads；集合只是分析口径。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import os, sys, collections, json
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import *
 
-# ---------- 与 RGP_v1.3 / M1 完全相同的判定函数 ----------
+
 def peak_stats(x, L):
     x = x[1:L + 1]; n = int(x.sum())
     if n == 0: return None, 0, 0, 0.0, 0.0
@@ -127,7 +120,7 @@ for sid in IDS:
                "in_strict_core": L in sets["strict_core"], "in_fixed_29_30": L in sets["fixed_29_30"],
                "in_expanded": L in sets["expanded"], "in_short_RPF": L in sets["short_RPF"], "category": category(L)}
         src.append(row)
-        # 每（样本, 读长）的 PEDV reads 数（含 insufficient_depth 标记）
+
         if L <= 60 or r["pedv_plus_n"] > 0:
             depth_rows.append({**base, "PEDV_plus_reads": r["pedv_plus_n"], "PEDV_minus_reads": r["pedv_minus_n"],
                                "PEDV_plus_clean_5p_reads": r["pedv_plus_clean_n"], "PEDV_5p_in_ORF_unique_body_reads": I["vn"],
@@ -151,21 +144,21 @@ for sid in IDS:
                             "host_5p_frame_f0_f1_f2": "/".join(map(str, f5[("host", L)])),
                             "C2": I["c2"], "C3": I["c3"], "category": category(L),
                             "frame_split_flag": "frame分裂-待确认（不硬给数）" if split else "无分裂迹象"})
-    # ORF 逐读长深度（7 个 canonical ORF 的唯一区 5′端 reads）
+
     for dom in [f"PEDV_{n}" for n, a, b in ORFS]:
         for L in sorted(rl):
             nn = int(f5[(dom, L)].sum())
             if nn == 0 and not (26 <= L <= 35): continue
             orf_depth.append({**m, "ORF": dom[5:], "read_length": L, "reads_5p_in_ORF_unique_body": nn,
                               "depth_flag": "insufficient_depth" if nn < MIN_PEDV_C2 else "ok"})
-    # Vero 差异清单（仅 29/30 nt 有冻结值）
+
     for L in CORE:
         o = off.get(L)
         vero_diff.append({**m, "read_length": L, "Vero冻结值": VERO_FROZEN[L], "PK1值": o if o is not None else "NA",
                           "与Vero冻结值是否一致": ("一致" if o == VERO_FROZEN[L] else "不一致") if o is not None else "NA",
                           "offset_confidence": info[L]["level"] if L in info else "NA",
                           "qc_status": info[L]["qcs"] if L in info else "NA"})
-    # ---- 四套集合 ----
+
     w = {**m}
     pctv = lambda Ls: 100 * sum(rl[L]["pedv_plus_n"] for L in Ls if L in rl) / vtot
     pcth = lambda Ls: 100 * sum(rl[L]["host_n"] for L in Ls if L in rl) / htot

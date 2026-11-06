@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
-"""PEDV 3′UTR 核糖体占据审计（口径见 ANALYSIS_PLAN_predeclared.md）。样品编号仅在脚本内部使用。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, sys, gzip, pickle, json, itertools, collections
 import numpy as np, pandas as pd
@@ -36,7 +33,7 @@ REG = {"N_CDS_body": (26345, 27562), "N_last300": (27326, 27625), "N_stop_pm30":
        "UTR3_all": UTR3, "M_body": (25653, 26243), "S_body": (20655, 24713)}
 UTR_ZONES = ["UTR3_P(27626-27685)", "UTR3_Z1(27686-27776)", "UTR3_Z2(27777-27867)", "UTR3_Z3(27868-27959)"]
 CAND_REGS = ["N_CDS_body", "N_stop_pm30", "N_stop_pm60"] + UTR_ZONES + ["UTR3_all", "M_body", "S_body"]
-OWN_FRAME = {"M_body": 25608, "S_body": 20610}   # 对照 CDS 的读框起点
+OWN_FRAME = {"M_body": 25608, "S_body": 20610}
 
 def arr_set(sid, lens):
     a = np.zeros(L + 2)
@@ -64,7 +61,7 @@ def jsd(p, q):
     f = lambda a, b: np.sum(np.where(a > 0, a * np.log2(a / np.where(b > 0, b, 1)), 0))
     return 0.5 * f(p, m) + 0.5 * f(q, m)
 
-# ================= 表1：逐位置 × 文库 =================
+
 LO, HI = 27326, 27959
 rows = []
 for (dr, t), sid in LIBS.items():
@@ -78,7 +75,7 @@ for (dr, t), sid in LIBS.items():
                          mapping_quality="unique (STAR NH=1; MAPQ 255)", RNAseq_raw_depth=ra[p], RNAseq_depth_fold_of_library_mean=ra[p] / RNA_MEAN[(dr, t)]))
 pos = pd.DataFrame(rows); pos.to_csv(T + r"/3UTR_position_level_Psites.tsv", sep="\t", index=False, float_format="%.5g")
 
-# ================= 表5：长度 / 读框 / 可评价性 QC =================
+
 hostlen = pd.read_csv(ROOT + r"/shared_riboseq_metrics/length_metrics_long.tsv", sep="\t", comment="#")
 rowsq = []; LD = {}
 LENS = list(range(24, 37))
@@ -115,7 +112,7 @@ def final_class(r):
     if r.depth_class == "Low depth": return "Low depth"
     return "Measurable; periodic-like (single library)" if r["periodicity_candidate_flag(single_lib)"] else "Measurable; no convincing periodicity"
 qc["evidence_class"] = qc.apply(final_class, axis=1)
-# 同药物 ≥2 库读框一致
+
 cons = []
 for rn in CAND_REGS:
     for dr in ("CHX", "HAR"):
@@ -123,14 +120,14 @@ for rn in CAND_REGS:
         cons.append((rn, dr, g.frame_max_idx.value_counts().max() if len(g) else 0))
 cdf = {(a, b): c for a, b, c in cons}
 qc["cross_library_consistent_(>=2_same_drug_same_frame)"] = [cdf[(r.region, r.library.split()[0])] >= 2 for r in qc.itertuples()]
-# 宿主 CDS 读长参考（每库）
+
 hr = hostlen[(hostlen.domain == "host") if "domain" in hostlen.columns else slice(None)]
 qc.to_csv(T + r"/3UTR_RPF_length_frame_QC.tsv", sep="\t", index=False, float_format="%.4g")
 pd.DataFrame(LD.keys(), columns=["sample", "region"]).assign(**{f"len{l}": [LD[k][i] for k in LD] for i, l in enumerate(LENS)}).assign(
     library=lambda d: d["sample"].map(LAB)).drop(columns="sample").to_csv(T + r"/3UTR_RPF_length_distribution_counts.tsv", sep="\t", index=False)
 print(qc[qc.region.isin(["N_CDS_body", "N_stop_pm30", "UTR3_all"] + UTR_ZONES)][["region", "library", "psites_formal_set", "depth_class", "frame0", "frame1", "frame2", "frame_max_after_top3_removed", "top_len_share", "evidence_class"]].round(2).to_string())
 
-# ================= 局部峰 =================
+
 pk = []
 for (dr, t), sid in LIBS.items():
     a = S_FORMAL[sid]
@@ -146,11 +143,11 @@ for (dr, t), sid in LIBS.items():
                            codon_neighbours_over_peak=nb / c, frame_rel_N=(p - NSTART) % 3, RNA_fold=RNA[(dr, t)][p] / RNA_MEAN[(dr, t)]))
 pk = pd.DataFrame(pk)
 pk["single_length_isolated(D_like)"] = (pk.top_len_share >= 0.6) & (pk.codon_neighbours_over_peak <= 0.2)
-# 跨库复现与共位
+
 def near(df, p): return df[(df.position >= p - 1) & (df.position <= p + 1)]
 pk["n_same_drug_libs_present(+-1nt)"] = [near(pk[pk.drug == r.drug], r.position).time_h.nunique() for r in pk.itertuples()]
 pk["opposite_drug_same_time_present(+-1nt)"] = [len(near(pk[(pk.drug != r.drug) & (pk.time_h == r.time_h)], r.position)) > 0 for r in pk.itertuples()]
-# HAR/CHX 归一化比（位点）
+
 def norm_at(dr, t, p): return S_FORMAL[LIBS[(dr, t)]][p] / MEAN_DEN[LIBS[(dr, t)]]
 pk["HAR_over_CHX_norm_at_site"] = [(norm_at("HAR", r.time_h, r.position) + 1e-9) / (norm_at("CHX", r.time_h, r.position) + 1e-9) for r in pk.itertuples()]
 pk.to_csv(T + r"/3UTR_local_peaks.tsv", sep="\t", index=False, float_format="%.4g")
@@ -158,7 +155,7 @@ print("peaks total", len(pk), pk.groupby(["region", "drug"]).size().to_dict())
 print("3UTR peaks", pk[pk.region == "3UTR"].groupby("drug").position.nunique().to_dict(), "recurrent(>=2 same-drug libs)", int(((pk.region == "3UTR") & (pk["n_same_drug_libs_present(+-1nt)"] >= 2)).sum()),
       "D_like frac", round(pk[pk.region == "3UTR"]["single_length_isolated(D_like)"].mean(), 2))
 
-# ================= N 终止模块 =================
+
 def prof(a, lo, hi): return np.array([a[p] for p in range(lo, hi + 1)])
 rows = []
 for (dr, t), sid in LIBS.items():
@@ -171,13 +168,13 @@ for (dr, t), sid in LIBS.items():
         rows.append(dict(library=LAB[sid], window=nm, up_psites=up.sum(), down_psites=dn.sum(), up_density_over_Nbody=up.mean() / nb, down_density_over_Nbody=dn.mean() / nb,
                          up_frame0=fu[0], up_frame1=fu[1], up_frame2=fu[2], down_frame0=fd[0], down_frame1=fd[1], down_frame2=fd[2],
                          down_depth_class=depth_class(dn.sum()), down_frame0_after_top3_removed=(lambda s: (s[(np.arange(len(s)) % 3 == 0)].sum() / s.sum()) if s.sum() else np.nan)(np.where(np.isin(np.arange(len(dn)), np.argsort(dn)[::-1][:3]), 0, dn))))
-    # 10-nt bins -60..+120 (相对终止密码子第 1 位 27,623)
+
     pf = a[NSTOP0 - 60:NSTOP0 + 180 + 1]
     for b0 in range(-60, 120, 10):
         seg = a[NSTOP0 + b0:NSTOP0 + b0 + 10]
         rows.append(dict(library=LAB[sid], window=f"bin{b0:+d}..{b0 + 9:+d}", up_psites=np.nan, down_psites=seg.sum(), up_density_over_Nbody=np.nan, down_density_over_Nbody=seg.mean() / nb))
 nst = pd.DataFrame(rows); nst.to_csv(T + r"/3UTR_N_stop_audit.tsv", sep="\t", index=False, float_format="%.4g")
-# 终止峰位置
+
 pr = []
 for (dr, t), sid in LIBS.items():
     a = S_FORMAL[sid]; w = a[NSTOP0 - 30:NSTOP0 + 31]; k = int(w.argmax()) - 30
@@ -186,7 +183,7 @@ for (dr, t), sid in LIBS.items():
 pd.DataFrame(pr).to_csv(T + r"/3UTR_N_stop_peak_positions.tsv", sep="\t", index=False, float_format="%.4g")
 print(nst[nst.window.isin(["pm30", "pm60"])].round(3).to_string()); print(pd.DataFrame(pr).to_string())
 
-# ================= 候选 ORF 枚举 + 评价 =================
+
 STARTS = {"ATG": "AUG", "CTG": "CUG", "GTG": "GUG", "TTG": "UUG", "ATA": "AUA", "ATT": "AUU", "ATC": "AUC", "ACG": "ACG"}
 STOPS = {"TAA", "TAG", "TGA"}
 def enum_cands(lo, hi, minaa=4):

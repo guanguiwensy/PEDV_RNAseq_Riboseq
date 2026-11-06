@@ -26,11 +26,6 @@ rnaseq/05_trs_microhomology_pairing/s3_extra_mfe.py	P	GIb_rnaseq_reanalysis/figu
 rnaseq/05_trs_microhomology_pairing/s4_new.py	P	GIb_rnaseq_reanalysis/figures/Fig3_work/s4_new.py
 rnaseq/05_trs_microhomology_pairing/s4_supp.py	P	GIb_rnaseq_reanalysis/figures/Fig3_work/s4_supp.py
 rnaseq/05_trs_microhomology_pairing/s5_compute.py	P	GIb_rnaseq_reanalysis/figures/Fig3_work/s5_compute.py
-withheld/rnaseq/06_external_junction_comparison/bv_common.py	P	public_data_replication/ESV/biological_validation_v1/scripts/bv_common.py
-withheld/rnaseq/06_external_junction_comparison/s02_four_class.py	P	public_data_replication/ESV/biological_validation_v1/scripts/s02_four_class.py
-withheld/rnaseq/06_external_junction_comparison/s03_highfreq.py	P	public_data_replication/ESV/biological_validation_v1/scripts/s03_highfreq.py
-withheld/rnaseq/06_external_junction_comparison/s14_nc_sgrna_tables_coding.py	P	public_data_replication/ESV/biological_validation_v1/scripts/s14_nc_sgrna_tables_coding.py
-withheld/rnaseq/06_external_junction_comparison/s16_nc_correlation.py	P	public_data_replication/ESV/biological_validation_v1/scripts/s16_nc_correlation.py
 rnaseq/06_external_junction_comparison/gx_common.py	P	public_data_replication/ESV/gII_cross_strain_validation_v1/scripts/gx_common.py
 rnaseq/06_external_junction_comparison/gx_liftover.py	P	public_data_replication/ESV/gII_cross_strain_validation_v1/scripts/gx_liftover.py
 rnaseq/06_external_junction_comparison/gx_pe_junc.py	P	public_data_replication/ESV/gII_cross_strain_validation_v1/scripts/gx_pe_junc.py
@@ -87,13 +82,9 @@ riboseq/05_hartis/g2b_summarize.py	P	HARTIS_v3/G2b_host_background/scripts/g2b_s
 riboseq/05_hartis/g2c_freeze_tables.py	P	HARTIS_v3/G2b_host_background/scripts/g2c_freeze_tables.py
 riboseq/05_hartis/g2c_joint_length.py	P	HARTIS_v3/G2b_host_background/scripts/g2c_joint_length.py
 riboseq/05_hartis/g2c_start_context_check.py	P	HARTIS_v3/G2b_host_background/scripts/g2c_start_context_check.py
-riboseq/05_hartis/g2c_v3_02_impact.py	P	HARTIS_v3/G2b_host_background/scripts/g2c_v3_02_impact.py
-riboseq/05_hartis/g2d_host_aug_explore.py	P	HARTIS_v3/G2b_host_background/scripts/g2d_host_aug_explore.py
-riboseq/05_hartis/g2d_host_aug_followup.py	P	HARTIS_v3/G2b_host_background/scripts/g2d_host_aug_followup.py
 riboseq/05_hartis/g2d_jpool_support.py	P	HARTIS_v3/G2b_host_background/scripts/g2d_jpool_support.py
 riboseq/05_hartis/g2d_transfer_feasibility.py	P	HARTIS_v3/G2b_host_background/scripts/g2d_transfer_feasibility.py
 riboseq/05_hartis/g2e_capped_matching.py	P	HARTIS_v3/G2b_host_background/scripts/g2e_capped_matching.py
-riboseq/05_hartis/g2e_build_final.py	P	HARTIS_v3/G2b_host_background/scripts/g2e_build_final.py
 riboseq/05_hartis/g3_hartis_pedv_initiation.py	P	HARTIS_v3/G3_pedv_initiation/scripts/g3_hartis_pedv_initiation.py
 riboseq/05_hartis/g3_summarize.py	P	HARTIS_v3/G3_pedv_initiation/scripts/g3_summarize.py
 riboseq/05_hartis/server/host_cds_psite29_extract.py	P	HARTIS_v3/_server/scripts/host_cds_psite29_extract.py
@@ -148,11 +139,7 @@ comparative_genomics/04_retention_null_stats/p3b_retention.py	K	Supplementary_Fi
 comparative_genomics/04_retention_null_stats/p5a_synonymous_null.py	K	Supplementary_Figure_L/scripts/p5a_synonymous_null.py
 comparative_genomics/04_retention_null_stats/p6_aggregate.py	K	Supplementary_Figure_L/scripts/p6_aggregate.py
 comparative_genomics/04_retention_null_stats/p7_panels_and_qc.py	K	Supplementary_Figure_L/scripts/p7_panels_and_qc.py
-comparative_genomics/04_retention_null_stats/r2_audit_tables.py	K	Supplementary_Figure_L/scripts/r2_audit_tables.py
-comparative_genomics/04_retention_null_stats/r3_old_vs_revised.py	K	Supplementary_Figure_L/scripts/r3_old_vs_revised.py
-comparative_genomics/04_retention_null_stats/r4_finalize.py	K	Supplementary_Figure_L/scripts/r4_finalize.py
 comparative_genomics/04_retention_null_stats/s1_C12_featured_and_data.py	K	Supplementary_Figure_L/scripts/s1_C12_featured_and_data.py
-comparative_genomics/04_retention_null_stats/s2_supp_table.py	K	Supplementary_Figure_L/scripts/s2_supp_table.py
 comparative_genomics/04_retention_null_stats/r6lib.py	K	Result6_genomics_figures/scripts/r6lib.py
 comparative_genomics/04_retention_null_stats/proj.py	K	Result6_genomics_figures/scripts/proj.py
 comparative_genomics/04_retention_null_stats/synlib.py	K	Result6_genomics_figures/scripts/synlib.py
@@ -164,7 +151,6 @@ comparative_genomics/04_retention_null_stats/g4_activity.py	K	Result6_genomics_f
 comparative_genomics/04_retention_null_stats/g5_null.py	K	Result6_genomics_figures/scripts/g5_null.py
 comparative_genomics/04_retention_null_stats/g5_null_het.py	K	Result6_genomics_figures/scripts/g5_null_het.py
 comparative_genomics/04_retention_null_stats/g5_test.py	K	Result6_genomics_figures/scripts/g5_test.py
-comparative_genomics/04_retention_null_stats/g5_synplot_user2.py	K	Result6_genomics_figures/scripts/g5_synplot_user2.py
 comparative_genomics/04_retention_null_stats/stats_abc.py	K	Result6_genomics_figures/scripts/stats_abc.py
 comparative_genomics/04_retention_null_stats/g1_g2_g4_summary.py	K	Result6_genomics_figures/scripts/g1_g2_g4_summary.py
 comparative_genomics/05_sup14_synplot/synplot2_vis.R	R	PEDV_ribo/ORF1a/synplot2_vis.R
@@ -183,7 +169,6 @@ figures/Fig4/make_fig4_v2.py	P	fig4_v2_host_criteria/scripts/make_fig4_v2.py
 figures/Fig6/figs_abc.py	K	Result6_genomics_figures/scripts/figs_abc.py
 figures/Fig6/figs.py	K	Result6_genomics_figures/scripts/figs.py
 figures/Fig6/fig6AB_genome_combined.py	P	HARTIS_v3/G4_Figure6_integration/scripts/fig6AB_genome_combined.py
-figures/Fig6/fig6C_HAR_PRICE_joint_v2.py	P	HARTIS_v3/G4_Figure6_integration/scripts/fig6C_HAR_PRICE_joint_v2.py
 figures/Fig6/fig6C_HAR_PRICE_joint_v3_capped.py	P	HARTIS_v3/G4_Figure6_integration/scripts/fig6C_HAR_PRICE_joint_v3_capped.py
 figures/Fig6/fig6_style.py	P	HARTIS_v3/G4_Figure6_integration/scripts/fig6_style.py
 figures/SupFig2/plot_SuppFig1_QC_MOI.py	P	Fig1_MOI_regrouped/scripts/plot_SuppFig1_QC_MOI.py
@@ -193,11 +178,6 @@ figures/SupFig2/plot_SuppFig1E.py	P	GIb_rnaseq_reanalysis/scripts/plot_SuppFig1E
 figures/SupFig3_6_7/s9_panelE_standalone.py	P	Fig2_Supp_junction_dynamics/scripts/s9_panelE_standalone.py
 figures/SupFig3_6_7/s4_plot_supp_figure.py	P	Fig2_Supp_junction_dynamics/scripts/s4_plot_supp_figure.py
 figures/SupFig3_6_7/s8_panelC_standalone.py	P	Fig2_Supp_junction_dynamics/scripts/s8_panelC_standalone.py
-figures/SupFig3_6_7/_patch_layout.py	P	Fig2_Supp_junction_dynamics/scripts/_patch_layout.py
-figures/SupFig3_6_7/_patch_layout2.py	P	Fig2_Supp_junction_dynamics/scripts/_patch_layout2.py
-figures/SupFig3_6_7/_patch_layout3.py	P	Fig2_Supp_junction_dynamics/scripts/_patch_layout3.py
-withheld/figures/SupFig4_9/s06_figs.py	P	public_data_replication/ESV/biological_validation_v1/scripts/s06_figs.py
-withheld/figures/SupFig4_9/s17_nc_corr_figs.py	P	public_data_replication/ESV/biological_validation_v1/scripts/s17_nc_corr_figs.py
 figures/SupFig5/plot_canonical_variants.py	R	final_figure_reproducibility/Sup_/plot_canonical_variants.py
 figures/SupFig8/make_noncanonical_figures_v2.py	P	Noncanonical_ORF_classes/figures/make_noncanonical_figures_v2.py
 figures/SupFig8/make_top20_single_panel.py	P	Noncanonical_ORF_classes/figures/make_top20_single_panel.py

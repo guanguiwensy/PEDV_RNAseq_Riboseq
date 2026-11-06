@@ -1,17 +1,15 @@
 """Aggregation of sequence-only results into the 8 source-data tables + panel data. Figure 6 columns are attached LAST and only as labels."""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sys,csv,json,collections,math,numpy as np
 from scipy import stats
 B=PEDV_K+r""; O=B+"Supplementary_Figure_L/"; W=O+"work/"
@@ -84,9 +82,6 @@ wr("SourceData_PanelD_per_genome_completeness.csv",pg)
 fam6=list(csv.DictReader((l for l in open(T+"tables/plus1_ORF_families_gt40aa.tsv",encoding='utf-8') if not l.startswith('#')),delimiter='\t'))
 name6={r['original_family_id']:r['displayed_name'] for r in csv.DictReader(open(T+"panelC_family_name_mapping.tsv",encoding='utf-8'),delimiter='\t')}
 top5=[r['displayed_name'] for r in csv.DictReader(open(T+"PanelC_top5_family_selection.tsv",encoding='utf-8'),delimiter='\t')]
-FEATURED_NAMES=['ORF1a-x3','ORF1a-x4','ORF1a-x22','S-x1','S-x2','N-x1','N-x2']   # examined in Panel C (user-specified)
-FIG6_ORIG_AC=['ORF1a-x22','N-x1','N-x2']; FIG6_ORIG_D=['ORF1a-x3','ORF1b-x13','ORF1b-x8']
-FIG6_REV_RULE=['N-x2','ORF1a-x9','ORF1a-x23','S-x1','ORF1a-x3','S-x2','N-x5']
 CST={12620:'ORF1a',20611:'ORF1b',24756:'S',25031:'ORF3',25598:'E',26286:'M',27623:'N'}
 pc={'ORF1a':293,'ORF1b':12592,'S':20610,'ORF3':24758,'E':25361,'M':25608,'N':26300}
 cw=[]; used=set(); match={}
@@ -120,9 +115,9 @@ for F in pool:
             n_start_variants_sequence_scan_ge8=F['n'],reason_if_not_one_to_one='; '.join(why) or 'unclassified'))
 wr("PEDV_figure6_family_crosswalk.csv",cw,fcols)
 print('crosswalk: matched',len(used),'one_to_one yes',sum(1 for c in cw if c['one_to_one']=='yes'),'seq-only',sum(1 for c in cw if c['one_to_one']=='sequence-only family'))
-featured=[match[k] for k,v in name6.items() if v in FEATURED_NAMES and k in match]
-inv={v:k for k,v in name6.items()}
-json.dump(dict(featured=featured,names={match[k]:name6[k] for k in match},fig6=match,orig_AC=[match[inv[n]] for n in FIG6_ORIG_AC if inv[n] in match],orig_D=[match[inv[n]] for n in FIG6_ORIG_D if inv.get(n) in match],rev_rule=[match[inv[n]] for n in FIG6_REV_RULE if inv[n] in match]),open(W+"featured.json","w"))
+featured=json.load(open(REPO_ROOT+'/config/sup16_featured_families.json',encoding='utf-8'))['featured_family_ids']
+assert set(featured) <= set(match.values()), "configured featured families are absent from the Figure 6 crosswalk"
+json.dump(dict(featured=featured,names={match[k]:name6[k] for k in match},fig6=match),open(W+"featured.json","w"))
 print('featured',featured)
 # ---- Figure 6 label vs architecture retention (correlation only)
 lab={r['family_id']:r for r in fam6}

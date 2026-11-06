@@ -1,26 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""§5–§6：GI-b BAM 上独立重算 P-site offset（Module 1 方法 B）、C1/C2/C3、四套读长集合，并与 Module 1 M1_v1.0 逐项对照。
-判定函数与 module1_rpf_qc/scripts/m1_build_tables.py 逐行一致（peak_stats / pframe / fmetrics / c2_c3 / 集合规则）；
-唯一改动：PEDV 侧 frame5 来自 GI-b 比对（7 个 canonical ORF 唯一区）。不删除任何 reads；集合只是分析口径。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import os, sys, collections
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import *
 
-# ---------- 与 M1 完全相同的判定函数 ----------
+
 def peak_stats(x, L):
     x = x[1:L + 1]; n = int(x.sum())
     if n == 0: return None, 0, 0, 0.0, 0.0
@@ -46,7 +41,7 @@ f3 = lambda x: f"{x:.3f}" if x is not None and np.isfinite(x) else ("inf" if x i
 f2 = lambda x: f"{x:.2f}" if x is not None and np.isfinite(x) else ("inf" if x is not None else "NA")
 fr3 = lambda a: "/".join(f"{v:.3f}" for v in a) if a is not None else "NA"
 
-# ---------- Module 1 冻结值（宿主侧方法学可沿用；病毒侧数字为旧参考，只作"变化前"对照） ----------
+
 M1SRC = {}
 for r in rd(f"{M1}/source_data_length_inclusion.tsv"):
     M1SRC[(r["sequencing_id"], r["aligned_length"])] = r
@@ -144,7 +139,7 @@ for sid in IDS:
                             **{f"PEDV_frame0_if_offset_{oo}": f3(alt[oo][1]["frac"][0]) if alt[oo][1] else "NA" for oo in (12, 13)},
                             "host_5p_frame_f0_f1_f2": "/".join(map(str, f5[("host", L)])),
                             "C2": I["c2"], "C3": I["c3"], "category": category(L), "M1_offset": m1o})
-    # ---- 四套集合 ----
+
     ROLE = {"strict_core": "主分析口径", "fixed_29_30": "sensitivity：固定 29+30 nt，不看 QC",
             "expanded": "sensitivity：strict_core + 31–34 nt 中 QC 通过者", "short_RPF": "secondary/sensitivity：23–28 nt 中 QC 通过者"}
     w = {**m}

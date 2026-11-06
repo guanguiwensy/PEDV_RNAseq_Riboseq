@@ -1,23 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Sup Fig 13：全部源数据（纯本地；RGP_v1.3 冻结表 + stats/ 统计 + 第二批 RIBO_VERO_CHX_1MOI_16h 的 stats）。
-- 六个文库：CHX 5/8/16 h = RIBO_VERO_CHX_1MOI_5h / RIBO_VERO_CHX_1MOI_8h / RIBO_VERO_CHX_1MOI_16h，HAR 5/8/16 h = RIBO_VERO_HAR_1MOI_5h / RIBO_VERO_HAR_1MOI_8h / RIBO_VERO_HAR_1MOI_16h（每条件 1 个库，时间点非重复）。
-- offset：Module 1 方法 B 判定函数在 stats/*/host_startpos*.tsv 上逐库重新推导（与已交付 psite_offset_GIb 在五个库 121/121 一致）；不改动已采用的 offset。
-- 病毒读长集合（主）：host_criteria = 各库 25–35 nt 中通过宿主判据的读长；strict_core / 29–31 nt / all_accepted 作补充口径。
-- ORF 级 P-site 计数用真实 P-site 位置（+ 链），ORF 唯一区 = [起点+45, 终点−45] 去掉与任何其他 ORF 重叠的碱基；frame = (P-site − ORF 起点) mod 3。"""
-# >>> release-candidate path shim (added during repository curation; no analytical change) >>>
 import os as _os, sys as _sys
 _d = _os.path.dirname(_os.path.abspath(__file__))
 while _d != _os.path.dirname(_d) and not _os.path.isdir(_os.path.join(_d, "config")):
     _d = _os.path.dirname(_d)
 _sys.path.insert(0, _os.path.join(_d, "config"))
 from pedv_paths import PEDV_P, PEDV_K, PEDV_R, PEDV_COV, PEDV_SERVER_ROOT, REPO_ROOT, SCRIPT_DIRS, ORIGIN
-_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)  # sibling modules of other repo modules (own directory keeps priority)
-__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)  # real location of this script inside the repository (sibling-script loading must use this, not the virtual __file__)
+_sys.path.extend(_x for _x in SCRIPT_DIRS if _x not in _sys.path)
+__REPO_FILE__ = globals().get("__REPO_FILE__") or _os.path.abspath(__file__)
 _o = ORIGIN.get(_os.path.relpath(_os.path.abspath(__file__), REPO_ROOT).replace(chr(92), "/"))
 if _o:
-    __file__ = _o  # virtual ORIGINAL location inside the working tree: keeps the scripts' own dirname(__file__)-relative path logic unchanged
-# <<< release-candidate path shim <<<
+    __file__ = _o
 import sample_registry as SR
 import os, gzip, csv, json, collections, datetime
 import numpy as np, pandas as pd
@@ -42,7 +35,7 @@ def wr(name, df, title, extra=()):
     with open(f"{SD}/{name}", "w", encoding="utf-8", newline="") as f:
         f.write("\n".join(head) + "\n"); df.to_csv(f, index=False, float_format="%.6g")
 
-# ============================== offset 与读长集合 ==============================
+
 def peak_stats(x, L):
     x = x[1:L + 1]; n = int(x.sum())
     if n == 0: return None, 0, 0, 0.0, 0.0
@@ -74,11 +67,11 @@ for s in IDS:
     SETDEF[(s, "all accepted (every length with an offset)")] = None
 SETNAMES = ["host_criteria", "strict_core", "29-31 nt", "all accepted (every length with an offset)"]
 
-# ============================== P-site 表（+ 链）：非剪接 / 剪接分开 ==============================
-# 非剪接 reads：P-site = 5′ 端 + offset；剪接 reads（5′ 端 22 nt 内有 leader–body 跳跃）：沿比对碱基取第 offset+1 个，跨 junction 的 P-site 归属本质歧义，
-# 因此主结果 ORF 级读框只用非剪接 reads（与冻结的 frame5 口径一致），剪接 reads 的 P-site 单列并做 sensitivity。
-psite = {s: collections.Counter() for s in IDS}      # 非剪接 (L, pos) -> n
-psite_sp = {s: collections.Counter() for s in IDS}   # 剪接
+
+
+
+psite = {s: collections.Counter() for s in IDS}
+psite_sp = {s: collections.Counter() for s in IDS}
 for s in IDS:
     with gzip.open(f"{WORK}/stats/{s}/pedv_5p_matrix.tsv.gz", "rt") as f:
         next(f)
@@ -96,7 +89,7 @@ for s in IDS:
             L = int(L); o = OFF[s].get(min(L, 150)); cs_ = coords.split(",")
             if o is None or o >= len(cs_): continue
             psite_sp[s][(L, int(cs_[o]))] += int(n)
-# 对账：本脚本重建的 + 链 P-site 总数 == 已交付 psite_counts_PEDV_GIb（五个库）
+
 big = rdt(f"{RGP}/psite_counts_PEDV_GIb.tsv.gz")
 for s in IDS:
     mine = sum(psite[s].values()) + sum(psite_sp[s].values())
@@ -104,8 +97,8 @@ for s in IDS:
         assert mine == int(big[(big.sample_id == s) & (big.strand == "+")].psite_count.sum()), (s, mine)
 print("rebuilt + strand P-site totals equal psite_counts_PEDV_GIb for all six whitelisted libraries")
 
-# ============================== ORF 唯一区 ==============================
-region = np.zeros(GLEN + 2, np.int8)       # 0 = 不属于任何 ORF 唯一区
+
+region = np.zeros(GLEN + 2, np.int8)
 cover = np.zeros(GLEN + 2, np.int8)
 for _, a, b in ORFS: cover[a:b + 1] += 1
 for k, (nm, a, b) in enumerate(ORFS, start=1):
@@ -114,7 +107,6 @@ for k, (nm, a, b) in enumerate(ORFS, start=1):
 n_unique = {nm: int((region == k).sum()) for k, (nm, a, b) in enumerate(ORFS, start=1)}
 
 def frame_counts(s, Ls, spliced=False):
-    """返回 {orf: np.array(3)}：frame = (P-site − ORF 起点) mod 3；spliced=True 时只统计剪接 reads 的 P-site"""
     out = {nm: np.zeros(3, np.int64) for nm, _, _ in ORFS}
     for (L, p), n in (psite_sp[s] if spliced else psite[s]).items():
         if Ls is not None and L not in Ls: continue
@@ -122,7 +114,7 @@ def frame_counts(s, Ls, spliced=False):
         if k:
             nm, a, b = ORFS[k - 1]; out[nm][(p - a) % 3] += n
     return out
-# ---- 主口径：frame5（5′ 端落在 ORF 唯一区、按 offset 换算 P-site 帧；与冻结的 periodicity_virus.tsv 同口径）----
+
 F5CNT = {}
 for s in IDS:
     F = collections.defaultdict(lambda: np.zeros(3, np.int64))
@@ -166,7 +158,7 @@ wr("panel_C_ORF_frame_enrichment.csv", C, "Panel C: ORF-level reading-frame dist
     "ORF1b is counted in its own frame (-1 relative to ORF1a); usable_psites = number of reads (one P-site per read)"])
 Bdf = C[(C.orf == "all_7ORF")][["sample", "treatment", "time_hpi", "read_set", "lengths", "usable_psites", "N0", "N1", "N2", "F0", "F1", "F2", "ribosome_fraction_f", "status"]]
 wr("panel_B_viral_frame_periodicity.csv", Bdf, "Panel B: reading-frame distribution of PEDV (+) footprints pooled over the seven ORF-unique regions")
-# 与 delivered periodicity_virus.tsv 对账（strict_core，五个库）
+
 pv = rdt(f"{RGP}/periodicity_virus.tsv"); pv = pv[pv.read_length == "pooled_strict_core"]
 dd = []
 for s in IDS:
@@ -177,7 +169,7 @@ for s in IDS:
 assert max(dd) < 0.06, max(dd)
 print("frame5-based ORF frame0 equals delivered periodicity_virus.tsv (max |diff| = %.3f pp)" % max(dd))
 
-# ---- sensitivity：真实 P-site 位置口径（非剪接 reads，P-site 落在 ORF 唯一区）----
+
 srows = []
 for s in IDS:
     for setn in ("host_criteria", "strict_core"):
@@ -192,7 +184,7 @@ print("psite-position vs frame5: median |dF0| = %.4f; rows |dF0|>0.05: %d of %d"
 print(M.reindex(M.F0_diff_psite_position_minus_frame5.abs().sort_values(ascending=False).index).head(5).round(3).to_string())
 
 
-# ============================== Panel A：链向 ==============================
+
 al = rdt(f"{RGP}/riboseq_GIb_alignment_summary.tsv").set_index("sample_id")
 host_ann = {r["sample_id"]: r for r in csv.DictReader(open(f"{TASK}/riboseq_qc_figs_R1_R3/_work/host_annotation/host_annotation_all.tsv"), delimiter="\t") if r["sample_id"] in SR.WHITELIST_LIBRARIES}   # final sample table only
 host_ann[SR.lib("RIBO_VERO_CHX_1MOI_16h")] = list(csv.DictReader(open(f"{TASK}/riboseq_qc_figs_R1_R3/_work/host_annotation/{SR.lib('RIBO_VERO_CHX_1MOI_16h')}.host_annotation.tsv"), delimiter="\t"))[0]
@@ -212,7 +204,7 @@ for s in IDS:
         v = rl[col].values.astype(float); cum = np.cumsum(v) / v.sum()
         return int(L[np.searchsorted(cum, 0.5)]), v[(L >= 29) & (L <= 31)].sum() / v.sum()
     mp, fp = stat("pedv_plus_n"); mm, fm = stat("pedv_minus_n")
-    # − 链 P-site 在 ORF 唯一区内的最大帧占比（方向无关）
+
     cnt = collections.Counter()
     with gzip.open(f"{WORK}/stats/{s}/pedv_5p_matrix.tsv.gz", "rt") as f:
         next(f)
@@ -244,7 +236,7 @@ wr("panel_A_strand_counts.csv", A, "Panel A: strand assignment of PEDV uniquely 
     "host_antisense_fraction_of_host_psites: P-sites falling on the antisense strand of an annotated gene (unstranded-agnostic: includes real overlapping opposite-strand genes)"])
 wr("panel_A_strand_length_profiles.csv", pd.DataFrame(rowsL), "Panel A: aligned-length profile of PEDV (+) and (-) reads (all uniquely mapped; denominator = reads of the same strand)")
 
-# ============================== Panel D：长度分布 ==============================
+
 rowsD = []; rowsQ = []
 for s in IDS:
     d = f"{WORK}/stats/{s}"
@@ -267,7 +259,7 @@ for s in IDS:
         rowsQ.append(dict(sample=s, treatment=DRUG[s], time_hpi=TIME[s], profile=nm, denominator=den[nm], n_reads=tot, median_length=med, fraction_29_31=f2931,
                           fraction_le27=short, fraction_ge32=long_))
 D = pd.DataFrame(rowsD); Q = pd.DataFrame(rowsQ)
-# 16 hpi 专项：加 frame0（host_criteria，ORF 唯一区，P-site 位置口径）
+
 fr0 = {s: C[(C["sample"] == s) & (C.read_set == "host_criteria") & (C.orf == "all_7ORF")].F0.iloc[0] for s in IDS}
 Q["frame0_viral_ORF_unique_host_criteria"] = Q["sample"].map(fr0).where(Q.profile == "PEDV (+) 5' end in ORF-unique region")
 bd = body[body.read_length.isin(range(25, 36))]
@@ -281,7 +273,7 @@ wr("panel_D_host_PEDV_length_profiles.csv", D, "Panel D: aligned-length profiles
 wr("panel_D_length_QC_summary.csv", Q, "Panel D: summary of footprint-length features per library and profile",
    ["fraction_le27 / fraction_ge32 = shorter / longer fragments; frame0 columns use the host_criteria length set of each library"])
 
-# ============================== 整合 QC 表 ==============================
+
 rows = []
 Bm = C[(C.read_set == "host_criteria") & (C.orf == "all_7ORF")].set_index("sample")
 Bs = C[(C.read_set == "strict_core") & (C.orf == "all_7ORF")].set_index("sample")
